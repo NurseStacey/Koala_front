@@ -1,0 +1,40 @@
+export const NURSING_HOME_FIELDS = [
+    {
+        'order':0,
+        'field_name':'name',
+        'field_label':'Name',
+        'field_type':'text',        
+    },
+    {
+        'order':1,
+        'field_name':'street',
+        'field_label':'Street Address',
+        'field_type':'text',               
+    },
+    {
+        'order':2,
+        'field_name':'city',
+        'field_label':'City',
+        'field_type':'text',       
+    },
+    {
+        'order':3,
+        'field_name':'state',
+        'field_label':'State',
+        'field_type':'text',       
+    },
+    {
+        'order':4,
+        'field_name':'zip',
+        'field_label':'Zip',
+        'field_type':'text'
+    }
+    ,
+    {
+        'order':5,
+        'field_name':'phone',
+        'field_label':'Phone',
+        'field_type':'text'
+    }      
+         
+]
