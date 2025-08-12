@@ -3,15 +3,13 @@ import My_Button from './My_Button'
 import My_DropDownField from './My_DropDownField'
 
 export default function One_Form(props){
-    const {The_Fields, set_value,Button_Text,Submit_Button}=props
+    const {The_Fields, set_value,Button_Text,Submit_Button,showButton}=props
     //console.log(The_Fields)
 
     return(
         <div
             style={{
                 marginTop:'50px',
-                // display:'flex',
-                
             }}>
             {The_Fields.map((one_field)=>
                 <div
@@ -21,8 +19,8 @@ export default function One_Form(props){
                                 
                                 border:'black 1px solid',
                                 marginTop:'15px',
-                                marginLeft:'30%',
-                                marginRight:'30%'
+                                marginLeft:'10%',
+                                marginRight:'10%'
                             }}
                         >         
                     {( one_field.type == 'dropdown' ) ? 
@@ -60,13 +58,16 @@ export default function One_Form(props){
                             justifyContent:'center',
                         }}
                         >
-                        <My_Button
-                            
-                            The_Text={Button_Text}
-                            Width='150px'
-                            On_Click={Submit_Button}
-                            FontSize='20px'
-                        />   
+                        {(showButton) ?
+                            <My_Button
+                                
+                                The_Text={Button_Text}
+                                Width='150px'
+                                On_Click={Submit_Button}
+                                FontSize='20px'
+                            />                           
+                        :<></>}
+              
                     </div>                  
                 </div>                       
         </div>

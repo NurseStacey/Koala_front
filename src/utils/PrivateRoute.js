@@ -68,9 +68,6 @@ function ProtectedRoute({children}){
         return <Navigate to="/log_in"/>
     }
     
-    
-    return IsAuthorized ? children:<Navigate to="/"/>
-    
 }
 
 export default ProtectedRoute

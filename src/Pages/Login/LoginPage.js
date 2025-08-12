@@ -23,13 +23,6 @@ function Login_Form() {
             localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
 
            const refreshToken = localStorage.getItem(REFRESH_TOKEN)      
-
-            //const UserData = await api.get("get-user/",{"refresh_token":refreshToken})
-            
-            // localStorage.setItem("primary_name", UserData.data.primary_name)
-            // localStorage.setItem("secondary_name", UserData.data.secondary_name)
-            // localStorage.setItem("primary_dob", UserData.data.primary_DOB)
-            // localStorage.setItem("secondary_dob", UserData.data.secondary_DOB)
             
             navigate("/")
         }

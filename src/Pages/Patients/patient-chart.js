@@ -7,13 +7,24 @@ import Patient_Header from './Components/patient_header'
 
 import Patient_Location_Modals from './Patient_Chart_Pieces/Patient_Location_Modals'
 import Modal_Single_Text_Box from './Components/modal single_text_box'
-import Patient_Charts_Histories from './Patient_Chart_Pieces//Histories'
+import Patient_Charts_Histories from './Patient_Chart_Pieces/Histories'
+import Patient_Surgical_Histories from './Patient_Chart_Pieces/surgical-histories'
+import PatientMajorEvents from './Patient_Chart_Pieces/major-events'
+
+import Modal_Form from './Components/modal_form'
+
 
 export default function Patient_Chart() {
 
     const [Patient_Location_Mod, setPatient_Location_Mod] = useState('None')
     const [Single_Text_Mod,setSingle_Text_Mod]=useState(false)
-    const [single_text_modal_title,setsingle_text_modal_title ]=useState('')
+
+    const [Form_Mod,setForm_Mod]=useState(false)
+    const [WhichForm, setWhichForm] = useState('None')
+    const [FormTitle,setFormTitle]=useState('')
+
+
+    const [single_modal_title,setsingle_modal_title ]=useState('')
     const [single_text_field_name,setsingle_text_field_name]=useState('first_name')
     const location = useLocation()
     const [Patient_Age, set_Patient_Age]=useState(0)
@@ -39,15 +50,25 @@ export default function Patient_Chart() {
             facility:New_Bed.facility    
         })
     }
+
+    const Update_Mod = (ThisForm, title) =>
+    {
+        setWhichForm(ThisForm)
+        setFormTitle(title)
+        setForm_Mod(true)
+        
+    }
+
     const Update_Single_Text_Mod = (field_name, title) =>
     {
         setSingle_Text_Mod(true)
         setsingle_text_field_name(field_name)
-        setsingle_text_modal_title(title)
+        setsingle_modal_title(title)
     }
 
     useEffect(() => {
-        
+
+
         AxiosInstance.get(`patients/one_patient/${location.state?.patient_id}`).then((res) =>{
             set_This_Patient(res.data)
             let year=Number(res.data['Date_Of_Birth'].slice(0,4))
@@ -75,6 +96,8 @@ export default function Patient_Chart() {
                     set_Patient_Location(bed_res.data)
                     })        
                 }
+
+            
             })      
         },[])
 
@@ -107,21 +130,65 @@ export default function Patient_Chart() {
                 open={Single_Text_Mod}
                 onClose={()=>setSingle_Text_Mod(false)}
                 field_name={single_text_field_name}
-                title={single_text_modal_title}
+                title={single_modal_title}
                 this_patient={This_Patient}
                 onUpdate = {Update_Single_Text_Mod}
            />
       
-            <Patient_Charts_Histories
-                Open={Update_Single_Text_Mod}
-                This_Patient={This_Patient}
-            />
+            <Modal_Form
+                open={Form_Mod}
+                onClose={()=>setForm_Mod(false)}
+                form={WhichForm}
+                title={FormTitle}
+                this_patient={This_Patient}
+                onUpdate = {Update_Single_Text_Mod}
+                />            
+
+            <div
+                style={{
+                    display:'flex',
+                    border:'1px solid black'
+                }}
+            >
+                <div
+                    style={{
+                        width:'30%',
+                        border:'1px solid black'
+                    }}>
+                    <Patient_Charts_Histories
+                        Open={Update_Single_Text_Mod}
+                        This_Patient={This_Patient}
+                    />
+                </div>
+
+                <div
+                    style={{
+                        width:'30%',
+                        border:'1px solid black',
+                        display:'block',
+                        marginLeft:'20px',
+                        display:'flex',
+                        flexDirection:'column',
+                        justifContent:'top'
+                    }}>
+
+                     <Patient_Surgical_Histories
+                        Form_Open = {Update_Mod}
+                        This_Patient={This_Patient}
+                    /> 
+
+                    <PatientMajorEvents
+                        Form_Open = {Update_Mod}
+                        This_Patient={This_Patient}
+                    />                    
+                    
+                </div>
+            </div>
           
-{/* 
-             <button
+{/*              <button
               onClick={Test_This}>Test</button> */}
-            </div> 
-        
+
+        </div> 
         
     )
 }

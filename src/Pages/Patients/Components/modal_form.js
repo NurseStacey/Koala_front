@@ -1,17 +1,23 @@
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 import My_Button from '../../../Components/My_Button'
+import {SURGICAL_HISTORY_FIELDS} from '../form-fields/surgical-history-fields'
+import {MAJOR_EVENTS_FIELDS} from '../form-fields/major-events-fields'
+import One_Form from '../../../Components/One_Form'
 import AxiosInstance from '../../../utils/Axios'
 
-export default function Modal_Single_Text_Box({open, onClose,field_name, title,this_patient, onUpdate}){
 
+export default function Modal_Form({open, onClose,form, title,this_patient, onUpdate}){
+
+    const [TheData, setTheData]= useState('')
+    const [FormTitle, setFormTitle]=useState('')
     const [field_text, set_field_text]=useState('')
 
     const MODAL_STYLE ={
         position: 'fixed',
-        top:'25%',
+        top:'10%',
         left: '25%',
         width:'50%',
-        height:'50%',
+        height:'80%',
         trnasform: 'translate(-50%,-50%)',
         backgroundColor:'#FFF',
         zIndex:1000,
@@ -27,23 +33,69 @@ export default function Modal_Single_Text_Box({open, onClose,field_name, title,t
         zIndex:1000
     }
 
-    const test=()=>{}
+    const addRecord = () =>{
+
+    }
+    const set_value= (name, value)=>{
+       
+        // let this_element = The_Data.find(one_element=>one_element.name == name)
+        // this_element.value=value
+        // let data = The_Data.filter(one_element=>one_element.name !== name)
+        // data.push(this_element)
+
+        // set_The_Data([...data].sort((a,b)=>a.order-b.order))
+    }
+
+    const test=()=>{
+        console.log(form)
+        
+    }
 
     const Save = ()=>{
+    //     // let data_to_send = {}
+    //     // data_to_send[field_name]=field_text
         
-        let data_to_send = {}
-        data_to_send[field_name]=field_text
-        
-        try{
-            AxiosInstance.patch(`patients/one_patient/${this_patient.id}`, data_to_send).then((res) =>{
-            }
+    //     // try{
+    //     //     AxiosInstance.patch(`patients/one_patient/${this_patient.id}`, data_to_send).then((res) =>{
+    //     //     }
 
-       )}catch(error){alert(error)}   
-        onUpdate(field_name,field_text)   
+    //    )}catch(error){alert(error)}   
+        //onUpdate(field_name,field_text)   
         onClose()
     }
 
+    useEffect(() => {
+
+        console.log(form)
+        let data=[]
+
+        if (form == 'major_event') {
+
+            MAJOR_EVENTS_FIELDS.map(oneField =>{
+
+                data.push({...oneField,
+                    'value':''
+                })
+            })
+        } else {
+
+            SURGICAL_HISTORY_FIELDS.map(oneField =>{
+
+                data.push({...oneField,
+                    'value':''
+                })
+            })
+        }
+
+        setFormTitle('New Surgery')
+        setTheData(data)
+
+    },[form])
     if  (!open) return null
+
+    console.log(TheData)
+
+
     return (
         <div
             style={OVERLAY_STYLES}>
@@ -70,26 +122,14 @@ export default function Modal_Single_Text_Box({open, onClose,field_name, title,t
                     >
                     <div>{title}</div>
                 </div>
-
-
-                <div
-                    style={{
-                        width:'100%',
-                        display:'flex',
-                        justifyContent:'center',
-                    }}>
-                    <textarea 
-                        onChange={(e)=>set_field_text(e.target.value)}
-                        rows='11'
-                        cols='60'
-                        defaultValue={this_patient[field_name]}
-                        style = {{
-                            font:'arial',
-                            fontSize:'20px',
-                        }}>
-                            
-                        </textarea>
-                    
+                <div>
+                    <One_Form
+                        The_Fields={TheData}
+                        set_value={set_value}
+                        Button_Text={FormTitle}
+                        Submit_Button={addRecord}
+                        showButton={false}
+                    />
                 </div>
            
                  <div
@@ -116,13 +156,13 @@ export default function Modal_Single_Text_Box({open, onClose,field_name, title,t
                                 On_Click={Save}
                                 FontSize='18px'
                             />    
-{/*                            <My_Button
+                            <My_Button
                                 The_Text={'Test'}
                                 Width='90px'
                                 Height='45px'
                                 On_Click={test}
                                 FontSize='18px'
-                            />               */}                               
+                            />                                             
                                                          
                     </div> 
                 </div> 
