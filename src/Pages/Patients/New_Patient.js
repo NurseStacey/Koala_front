@@ -68,6 +68,7 @@ export default function New_Patient() {
                    set_value={set_value}
                    Button_Text='Create Patient'
                    Submit_Button={Create_Patient}
+                   showButton = {true}
                />
         </div>
     )

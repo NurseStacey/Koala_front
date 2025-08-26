@@ -2,56 +2,63 @@ import Page_Header from '../../Components/page_header'
 import {useNavigate} from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import {useEffect, useState} from 'react'
-import AxiosInstance from '../../utils/Axios'
+// import AxiosInstance from '../../utils/Axios'
 import Patient_Header from './Components/patient_header'
 
 import Patient_Location_Modals from './Patient_Chart_Pieces/Patient_Location_Modals'
 import Modal_Single_Text_Box from './Components/modal single_text_box'
 import Patient_Charts_Histories from './Patient_Chart_Pieces/Histories'
-import Patient_Surgical_Histories from './Patient_Chart_Pieces/surgical-histories'
-import PatientMajorEvents from './Patient_Chart_Pieces/major-events'
 
-import Modal_Form from './Components/modal_form'
+import {ALL_FIELDS} from './form-fields/combined_form_fields'
 
+import Modal_Form from '../../Components/modal_form'
+import ModalDiagnosis from './Components/modal-diagnosis'
+import AllListBoxes from './Patient_Chart_Pieces/all-list-boxes'
+import DiagnosisProblems from './Patient_Chart_Pieces/diagnosis-problems'
+import loadPatient from './Components/import-patient'
 
 export default function Patient_Chart() {
 
+    const [ModalFormPriorValues,setModalFormPriorValues] = useState({})
+    const [DiagnosisMod, setDiagnosisMod] = useState(false)
+    const [CodeToEdit, setCodeToEdit] = useState(0)
     const [Patient_Location_Mod, setPatient_Location_Mod] = useState('None')
     const [Single_Text_Mod,setSingle_Text_Mod]=useState(false)
 
     const [Form_Mod,setForm_Mod]=useState(false)
-    const [WhichForm, setWhichForm] = useState('None')
+    const [WhichForm, setWhichForm] = useState('none')
     const [FormTitle,setFormTitle]=useState('')
 
+   // const [oneDxCode,setoneDxCode] = useState({id:0})
 
     const [single_modal_title,setsingle_modal_title ]=useState('')
     const [single_text_field_name,setsingle_text_field_name]=useState('first_name')
     const location = useLocation()
-    const [Patient_Age, set_Patient_Age]=useState(0)
-    const [This_Patient, set_This_Patient]=useState({
-        first_name:'',
-        last_name:'',
-        id:0,
-        Date_Of_Birth:'1900-01-01',
-        med_bio:''
-    })
+    
+    const [ThisPatient, setThisPatient]=useState(0)
 
-    const [Patient_Location, set_Patient_Location] = useState({
-        bed:'',
-        unit:'',
-        facility:''
-    })
-
-    const Update_Location = (New_Bed)=> {
-        
-        set_Patient_Location({
-            bed:New_Bed.bed,
-            unit:New_Bed.unit,
-            facility:New_Bed.facility    
-        })
+    const EditDxCode = (code) => {
+        console.log('here')
     }
 
-    const Update_Mod = (ThisForm, title) =>
+    const EditModal = (form, Values) =>{
+        //console.log(ModalFormPriorValues)
+        
+        let newPriorValues = Values
+        newPriorValues['form']=form
+        //console.log(newPriorValues)
+        setModalFormPriorValues(newPriorValues)
+        setForm_Mod(true)
+    }
+
+    const Update_Location = (New_Bed)=> {
+
+        let newpatient = ThisPatient
+        newpatient['patient_location']=New_Bed
+        setThisPatient(newpatient)
+    }
+
+    const UpdateMod = (ThisForm, title) =>
     {
         setWhichForm(ThisForm)
         setFormTitle(title)
@@ -67,128 +74,160 @@ export default function Patient_Chart() {
     }
 
     useEffect(() => {
-
-
-        AxiosInstance.get(`patients/one_patient/${location.state?.patient_id}`).then((res) =>{
-            set_This_Patient(res.data)
-            let year=Number(res.data['Date_Of_Birth'].slice(0,4))
-            let month=Number(res.data['Date_Of_Birth'].slice(5,7))
-            let day=Number(res.data['Date_Of_Birth'].slice(8,10))
-
-            let today=new Date()
-            let today_values={
-                day:today.getDate(),
-                month:today.getMonth()+1,
-                year:today.getFullYear()
-            }
-
-            let age = today_values['year']-year
-            if (month>today_values['month']) {
-                age = age-1
-            } if (month == today_values['month'] && day>today_values['day']) {
-                age=age-1
-            }
-            set_Patient_Age(age)
-
-            if (res.data['bed'] !== null) {
-                
-                AxiosInstance.get(`nursinghome/Get_This_Bed/${location.state?.patient_id}`).then((bed_res) =>{
-                    set_Patient_Location(bed_res.data)
-                    })        
-                }
-
+        
+        loadPatient(setThisPatient,location.state?.patient_id)
             
-            })      
         },[])
 
     const Test_This = ()=>{
-        console.log(Patient_Location)
+        setDiagnosisMod(true)
+        //setModalFormPriorValues({})
     }
 
     return (
         <div>
-
-            <Page_Header
-                The_Header={This_Patient.last_name + ', ' + This_Patient.first_name}
-                
-            />
-            <Patient_Header
-                setIsOpen = {setPatient_Location_Mod}
-                Patient_Location = {Patient_Location}
-                Patient_Age = {Patient_Age}
-                Date_Of_Birth = {This_Patient['Date_Of_Birth'].slice(0,10)}
-            />
-           
-           <Patient_Location_Modals
-                Open={Patient_Location_Mod}
-                setPatient_Location_Mod={setPatient_Location_Mod}
-                Update_Location={Update_Location}                
-                this_patient_id={This_Patient.id}
-           />
-
-           <Modal_Single_Text_Box
-                open={Single_Text_Mod}
-                onClose={()=>setSingle_Text_Mod(false)}
-                field_name={single_text_field_name}
-                title={single_modal_title}
-                this_patient={This_Patient}
-                onUpdate = {Update_Single_Text_Mod}
-           />
-      
-            <Modal_Form
-                open={Form_Mod}
-                onClose={()=>setForm_Mod(false)}
-                form={WhichForm}
-                title={FormTitle}
-                this_patient={This_Patient}
-                onUpdate = {Update_Single_Text_Mod}
-                />            
-
-            <div
-                style={{
-                    display:'flex',
-                    border:'1px solid black'
-                }}
-            >
-                <div
-                    style={{
-                        width:'30%',
-                        border:'1px solid black'
-                    }}>
-                    <Patient_Charts_Histories
-                        Open={Update_Single_Text_Mod}
-                        This_Patient={This_Patient}
-                    />
-                </div>
-
-                <div
-                    style={{
-                        width:'30%',
-                        border:'1px solid black',
-                        display:'block',
-                        marginLeft:'20px',
-                        display:'flex',
-                        flexDirection:'column',
-                        justifContent:'top'
-                    }}>
-
-                     <Patient_Surgical_Histories
-                        Form_Open = {Update_Mod}
-                        This_Patient={This_Patient}
-                    /> 
-
-                    <PatientMajorEvents
-                        Form_Open = {Update_Mod}
-                        This_Patient={This_Patient}
-                    />                    
+            {(ThisPatient == 0) ? (
+            <div></div>
+             ) :  (
+            <div>
+                <Page_Header
+                    The_Header={ThisPatient['basic_data'].last_name + ', ' + ThisPatient['basic_data'].first_name}
                     
+                />
+                <button onClick={Test_This}>test</button>
+                <Patient_Header
+                    setIsOpen = {setPatient_Location_Mod}
+                    ThisPatient = {ThisPatient}
+                    Patient_Location = {ThisPatient['patient_location']}
+                    Patient_Age = {ThisPatient['age']}
+                    Date_Of_Birth = {ThisPatient['basic_data']['Date_Of_Birth'].slice(0,10)}
+                />
+                
+                <Patient_Location_Modals
+                        Open={Patient_Location_Mod}
+                        setPatient_Location_Mod={setPatient_Location_Mod}
+                        Update_Location={Update_Location}                
+                        this_patient_id={ThisPatient['basic_data']['id']}
+                />
+
+                <ModalDiagnosis
+                    open={DiagnosisMod}
+                    onClose={()=>setDiagnosisMod(false)}
+                    patientID={ThisPatient['basic_data']['id']}
+                    currentCodes={ThisPatient['dx_codes']}
+                    CodeToEdit = {CodeToEdit}
+                    setCodeToEdit ={setCodeToEdit}
+                    ReloadPatient = {()=>loadPatient(setThisPatient,ThisPatient['basic_data'].id)}
+                />
+
+                <Modal_Single_Text_Box
+                        open={Single_Text_Mod}
+                        onClose={()=>setSingle_Text_Mod(false)}
+                        field_name={single_text_field_name}
+                        title={single_modal_title}
+                        this_patient={ThisPatient}
+                        onUpdate = {Update_Single_Text_Mod}
+                />
+        
+                <Modal_Form
+                    open={Form_Mod}
+                    onClose={()=>setForm_Mod(false)}
+                    form={WhichForm}
+                    title={FormTitle}
+                    this_patient={ThisPatient}
+                    UpdateMod={UpdateMod}
+                    AllFields = {ALL_FIELDS}
+                    priorValues={ModalFormPriorValues}
+                    setpriorValues={setModalFormPriorValues}
+                    ReloadPatient = {()=>loadPatient(setThisPatient,ThisPatient['basic_data'].id)}
+                    />            
+
+                <div
+                    style={{
+                        display:'flex',
+                        border:'1px solid black'
+                    }}
+                >
+                    <div
+                        style={{
+                            width:'30%',
+                            border:'1px solid black'
+                        }}>
+                        <Patient_Charts_Histories
+                            Open={Update_Single_Text_Mod}
+                            ThisPatient={ThisPatient}
+                        />
+                    </div> 
+
+                    <div
+                        style={{
+                            width:'30%',
+                            border:'1px solid black',
+                            display:'block',
+                            marginLeft:'20px',
+                            display:'flex',
+                            flexDirection:'column',
+                            justifContent:'top'
+                        }}>
+
+                        <AllListBoxes                        
+                            ThisPatient={ThisPatient}
+                            UpdateMod={UpdateMod}
+                            AllFields = {ALL_FIELDS}
+                            EditModal = {EditModal}
+                        />
+                     
+
+                    </div>
+
+                    <div
+                        style={{
+                            width:'30%',
+                            border:'1px solid black',
+                            display:'block',
+                            marginLeft:'20px',
+                            display:'flex',
+                            flexDirection:'column',
+                            justifContent:'top'
+                        }}
+                        >
+                            <DiagnosisProblems
+                                open={setDiagnosisMod}
+                                ThisPatient={ThisPatient}
+                                setCodeToEdit = {setCodeToEdit}
+                                />
+                    </div>                    
                 </div>
             </div>
-          
-{/*              <button
-              onClick={Test_This}>Test</button> */}
 
+)}
         </div> 
         
     )
 }
+
+//         {
+//         basic_data:{
+//                 first_name:'',
+//                 last_name:'',
+//                 id:0,
+//                 Date_Of_Birth:'1900-01-01',
+//                 med_bio:''
+//             },
+//         age:0,
+//         patient_location:{
+//         bed:'',
+//         unit:'',
+//         facility:''},
+//         surgical_history:[],
+//         major_event:[],
+//         outside_providers:[]
+    
+// }
+//)
+
+    // const [Patient_Location, set_Patient_Location] = useState({
+    //     bed:'',
+    //     unit:'',
+    //     facility:''
+    // })

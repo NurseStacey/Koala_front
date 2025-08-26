@@ -12,6 +12,7 @@ export default function One_Form(props){
                 marginTop:'50px',
             }}>
             {The_Fields.map((one_field)=>
+                (one_field.name !== undefined) ?
                 <div
                             key={one_field.name}
                             style={{
@@ -43,8 +44,8 @@ export default function One_Form(props){
                             FontSize='20px'                
                     />
 
-                }
-                </div>
+                } 
+                </div>: <div></div>
             )
             
             } 

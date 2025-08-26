@@ -15,7 +15,7 @@ export default function Patient_Maintanance() {
     }
 
     const Patient_Selected=(patient_id)=>{
-        console.log(patient_id)
+        //console.log(patient_id)
         navigate('/patient_chart', {state:{patient_id:patient_id}})
     }
 
@@ -34,7 +34,7 @@ export default function Patient_Maintanance() {
                 })
                 
                 set_all_patients(array)
-                console.log(res)
+              //  console.log(res)
 
             })
         } catch(error){console.log(error)}

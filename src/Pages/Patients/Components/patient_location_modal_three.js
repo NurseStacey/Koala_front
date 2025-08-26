@@ -6,22 +6,23 @@ import My_Button from '../../../Components/My_Button'
 export default function Patient_Location_Modal_Three({open, onClose,All_Beds,setBed, patient_id}){
     const [This_Bed, set_This_Bed]=useState({'name':'', 'id':-1})
 
-    const Bed_Clicked = (the_bed) =>{
+    const Bed_Clicked = (the_bed_id) =>{
+        let the_bed = All_Beds.find((one_bid) => one_bid.id==the_bed_id)
         console.log(the_bed)
         set_This_Bed(the_bed)
     }
     const Bed_Selected = () =>{
 
         let data_to_send = {bed:This_Bed.id}
-        console.log(data_to_send)
-        console.log(patient_id)
+        // console.log(data_to_send)
+        // console.log(patient_id)
         try{
             AxiosInstance.patch(`patients/one_patient/${patient_id}`, data_to_send).then((res) =>{
                 
             })
         } catch(error){console.log(error)}
 
-        setBed(This_Bed.name)
+        setBed(This_Bed)
         
         onClose()
      
@@ -92,7 +93,7 @@ export default function Patient_Location_Modal_Three({open, onClose,All_Beds,set
                                 The_Text={one_bed.name}
                                 Width='90px'
                                 Height='45px'
-                                On_Click={() =>Bed_Clicked(one_bed)}
+                                On_Click={() =>Bed_Clicked(one_bed.id)}
                                 FontSize='18px'
                             />                        
                         </div>

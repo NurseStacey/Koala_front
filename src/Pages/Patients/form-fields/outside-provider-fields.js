@@ -1,36 +1,36 @@
-export const SURGICAL_HISTORY_FIELDS = [
+export const OUTSIDE_PROVIDER_FIELDS = [
     {
         'order':0,
-        'name':'surgery',
-        'label':'Surgery',
+        'name':'provider',
+        'label':'Provider',
         'type':'text', 
         'options':[]        
     },
     {
         'order':1,
-        'name':'date',
-        'label':'Date of Surgery',
-        'type':'date', 
+        'name':'specialty',
+        'label':'Specialty',
+        'type':'text', 
         'options':[]        
     }, 
     {
         'order':2,
-        'name':'year',
-        'label':'Year of Surgery',
-        'type':'number', 
+        'name':'phone',
+        'label':'Phone',
+        'type':'text', 
         'options':[]
     },  
     {
         'order':3,
-        'name':'month',
-        'label':'Month of Surgery',
-        'type':'number', 
+        'name':'fax',
+        'label':'Fax',
+        'type':'text', 
         'options':[]        
     },
     {
         'order':4,
         'name':'details',
-        'label':'Details of Surgery',
+        'label':'Details',
         'type':'textarea', 
         'options':[],        
         'cols':15,

@@ -1,6 +1,6 @@
 
 
-export default function Patient_Charts_Histories({Open,This_Patient})
+export default function Patient_Charts_Histories({Open,ThisPatient})
 {
 
     const TITLE_STYLE = {
@@ -10,8 +10,8 @@ export default function Patient_Charts_Histories({Open,This_Patient})
         textAlign:'center'
     }
 
-    if (This_Patient==undefined)  return null
-
+    if (ThisPatient==undefined)  return null
+    
     return (
         <div
             style={{
@@ -32,7 +32,7 @@ export default function Patient_Charts_Histories({Open,This_Patient})
                 onClick={()=>Open('med_bio', 'Update the Medical Biography')}
                 >
                 <div style={TITLE_STYLE}>Medical History</div>
-                {This_Patient['med_bio']}
+                {ThisPatient['basic_data']['med_bio']}
             </div>
 
             <div 
@@ -46,7 +46,7 @@ export default function Patient_Charts_Histories({Open,This_Patient})
                 onClick={()=>Open('family_history', 'Update the Family History')}
                 >
                 <div style={TITLE_STYLE}>Family History</div>
-                {This_Patient['family_history']}
+                {ThisPatient['basic_data']['family_history']}
             </div> 
 
 
@@ -61,7 +61,7 @@ export default function Patient_Charts_Histories({Open,This_Patient})
                 onClick={()=>Open('social_history', 'Update the Social History')}
                 >
                 <div style={TITLE_STYLE}>Social History</div>
-                {This_Patient['social_history']}
+                {ThisPatient['basic_data']['social_history']}
             </div>       
 
             <div 
@@ -75,7 +75,7 @@ export default function Patient_Charts_Histories({Open,This_Patient})
                 onClick={()=>Open('resolved_med_history', 'Update the Resolved Medical Issues')}
                 >
                 <div style={TITLE_STYLE}>Medical History</div>
-                {This_Patient['resolved_med_history']}
+                {ThisPatient['basic_data']['resolved_med_history']}
 
             </div> 
            

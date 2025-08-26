@@ -1,9 +1,10 @@
 
 
 export default function Patient_Header(props) {
-    const{Patient_Location,setIsOpen,Patient_Age,Date_Of_Birth}=props
-    
+    const{setIsOpen,ThisPatient,Patient_Location,Patient_Age,Date_Of_Birth}=props
+
     return(
+    
         
     <div style={{
         backgroundColor: '#C8B496',

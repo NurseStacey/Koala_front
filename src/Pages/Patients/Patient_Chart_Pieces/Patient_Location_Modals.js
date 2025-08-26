@@ -2,6 +2,7 @@ import Patient_Location_Modal_One from '../Components/patient_location_modal_one
 import Patient_Location_Modal_Two from '../Components/patient_location_modal_two'
 import Patient_Location_Modal_Three from '../Components/patient_location_modal_three'
 import {useState} from 'react'
+import AxiosInstance from '../../../utils/Axios'
 
 export default function Patient_Location_Modals({Open,
     setPatient_Location_Mod,
@@ -36,11 +37,14 @@ export default function Patient_Location_Modals({Open,
     }    
 
     const setBed = (new_bed)=>{
+        console.log(new_bed)
         Update_Location({
-            bed:new_bed,
+            bed:new_bed.name,
             unit:Temp_Patient_Location.unit,
             facility:Temp_Patient_Location.facility                    
         })
+        AxiosInstance.patch(`patients/one_patient/${this_patient_id}`, {bed:new_bed.id}).then((res) =>{
+            })
     }
 
     return (

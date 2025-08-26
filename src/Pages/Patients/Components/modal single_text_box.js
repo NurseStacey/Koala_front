@@ -35,7 +35,8 @@ export default function Modal_Single_Text_Box({open, onClose,field_name, title,t
         data_to_send[field_name]=field_text
         
         try{
-            AxiosInstance.patch(`patients/one_patient/${this_patient.id}`, data_to_send).then((res) =>{
+            //console.log(this_patient)
+            AxiosInstance.patch(`patients/one_patient/${this_patient.basic_data.id}`, data_to_send).then((res) =>{
             }
 
        )}catch(error){alert(error)}   

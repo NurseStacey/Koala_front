@@ -9,7 +9,7 @@ import One_Facility_Maintanance from './Pages/Nursing_Home/One_Facility_Maintana
 import New_Patient from './Pages/Patients/New_Patient'
 import Patient_Chart from './Pages/Patients/patient-chart'
 import Patient_Management from './Pages/Patients/Patient_Maintenance'
-
+import DrugManagement from './Pages/Patients/drug-management'
 
 function App() {
   return (
@@ -31,6 +31,8 @@ function App() {
         <Route path="/patient_maintanance"  element={<Patient_Management/>}/>        
         <Route path="/New_Patient"  element={<New_Patient/>}/>        
         <Route path="/patient_chart"  element={<Patient_Chart/>}/>        
+        <Route path="/drug_management"  element={<DrugManagement/>}/>        
+        
 
 
       </Routes>
