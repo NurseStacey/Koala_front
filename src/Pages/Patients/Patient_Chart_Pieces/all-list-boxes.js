@@ -1,5 +1,4 @@
 import BoxOfLists from '../../../Components/box-of-list'
-import {useState} from 'react'
 
 export default function AllListBoxes({
     UpdateMod,
@@ -7,7 +6,6 @@ export default function AllListBoxes({
     AllFields,
     EditModal})
 {
-    const [patientID, setpatientID] = useState(-1)
 
     if (ThisPatient == 0)
         return null
@@ -21,9 +19,16 @@ export default function AllListBoxes({
 
     return (
    
-        <div>
-             {/* {console.log(ThisPatient)}
-             {console.log(ThisPatient['surgical_history'])} */}
+        <div
+            style={{
+                display:'flex',
+                width:'100%',
+                height:'750px',
+                flexWrap:'wrap',
+                justifyContent:'space-between',
+                border:'1px solid green'
+            }}>
+
             <BoxOfLists
                 FormOpen = {()=>UpdateMod('surgical_history', 'Add a Surgical')}
                 NewButtonText='New Surgery'
@@ -52,22 +57,38 @@ export default function AllListBoxes({
                 TheLabel={AllFields['outside_providers'].label}
                 EditModal={LocalEditModal}
                 form='outside_providers'
-            />                    
-         {/* <BoxOfLists
-                FormOpen = {()=>UpdateMod('major_event', 'Add a Major Event')}
-                NewButtonText='New Major Event'
-                Title='Major Event'
-                TheList={ThisPatient['surgical_history']}
-                TheLabel={AllFields['surgical_history'].label}
-            />  */}
-{/* 
+            />                 
+
             <BoxOfLists
-                FormOpen = {()=>UpdateMod('outside_provider', 'Add an Outside Provider')}
-                NewButtonText='New Outside Provider'
-                Title='Outside Provider'
-                TheList={ThisPatient['outside_provider']}
-                TheLabel={AllFields['outside_provider'].label}
-            />   */}
+                FormOpen = {()=>UpdateMod('vaccine_history', 'Add a Vaccine')}
+                NewButtonText='New Vaccine'
+                Title='Vaccine History'
+                TheList={ThisPatient['vaccine_history']}
+                TheLabel={AllFields['vaccine_history'].label}
+                EditModal={LocalEditModal}
+                form='vaccine_history'
+            /> 
+
+            <BoxOfLists
+                FormOpen = {()=>UpdateMod('drug_intollerances', 'Add a Drug Intollerance')}
+                NewButtonText='New Drug Intollerance'
+                Title='Drug Intollerances'
+                TheList={ThisPatient['drug_intollerances']}
+                TheLabel={AllFields['drug_intollerances'].label}
+                EditModal={LocalEditModal}
+                form='drug_intollerances'
+            />         
+
+            <BoxOfLists
+                FormOpen = {()=>UpdateMod('allergies', 'Add a Allergy')}
+                NewButtonText='New Allergy'
+                Title='Allergies'
+                TheList={ThisPatient['allergies']}
+                TheLabel={AllFields['allergies'].label}
+                EditModal={LocalEditModal}
+                form='allergies'
+            />                                 
+
         </div>
     )
 

@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import {useEffect, useState} from 'react'
 // import AxiosInstance from '../../utils/Axios'
-import Patient_Header from './Components/patient_header'
+import PatientHeader from './Components/patient-header'
 
 import Patient_Location_Modals from './Patient_Chart_Pieces/Patient_Location_Modals'
 import Modal_Single_Text_Box from './Components/modal single_text_box'
@@ -95,7 +95,7 @@ export default function Patient_Chart() {
                     
                 />
                 <button onClick={Test_This}>test</button>
-                <Patient_Header
+                <PatientHeader
                     setIsOpen = {setPatient_Location_Mod}
                     ThisPatient = {ThisPatient}
                     Patient_Location = {ThisPatient['patient_location']}
@@ -161,14 +161,14 @@ export default function Patient_Chart() {
 
                     <div
                         style={{
-                            width:'30%',
-                            border:'1px solid black',
+                            width:'50%',
+                            border:'1px solid red',
                             display:'block',
                             marginLeft:'20px',
                             display:'flex',
                             flexDirection:'column',
-                            justifContent:'top'
-                        }}>
+                        }}
+                        >
 
                         <AllListBoxes                        
                             ThisPatient={ThisPatient}

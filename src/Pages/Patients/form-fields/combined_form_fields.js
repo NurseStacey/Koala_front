@@ -1,6 +1,9 @@
 import {SURGICAL_HISTORY_FIELDS} from './surgical-history-fields'
 import {MAJOR_EVENTS_FIELDS} from './major-events-fields'
 import {OUTSIDE_PROVIDER_FIELDS} from './outside-provider-fields'
+import {VACCINE_HISTORY_FIELDS} from './vaccine_history-fields'
+import {ALLERGY_FIELDS} from './alergy-fields'
+import {DRUG_INTOLLERANCE_FIELDS} from './drug-intollerance-fields'
 
 export const   ALL_FIELDS = {
     none:{
@@ -77,6 +80,84 @@ export const   ALL_FIELDS = {
             },
             {
                 name:'event',
+                style:{
+                    paddingLeft:'10px',
+                    paddingRight:'10px',
+                    textAlign:'right',
+                    flex:'1'
+                }
+            }              
+        ]
+    },
+    vaccine_history:{
+        form_title:'New Vaccine',
+        all_fields:VACCINE_HISTORY_FIELDS,
+        post_url:'patients/vaccine_history/',
+        edit_url:'patients/one_patient/vaccine_history/',
+        label:[
+            {
+                name:'year',
+                style:{
+                    paddingLeft:'10px',
+                    paddingRight:'10px',
+                    textAlign:'left',
+                    width:'20%',
+                }
+            },
+            {
+                name:'vaccine',
+                style:{
+                    paddingLeft:'10px',
+                    paddingRight:'10px',
+                    textAlign:'right',
+                    flex:'1'
+                }
+            }              
+        ]
+    },
+    drug_intollerances:{
+        form_title:'New Drug Intollerance',
+        all_fields:DRUG_INTOLLERANCE_FIELDS,
+        post_url:'patients/drug_intollerances/',
+        edit_url:'patients/one_patient/drug_intollerances/',
+        label:[
+            {
+                name:'drug',
+                style:{
+                    paddingLeft:'10px',
+                    paddingRight:'10px',
+                    textAlign:'left',
+                    width:'20%',
+                }
+            },
+            {
+                name:'reaction',
+                style:{
+                    paddingLeft:'10px',
+                    paddingRight:'10px',
+                    textAlign:'right',
+                    flex:'1'
+                }
+            }              
+        ]
+    },
+    allergies:{
+        form_title:'New Allergy',
+        all_fields:ALLERGY_FIELDS,
+        post_url:'patients/alergies/',
+        edit_url:'patients/one_patient/alergies/',
+        label:[
+            {
+                name:'alergen',
+                style:{
+                    paddingLeft:'10px',
+                    paddingRight:'10px',
+                    textAlign:'left',
+                    width:'20%',
+                }
+            },
+            {
+                name:'reaction',
                 style:{
                     paddingLeft:'10px',
                     paddingRight:'10px',

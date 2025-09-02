@@ -1,7 +1,13 @@
 
 
-export default function Patient_Header(props) {
+export default function PatientHeader(props) {
     const{setIsOpen,ThisPatient,Patient_Location,Patient_Age,Date_Of_Birth}=props
+
+    const LINKSTYLE={
+        padding:'5px',
+        width:'25%',
+        border:'1px solid black'
+    }
 
     return(
     
@@ -15,7 +21,7 @@ export default function Patient_Header(props) {
         font:'arial',              
     }}>
         <div
-            style={{width:'30%'}}
+            style={{width:'30%', border:'1px solid black'}}
         >
             <div
                 style={{
@@ -38,7 +44,7 @@ export default function Patient_Header(props) {
         
         <div
             style={{
-                width:'30%',
+                width:'30%',        border:'1px solid black',
                 display:'flex'}}
             onClick={()=>setIsOpen('facility')}
             
@@ -53,16 +59,39 @@ export default function Patient_Header(props) {
                     width:'200px'
                 }}
                 >
-                    <div>
-                        {Patient_Location['facility']}
-                    </div>
-                    {(Patient_Location['bed'] !== '') ?
-                    <div>
-                        {Patient_Location['bed']}/{Patient_Location['unit']}
-                    </div>
-                    :
-                    <div></div>}
+                <div>
+                    {Patient_Location['facility']}
                 </div>
+                {(Patient_Location['bed'] !== '') ?
+                <div>
+                    {Patient_Location['bed']}/{Patient_Location['unit']}
+                </div>
+                :
+                <div></div>}
+            </div>
+        </div>
+        <div
+            style={{
+                width:'30%',
+                display:'flex'
+            }}>
+            <div
+                style={LINKSTYLE}>
+                <a href='/'>Home</a>
+            </div>
+            <div
+                style={LINKSTYLE}>
+                <a href='/nursing_maintanance'>Nursing Home Maintanance</a>
+            </div>
+            <div
+                style={LINKSTYLE}>
+                <a href='/patient_maintanance'>Patient Maintanance</a>
+            </div>
+            <div
+                style={LINKSTYLE}>
+                <a href='/drug_management'>Drug Management</a>
+            </div>     
+                   
         </div>
     </div>
 

@@ -10,6 +10,14 @@ export default function Patient_Charts_Histories({Open,ThisPatient})
         textAlign:'center'
     }
 
+    const ONE_BOX_STYLE ={
+                    border:'1px solid black',
+                    // width:'25%',
+                    height:'300px',
+                    fontSize:'18px',
+                    marbLeft:'10px',
+                }
+
     if (ThisPatient==undefined)  return null
     
     return (
@@ -22,13 +30,7 @@ export default function Patient_Charts_Histories({Open,ThisPatient})
                 height:'750px'
             }}>
             <div 
-                style={{
-                    border:'1px solid black',
-                    // width:'25%',
-                    height:'300px',
-                    fontSize:'18px',
-                    marbLeft:'10px',
-                }}
+                style={ONE_BOX_STYLE}
                 onClick={()=>Open('med_bio', 'Update the Medical Biography')}
                 >
                 <div style={TITLE_STYLE}>Medical History</div>
@@ -36,13 +38,7 @@ export default function Patient_Charts_Histories({Open,ThisPatient})
             </div>
 
             <div 
-                style={{
-                    border:'1px solid black',
-                    // width:'25%',
-                    height:'125px',
-                    fontSize:'18px',
-                    marbLeft:'10px',
-                }}
+                style={ONE_BOX_STYLE}
                 onClick={()=>Open('family_history', 'Update the Family History')}
                 >
                 <div style={TITLE_STYLE}>Family History</div>
@@ -51,34 +47,14 @@ export default function Patient_Charts_Histories({Open,ThisPatient})
 
 
             <div 
-                style={{
-                    border:'1px solid black',
-                    // width:'25%',
-                    height:'125px',
-                    fontSize:'18px',
-                    marbLeft:'10px',
-                }}
+                style={ONE_BOX_STYLE}
                 onClick={()=>Open('social_history', 'Update the Social History')}
                 >
                 <div style={TITLE_STYLE}>Social History</div>
                 {ThisPatient['basic_data']['social_history']}
             </div>       
 
-            <div 
-                style={{
-                    border:'1px solid black',
-                    // width:'25%',
-                    height:'125px',
-                    fontSize:'18px',
-                    marbLeft:'10px',
-                }}
-                onClick={()=>Open('resolved_med_history', 'Update the Resolved Medical Issues')}
-                >
-                <div style={TITLE_STYLE}>Medical History</div>
-                {ThisPatient['basic_data']['resolved_med_history']}
-
-            </div> 
-           
+   
         </div>
     )
 }

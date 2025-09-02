@@ -26,14 +26,16 @@ export default function BoxOfLists({
     }
     
     return (
-        <div>
-            <div
-                style={{
-                    border:'1px solid black',
-                    height:'300px',
-                    fontSize:'18px',
-                    marbLeft:'20px',
-                }}>
+        <div
+            style={{
+                border:'1px solid black',
+                width:'46%',
+                margin:'1%',
+                height:'200px',
+                fontSize:'18px',
+                marbLeft:'20px',
+            }}>
+            <div>
                 
                 <div style={TITLE_STYLE}>{Title}</div> 
                 
