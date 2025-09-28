@@ -1,8 +1,7 @@
-import My_Button from '../../../Components/My_Button'
+import My_Button from '../../../Components/My-Button'
 
 export default function DiagnosisListBox({
     open,
-    ThisPatient,
     TheList,
     setCodeToEdit})
 {
@@ -18,7 +17,7 @@ export default function DiagnosisListBox({
     }
 
     const TITLE_STYLE = {
-        font_size:'20px',
+        fontSize:'20px',
         font:'arial',
         backgroundColor:'pink',
         textAlign:'center'
@@ -71,7 +70,7 @@ return (
                                     />
                                     <div
                                         style={{
-                                            marginLeft:'3px'
+                                            marginLeft:'3px',
                                         }}
                                         >
                                         {one_item.description}  

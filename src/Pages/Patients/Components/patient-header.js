@@ -1,33 +1,35 @@
 
 
 export default function PatientHeader(props) {
-    const{setIsOpen,ThisPatient,Patient_Location,Patient_Age,Date_Of_Birth}=props
+    const{setIsOpen,ThisPatient,Patient_Location,Patient_Age,Date_Of_Birth,Facility_ID}=props
 
-    const LINKSTYLE={
-        padding:'5px',
-        width:'25%',
-        border:'1px solid black'
+    const clicked = (which) =>{
+        console.log(which)
+        setIsOpen(which)
     }
 
+    const test =(value)=>{
+        console.log(value)
+        setIsOpen(value)
+    }
     return(
-    
         
-    <div style={{
-        backgroundColor: '#C8B496',
-        display:'flex',
-        justifyContent:'left',
-        fontSize:'20px',
-        color:'white',
-        font:'arial',              
+    <div 
+        style={{
+            backgroundColor: '#C8B496',
+            display:'flex',
+            justifyContent:'left',
+            fontSize:'20px',
+            color:'white',
+            font:'arial',              
     }}>
         <div
-            style={{width:'30%', border:'1px solid black'}}
+            style={{width:'25%'}}
         >
             <div
                 style={{
                     display:'block',
-                    paddingLeft:'10px',
-                    paddingRight:'30px',
+                    paddingLeft:'20px',                    
                     width:'250px'
                 }}
                 >
@@ -41,25 +43,73 @@ export default function PatientHeader(props) {
             </div>
         </div>
 
-        
         <div
             style={{
-                width:'30%',        border:'1px solid black',
-                display:'flex'}}
-            onClick={()=>setIsOpen('facility')}
+                textAlign:'center',   
+          
+                width:'50%', 
+                fontSize:'30px'}}
+        >
+            {ThisPatient['basic_data'].last_name + ', ' + ThisPatient['basic_data'].first_name}
+        </div>     
+
+        <div
+            onClick={()=>clicked('facilityID')}
+            style={{
+                width:'10%',
+                display:'flex',
+                justifyContent:'right',
+                paddingRight:'20px'
+            }}
+            >
+            <div                
+                style={{
+                    cursor:'pointer',                         
+                }}>
+                {(Facility_ID=='') ?
+                    <div >
+                        Facility ID :
+                    </div>
+                :
+                    <div>
+                        Facility ID : {Facility_ID}
+                    </div>
+                }
+            </div>
+        </div>
+        <div
+            onClick={()=>clicked('facility')}          
+            style={{
+                width:'15%',               
+                display:'flex',
+                justifyContent:'right',
+                cursor:'pointer',    
+                paddingRight:'20px'
+            }}
             
         >
-            <div>
-                Location:
-            </div>
             <div
                 style={{
+                    display:'block',     
+                    paddingRight:'8px',
+                }}
+            >
+                <div>
+                    Location:
+                </div>
+                
+            </div>
+            <div
+                // onClick={()=>test('facility')}
+
+                style={{
                     display:'block',
-                    paddingLeft:'10px',
-                    width:'200px'
+                    textAlign:'right'
                 }}
                 >
-                <div>
+                <div
+                    
+                >
                     {Patient_Location['facility']}
                 </div>
                 {(Patient_Location['bed'] !== '') ?
@@ -70,29 +120,7 @@ export default function PatientHeader(props) {
                 <div></div>}
             </div>
         </div>
-        <div
-            style={{
-                width:'30%',
-                display:'flex'
-            }}>
-            <div
-                style={LINKSTYLE}>
-                <a href='/'>Home</a>
-            </div>
-            <div
-                style={LINKSTYLE}>
-                <a href='/nursing_maintanance'>Nursing Home Maintanance</a>
-            </div>
-            <div
-                style={LINKSTYLE}>
-                <a href='/patient_maintanance'>Patient Maintanance</a>
-            </div>
-            <div
-                style={LINKSTYLE}>
-                <a href='/drug_management'>Drug Management</a>
-            </div>     
-                   
-        </div>
+
     </div>
 
 )

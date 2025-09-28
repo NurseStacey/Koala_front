@@ -1,26 +1,30 @@
-import Page_Header from '../../Components/page_header'
-import {useNavigate} from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import {useEffect, useState} from 'react'
-// import AxiosInstance from '../../utils/Axios'
+import AxiosInstance from '../../utils/Axios'
 import PatientHeader from './Components/patient-header'
+import PatientNavigationHeader from './Components/patient-navigation-header'
+import PatientOperations from './Components/patient-operations'
 
-import Patient_Location_Modals from './Patient_Chart_Pieces/Patient_Location_Modals'
-import Modal_Single_Text_Box from './Components/modal single_text_box'
-import Patient_Charts_Histories from './Patient_Chart_Pieces/Histories'
+import Patient_Location_Modals from './Patient-Chart-Pieces/Patient-Location-Modals'
+import Modal_Single_Text_Box from './Components/modal-files/modal-single-text-box'
+import Patient_Charts_Histories from './Patient-Chart-Pieces/Histories'
 
-import {ALL_FIELDS} from './form-fields/combined_form_fields'
+import {ALL_FIELDS} from './form-fields/combined-form-fields'
 
-import Modal_Form from '../../Components/modal_form'
-import ModalDiagnosis from './Components/modal-diagnosis'
-import AllListBoxes from './Patient_Chart_Pieces/all-list-boxes'
-import DiagnosisProblems from './Patient_Chart_Pieces/diagnosis-problems'
+import MedProblemEditBox from './Components/modal-files/dx-problem-files/problem-edit-box'
+import Modal_Form from '../../Components/modal-form'
+import ModalDiagnosis from './Components/modal-files/dx-problem-files/modal-diagnosis'
+import MedicalProblemModel from './Components//modal-files/dx-problem-files/med-prob-modal'
+import AllListBoxes from './Patient-Chart-Pieces/all-list-boxes'
+import DiagnosisProblems from './Patient-Chart-Pieces/diagnosis-problems'
 import loadPatient from './Components/import-patient'
 
 export default function Patient_Chart() {
 
+    const [ProblemToEdit, setProblemToEdit] = useState(null)
     const [ModalFormPriorValues,setModalFormPriorValues] = useState({})
     const [DiagnosisMod, setDiagnosisMod] = useState(false)
+    const [MedProbMod, setMedProbMod] = useState(false)
     const [CodeToEdit, setCodeToEdit] = useState(0)
     const [Patient_Location_Mod, setPatient_Location_Mod] = useState('None')
     const [Single_Text_Mod,setSingle_Text_Mod]=useState(false)
@@ -29,6 +33,7 @@ export default function Patient_Chart() {
     const [WhichForm, setWhichForm] = useState('none')
     const [FormTitle,setFormTitle]=useState('')
 
+    const [whichMedProb, setwhichMedProb]=useState('')
    // const [oneDxCode,setoneDxCode] = useState({id:0})
 
     const [single_modal_title,setsingle_modal_title ]=useState('')
@@ -41,6 +46,16 @@ export default function Patient_Chart() {
         console.log('here')
     }
 
+    const openDx = (medProblem)=>{
+        setDiagnosisMod(true)
+        setwhichMedProb(medProblem)
+        //console.log(medProblem)
+    }
+
+    const setPatient_Location_Modtest=(value) =>{
+        setPatient_Location_Mod(value)
+        console.log(value)
+    }
     const EditModal = (form, Values) =>{
         //console.log(ModalFormPriorValues)
         
@@ -80,8 +95,18 @@ export default function Patient_Chart() {
         },[])
 
     const Test_This = ()=>{
-        setDiagnosisMod(true)
-        //setModalFormPriorValues({})
+        let data_to_send ={
+            patient:ThisPatient['basic_data'].id,
+            facility:ThisPatient['patient_location'].facilityID,
+            facilityID:'123'
+        }
+
+        try{
+            AxiosInstance.post(`patients/temp/`, data_to_send).then((res) =>{
+                console.log(res)
+
+            })
+        } catch(error){console.log(error)}     
     }
 
     return (
@@ -90,24 +115,29 @@ export default function Patient_Chart() {
             <div></div>
              ) :  (
             <div>
-                <Page_Header
+                <PatientNavigationHeader/>
+                {/* <Page_Header
                     The_Header={ThisPatient['basic_data'].last_name + ', ' + ThisPatient['basic_data'].first_name}
                     
-                />
-                <button onClick={Test_This}>test</button>
+                /> */}
+                {/* <button onClick={Test_This}>test</button> */}
                 <PatientHeader
                     setIsOpen = {setPatient_Location_Mod}
                     ThisPatient = {ThisPatient}
                     Patient_Location = {ThisPatient['patient_location']}
                     Patient_Age = {ThisPatient['age']}
                     Date_Of_Birth = {ThisPatient['basic_data']['Date_Of_Birth'].slice(0,10)}
+                    Facility_ID = {ThisPatient['facility_id']}
                 />
                 
+                <PatientOperations
+                />
+
                 <Patient_Location_Modals
                         Open={Patient_Location_Mod}
-                        setPatient_Location_Mod={setPatient_Location_Mod}
+                        setPatient_Location_Mod={setPatient_Location_Modtest}
                         Update_Location={Update_Location}                
-                        this_patient_id={ThisPatient['basic_data']['id']}
+                        this_patient={ThisPatient}
                 />
 
                 <ModalDiagnosis
@@ -118,6 +148,21 @@ export default function Patient_Chart() {
                     CodeToEdit = {CodeToEdit}
                     setCodeToEdit ={setCodeToEdit}
                     ReloadPatient = {()=>loadPatient(setThisPatient,ThisPatient['basic_data'].id)}
+                    medproblems = {ThisPatient.medical_problems}     
+                    selected_problem = {whichMedProb}               
+                />
+
+                <MedicalProblemModel
+                    open={MedProbMod}
+                    onClose={()=>setMedProbMod(false)}
+                    patientID={ThisPatient['basic_data']['id']}
+                    ReloadPatient = {()=>loadPatient(setThisPatient,ThisPatient['basic_data'].id)}                    
+                />
+
+                <MedProblemEditBox
+                    ProblemToEdit={ProblemToEdit}
+                    Close = {()=>setProblemToEdit(null)}
+                    openDx={openDx}
                 />
 
                 <Modal_Single_Text_Box
@@ -192,9 +237,11 @@ export default function Patient_Chart() {
                         }}
                         >
                             <DiagnosisProblems
-                                open={setDiagnosisMod}
+                                openDx={openDx}
+                                openMedProb={setMedProbMod}
                                 ThisPatient={ThisPatient}
                                 setCodeToEdit = {setCodeToEdit}
+                                setProblemToEdit = {setProblemToEdit}
                                 />
                     </div>                    
                 </div>
@@ -205,29 +252,3 @@ export default function Patient_Chart() {
         
     )
 }
-
-//         {
-//         basic_data:{
-//                 first_name:'',
-//                 last_name:'',
-//                 id:0,
-//                 Date_Of_Birth:'1900-01-01',
-//                 med_bio:''
-//             },
-//         age:0,
-//         patient_location:{
-//         bed:'',
-//         unit:'',
-//         facility:''},
-//         surgical_history:[],
-//         major_event:[],
-//         outside_providers:[]
-    
-// }
-//)
-
-    // const [Patient_Location, set_Patient_Location] = useState({
-    //     bed:'',
-    //     unit:'',
-    //     facility:''
-    // })

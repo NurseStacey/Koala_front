@@ -1,6 +1,6 @@
 
-import Menu_Header from '../Components/menu_header'
-import Page_Header from '../Components/page_header'
+import Menu_Header from '../Components/menu-header'
+import Page_Header from '../Components/page-header'
 
 export default function Home() {
     return(
