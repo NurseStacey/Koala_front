@@ -13,14 +13,11 @@ export default function  PrescriptionsBox({
     }
         
     return (
-        <div>
- 
+        <div
+            style={{
+                height:'40%'
+            }} >
 
-            <div
-                style={{
-                    height:'100px'
-                }}          
-            >
                 <MyListBox
                     title='Prescriptions'
                     clickedFunction={localclickedFunction}
@@ -29,7 +26,7 @@ export default function  PrescriptionsBox({
                     whichValue = {'prescription'}     
                     
                 />           
-            </div>               
+           
         </div>               
 
     )

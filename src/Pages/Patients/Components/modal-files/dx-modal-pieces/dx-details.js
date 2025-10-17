@@ -6,7 +6,11 @@ export default function  DxDetails({
 {
 
     return(
-        <div>
+        <div
+            style={{                          
+                height:'30%',
+                }}
+            >
             <div
                 style={{
                     textAlign:'center',

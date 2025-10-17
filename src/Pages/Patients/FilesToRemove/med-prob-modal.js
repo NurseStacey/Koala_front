@@ -1,44 +1,25 @@
-import My_Button from '../../../../../Components/My-Button'
-import MyListBox from '../../../../../Components/My-Listbox'
-import My_List from '../../../../../Components/My-List'
-
-
+import My_Button from '../../../Components/My-Button'
+import MyListBox from '../../../Components/My-Listbox'
+import My_List from '../../../Components/My-List'
+import ChangeBackgroundColor from '../../../Components/Change-Background-Color-for-List'
 
 import {useEffect, useState} from 'react'
-import AxiosInstance from '../../../../../utils/Axios'
+import AxiosInstance from '../../../utils/Axios'
+import '../../../../../../src/CSS/modal.css'
+import '../../../../../../src/CSS/general.css'
 
-export default function MedicalProblemModel({
-    open, 
+export default function CategNewModelOld({
+    openSwitch, 
     onClose, 
     patientID,
-    ReloadPatient
+    ReloadPatient,
+    ProblemToEdit
   }){
 
     const [NewProblemText, setNewProblemText]=useState('')
     const [AllPossibleProbs, setAllPossibleProbs]=useState([])
     const [ProblemsToAdd, setProblemsToAdd]=useState([])
     const [PatientsCurrentProbs,setPatientsCurrentProbs] = useState([])
-
-    const MODAL_STYLE  ={
-        position: 'fixed',
-        top:'10%',
-        left: '10%',
-        width:'90%',
-        height:'90%',
-        transform: 'translate(-5%,-5%)',
-        backgroundColor:'#FFF',
-        zIndex:900,
-    }
-
-    const OVERLAY_STYLES = {
-        position:'fixed',
-        top:0,
-        left:0,
-        right:0,
-        bottom:0,
-        backgroundColor:'rgba(0,0,0,.7)',
-        zIndex:900
-    }
 
     const ONE_COLUMN_STYLE ={
                                     marginRight:'30px',
@@ -51,10 +32,10 @@ export default function MedicalProblemModel({
             AxiosInstance.get(`patients/one_patient/medical_problems/${patientID}`).then((res) =>{
                 
                 let these_problems = []
-                res.data['all_probs'].map((one_problem)=>these_problems.push({problem_name:one_problem}))
+                res.data['all_probs'].map((one_problem)=>these_problems.push({name:one_problem}))
                 //console.log(these_problems)
 
-                setPatientsCurrentProbs(these_problems.sort((a,b)=>a.problem_name.toLowerCase().localeCompare(b.problem_name.toLowerCase())))
+                setPatientsCurrentProbs(these_problems.sort((a,b)=>a.name.toLowerCase().localeCompare(b.name.toLowerCase())))
             })
         }catch(error){console.log(error)}    
     }                            
@@ -77,12 +58,12 @@ export default function MedicalProblemModel({
 
                 let all_problems = []
                 data.map((one_problem)=>all_problems.push({
-                    problem_name:one_problem['problem_name'],
+                    name:one_problem['problem_name'],
                     id:one_problem['id'],
                     backgroundColor:'white'}
                 ))
                 
-                setAllPossibleProbs(all_problems.sort((a,b)=>a.problem_name.toLowerCase().localeCompare(b.problem_name.toLowerCase())))
+                setAllPossibleProbs(all_problems.sort((a,b)=>a.name.toLowerCase().localeCompare(b.name.toLowerCase())))
     }
     const AddProblemToPatient = ()=>{
         let data_to_send=[]
@@ -127,60 +108,41 @@ export default function MedicalProblemModel({
     const ResetAllProblems = () =>{
         let all_problems = []
         AllPossibleProbs.map((one_problem)=>all_problems.push({
-            problem_name:one_problem['problem_name'],
+            name:one_problem['name'],
             id:one_problem['id'],
             backgroundColor:'white'}
         ))
         
-        setAllPossibleProbs(all_problems.sort((a,b)=>a.problem_name.toLowerCase().localeCompare(b.problem_name.toLowerCase())))
+        console.log(all_problems)
+        setAllPossibleProbs(all_problems.sort((a,b)=>a.name.toLowerCase().localeCompare(b.name.toLowerCase())))
     }
     const CloseBox = ()=>{
 
         setProblemsToAdd([])
         ResetAllProblems()
         ReloadPatient()
+        setProblemToEdit(0)
         onClose()
     }
 
     const AddMedProb = (problem_name) =>
     {
-        let this_problem = AllPossibleProbs.find((one_element)=>one_element.problem_name==problem_name)
-        setProblemsToAdd([...ProblemsToAdd, {problem_name:this_problem.problem_name, id:this_problem.id,backgroundColor:'white' }])     
+        let this_problem = AllPossibleProbs.find((one_element)=>one_element.name==problem_name)
+        setProblemsToAdd([...ProblemsToAdd, {name:this_problem.name, id:this_problem.id,backgroundColor:'white' }])     
     }
 
     const RemoveMedProb = (problem_name) =>
     {
-        setProblemsToAdd(ProblemsToAdd.filter((one_problem)=>one_problem.problem_name!==problem_name))
+        setProblemsToAdd(ProblemsToAdd.filter((one_problem)=>one_problem.name!==problem_name))
     }    
 
     const test = () =>{
-        console.log(AllPossibleProbs)
-        console.log(ProblemsToAdd)
+       console.log(AllPossibleProbs)
+    
     }
    
-    const ChangeBackgroundColor = (this_problem, which, setWhich) =>{
-        let new_prob_list = []
-        which.map((one_problem)=>{
-            if (one_problem.problem_name == this_problem) {
-                let new_color='white'
-                if (one_problem.backgroundColor=='white') new_color='pink'
-                new_prob_list.push(                        
-                    {
-                        problem_name:one_problem.problem_name,
-                        id:one_problem.id,
-                        backgroundColor:new_color
-                    })
-            } else {
-                   new_prob_list.push(                        {
-                        problem_name:one_problem.problem_name,
-                        id:one_problem.id,
-                        backgroundColor:'white'
-                    })             
-            }
-        })
-        setWhich(new_prob_list)        
-    }
     const problemAddedSelected = (this_problem) => {
+        
         ChangeBackgroundColor(this_problem, ProblemsToAdd, setProblemsToAdd)
     }
 
@@ -189,20 +151,18 @@ export default function MedicalProblemModel({
         ChangeBackgroundColor(this_problem, AllPossibleProbs, setAllPossibleProbs)
     }
 
-    const TITLE_STYLE = {
-        fontSize:'30px',
-        font:'arial',
-        backgroundColor:'pink',
-        textAlign:'center'
-    }
+    useEffect(() => {
+        console.log(ProblemToEdit)
+        alert('hello')
+    },[ProblemToEdit])
 
-    if  (!open) return null
+    if (openSwitch.CategNewOpen == false) return null
 
     return (
         <div
-            style={OVERLAY_STYLES}>
+            className='OVERLAY_STYLES'>
             <div
-                style={MODAL_STYLE}
+                className='MODAL_STYLE_BIG'
             >
                 <div
                     style={{
@@ -212,7 +172,7 @@ export default function MedicalProblemModel({
                         border:'1px solid black',
                     }}
                     >
-                    <div style={TITLE_STYLE}>Add New Problem</div> 
+                    <div className='TITLE_STYLE_30'>Add New Problem</div> 
                     <div
                         style={{
                             display:'flex',
@@ -266,8 +226,7 @@ export default function MedicalProblemModel({
                                                         
                                 <MyListBox
                                     listArray={AllPossibleProbs}
-
-                                    whichValue='problem_name'
+                                    whichValue='name'
                                     clickedFunction={problemSelected}
                                     doubleclickedFunction={AddMedProb}
                                     title='Medical Problem Available'
@@ -332,7 +291,7 @@ export default function MedicalProblemModel({
                                     >                                                                   
                                     <MyListBox
                                         listArray={ProblemsToAdd}
-                                        whichValue='problem_name'
+                                        whichValue='name'
                                         clickedFunction={problemAddedSelected}
                                         doubleclickedFunction={RemoveMedProb}
                                         title='Medical Problem To Add'
@@ -361,7 +320,7 @@ export default function MedicalProblemModel({
                         On_Click={AddProblemToPatient}
                         FontSize='18px'
                     />           
-                    {/* <button onClick={test}>test</button>  */}
+                    <button onClick={test}>testnew</button> 
                     <My_Button
                         The_Text={'Cancel'}
                         Width='90px'

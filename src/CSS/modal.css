@@ -1,0 +1,36 @@
+.TitleStyleTwo  {
+        background-color: #72be1c;
+
+    }
+
+
+    .OVERLAY_STYLES  {
+        /* transform: translate(50%,50%);          */
+        /* display: none; */
+        position:fixed;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        background-color:rgba(8, 8, 8, 0.7);
+        z-index:1000;
+    }
+
+    .MODAL_STYLE {
+        position: 'fixed';
+        width:50%;
+        height:80%;
+        transform: translate(50%,15%); 
+        background-color:#FFF;
+        z-index: 1000;
+    }    
+
+    
+    .MODAL_STYLE_BIG  {
+        position: 'fixed';
+        width:90%;
+        height:90%;
+        transform: translate(5%,5%);
+        background-color:#FFF;
+        z-index:900;
+    }

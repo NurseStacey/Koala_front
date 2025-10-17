@@ -1,8 +1,13 @@
 import My_Button from '../../../../../../Components/My-Button'
+import ChangeBackgroundColor from '../../../../../../Components/Change-Background-Color-for-List'
+import MyListBox from '../../../../../../Components/My-Listbox'
+import NewEditDelete from '../../../../../../Components/new-edit-delete'
 
 export default function MedProbDxCodes({
     openDx,
-    ProblemToEdit
+    ProblemToEdit,
+    DxCodes,
+    setDxCodes
 })
 {
     const GetNewDx = () => {
@@ -10,72 +15,44 @@ export default function MedProbDxCodes({
         openDx(ProblemToEdit)
     }
 
-    return (
-        <div>
+    const EditDx = () => {
 
-            <div
-                style={{
-                    textAlign:'center'
-                }}>
-                    Diagnosis Codes
-            </div>
+    }
+
+    const DeleteDx = () =>{
+
+    }
+
+    const DxClicked = (thisDxCode) =>{
+        ChangeBackgroundColor(thisDxCode,DxCodes,setDxCodes)
+    }
+    return (
+
             <div
                 style={{
                     display:'flex',
                     justifyContent:'space-evenly',
-                    height:'120px'
+                    height:'45%',
+                    width:'100%',
                 }}
             >
-                <div
-                    style={{
-                        display:'flex',
-                        flexDirection:'column',
-                        justifyContent:'space-evenly',
-                        marginLeft:'20px',
-                        marginBotton:'20px'
-                    }}
-                    >
-
-                <My_Button
-                    The_Text={'New'}
-                    Width='90px'
-                    Height='30px'
-                    On_Click={GetNewDx}
-                    FontSize='15px'
+                <NewEditDelete
+                    NewFunction={GetNewDx}
+                    EditFunction ={EditDx}
+                    DeleteFunction={DeleteDx}
                 />
 
-                    <My_Button
-                        The_Text={'Edit'}
-                        Width='90px'
-                        Height='30px'
-                        On_Click={null}
-                        FontSize='15px'
-                    />                
-                    <My_Button
-                        The_Text={'Delete'}
-                        Width='90px'
-                        Height='30px'
-                        On_Click={null}
-                        FontSize='15px'
-                    />                                                    
-                </div>
+                <MyListBox
+                    title='Diagnosis'
+                    clickedFunction={DxClicked}
+                    doubleclickedFunction={null}
+                    listArray={DxCodes}
+                    whichValue = {'name'}     
+                />                    
 
-                <div
-                    style={{
-                        display:'block',
-                        overflowY:'scroll',
-                        border:'1px solid black',
-                        height:'100%',
-                        width:'75%',
-                        marginLeft:'20px',
-                        marginRight:'20px',
-                        marginBottom:'15px'
-                    }}
-                >
-                </div>
 
             </div>       
-        </div>     
+
 
     )
 }

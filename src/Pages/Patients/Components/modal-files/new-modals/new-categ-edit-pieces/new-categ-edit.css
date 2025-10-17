@@ -1,0 +1,12 @@
+.ONE_SIDE_STYLE {                                
+    padding:5px;
+    margin-top:15px;
+    width:45%;
+    align-items:center;
+    font:arial;
+    font-size:18px;
+    border:1px solid black;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+}

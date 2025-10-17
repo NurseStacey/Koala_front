@@ -16,75 +16,84 @@ export default function DxBox ({
         console.log(CodeHistory)
     }    
     return (
-        <div>
+        <div
+            style={{
+                marginTop:'3%',
+                marginLeft:'3%',
+                width:'40%',
+                height:'90%',
+                border:'1px solid black',
+                display:'block',
+                padding:'3px',
+            }} 
+        >
+            <div
+                style={{
+                    display:'flex',
+                    justifyContent:'space-between',
+                    marginBottom:'20px'
+                }}
+                >
+
+                    <My_Button
+                        The_Text='Search For Code'
+                        Width='150px'
+                        Height='30px'
+                        On_Click={CodeSearch}
+                        FontSize='14px'
+                    />         
+                    <input
+                        type='text'
+                        value={searchableCode}
+                        onChange={handleChange_searchableCode}
+                        placeholder='ICD10 code to search for'
+                    />
+                    <My_Button
+                        The_Text='Reset'
+                        Width='150px'
+                        Height='30px'
+                        On_Click={Reset}
+                        FontSize='14px'
+                    />
+
+                </div>
                 <div
                     style={{
-                        display:'flex',
-                        justifyContent:'space-between',
-                        marginBottom:'20px'
+                        overflowY:'scroll',
+                        height:'80%'
                     }}
                     >
-
-                        <My_Button
-                            The_Text='Search For Code'
-                            Width='150px'
-                            Height='30px'
-                            On_Click={CodeSearch}
-                            FontSize='14px'
-                        />         
-                        <input
-                            type='text'
-                            value={searchableCode}
-                            onChange={handleChange_searchableCode}
-                            placeholder='ICD10 code to search for'
-                        />
-                        <My_Button
-                            The_Text='Reset'
-                            Width='150px'
-                            Height='30px'
-                            On_Click={Reset}
-                            FontSize='14px'
-                        />
-                        {/* <My_Button
-                            The_Text='test'
-                            Width='150px'
-                            Height='30px'
-                            On_Click={test}
-                            FontSize='14px'
-                        />                         */}
-                        
-                    </div>
-                {CodeHistory.map((oneCode) =>
-                    <div
-                        key={oneCode.code}
-                        onClick={()=>RangeOrCodeSelected(oneCode.id)}
-                        style={{
-                            fontSize:'14px',
-                            font:'arial',
-                            marginLeft:`${(oneCode.steps*7).toString()}px`,
-                            paddingBottom:'2px',
-                            color:'red'
-                        }}
+            {CodeHistory.map((oneCode) =>
+                <div
+                    key={oneCode.code}
+                    onClick={()=>RangeOrCodeSelected(oneCode.id)}
+                    style={{
+                        fontSize:'14px',
+                        font:'arial',
+                        marginLeft:`${(oneCode.steps*7).toString()}px`,
+                        paddingBottom:'2px',
+                        color:'red'
+                    }}
+                >
+                    {oneCode.description}
+                </div>
+            )}
+            {TheseCodes.map((oneCode)=>
+                <div
+                    key={oneCode.code}
+                    onClick={()=>RangeOrCodeSelected(oneCode.id)}
+                    style={{
+                        fontSize:'14px',
+                        font:'arial',
+                        marginLeft:`${(oneCode.steps*7).toString()}px`,
+                        paddingBottom:'2px',
+                        color:oneCode.color
+                    }}
                     >
                         {oneCode.description}
                     </div>
                 )}
-                {TheseCodes.map((oneCode)=>
-                    <div
-                        key={oneCode.code}
-                        onClick={()=>RangeOrCodeSelected(oneCode.id)}
-                        style={{
-                            fontSize:'14px',
-                            font:'arial',
-                            marginLeft:`${(oneCode.steps*7).toString()}px`,
-                            paddingBottom:'2px',
-                            color:oneCode.color
-                        }}
-                        >
-                            {oneCode.description}
-                        </div>
-                    )}
-        
+            </div>
         </div>
     )
 }

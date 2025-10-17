@@ -21,26 +21,6 @@ export default function Modal_Form({
     const [TheData, setTheData]= useState('')
     const [FormTitle, setFormTitle]=useState('')
 
-    const MODAL_STYLE ={
-        position: 'fixed',
-        top:'10%',
-        left: '25%',
-        width:'50%',
-        height:'80%',
-        trnasform: 'translate(-50%,-50%)',
-        backgroundColor:'#FFF',
-        zIndex:1000,
-    }
-
-    const OVERLAY_STYLES = {
-        position:'fixed',
-        top:0,
-        left:0,
-        right:0,
-        bottom:0,
-        backgroundColor:'rgba(0,0,0,.7)',
-        zIndex:1000
-    }
 
     const DataToSend = () =>{
 
@@ -122,9 +102,10 @@ export default function Modal_Form({
 
     const set_value= (name, value)=>{
 
-        let elementsToUpdate = [TheData.find(one_element=>one_element.name == name)]
-        elementsToUpdate[0].value=value
-        let keysToReplace = [name]
+        let elementsToUpdate = TheData.find(one_element=>one_element.name == name)
+        elementsToUpdate.value=value
+
+        let keysToReplace = name
         if (name=='date') {
             try{
                 let year = value.slice(0,4)
@@ -138,8 +119,9 @@ export default function Modal_Form({
             }catch {}
         }
 
-        let data = TheData.filter(one_element=>!keysToReplace.includes(one_element.name))
-        setTheData([...data,...elementsToUpdate].sort((a,b)=>a.order-b.order))
+        let data = TheData.filter(one_element=>(name !== one_element.name))
+
+        setTheData([...data,elementsToUpdate].sort((a,b)=>a.order-b.order))
     }
 
     const test=()=>{
@@ -197,31 +179,39 @@ export default function Modal_Form({
 
     return (
         <div
-            style={OVERLAY_STYLES}>
+            className='OVERLAY_STYLES'>
             <div
-                style={MODAL_STYLE}
+                className='MODAL_STYLE'
             >
 
-         <div
-                style={{
-                    display:'block'
-                }}
-            >
+            <div
+                    style={{
+                        display:'block',
+                        height:'100%'
+                    }}
+                >
 
                 <div
                     style={{
                         display:'flex',
                         justifyContent:'center',                                      
-                        width:'100%',                        
+                        width:'100%',    
+
                         font:'arial',
                         fontSize:'26px',
                         padding:'20px', 
 
                     }}
                     >
-                    <div>{title}</div>
+                    {title}
                 </div>
-                <div>
+                <div
+                    style={{
+                        marginRight:'2%',
+                        marginLeft:'2%',
+                        height:'75%',
+                        overflowY:'scroll'
+                    }}>
                     <One_Form
                         The_Fields={TheData}
                         set_value={set_value}
@@ -249,6 +239,7 @@ export default function Modal_Form({
                             />
 
                             {(Editing) ?
+                            <>
                                 <div>
                                     <My_Button
                                         The_Text={'Update'}
@@ -257,6 +248,8 @@ export default function Modal_Form({
                                         On_Click={updateRecord}
                                         FontSize='18px'
                                     />  
+                                  </div> 
+                                  <div>  
                                     <My_Button
                                         The_Text={'Delete'}
                                         Width='90px'
@@ -264,7 +257,8 @@ export default function Modal_Form({
                                         On_Click={deleteRecord}
                                         FontSize='18px'
                                     />  
-                                </div>   :
+                                </div>  
+                                </> :
                             
                             <My_Button
                                 The_Text={'Save'}
@@ -277,13 +271,7 @@ export default function Modal_Form({
                                      
                             }
                               
-                            <My_Button
-                                The_Text={'Test'}
-                                Width='90px'
-                                Height='45px'
-                                On_Click={test}
-                                FontSize='18px'
-                            />                                             
+                                       
                                                          
                     </div> 
                 </div> 

@@ -3,28 +3,34 @@ import MyListBox from '../../../../../Components/My-Listbox'
 export default function MedProbSelect({
     medproblems,    
     disable_medProbList,
-    clickedFunction,
-    doubleclickedFunction
+    clickedFunction,    
 })
     
 {
 
-
-    const localclickedFunction = (item)=>{
-        if (!disable_medProbList) clickedFunction(item)
-    }
-
-
     return(
-        <div>
-            <MyListBox
-                title='Choose Med Problem'
-                clickedFunction={localclickedFunction}
-                doubleclickedFunction={null}
-                listArray={medproblems}
-                whichValue = {'problem_name'}     
-                
-            />
+        <div
+            style={{
+                width:'15%',
+                height:'50%',
+                marginLeft:'3%',    
+                marginTop:'3%',                                    
+                border:'1px solid black'
+            }}        
+        >
+            <div
+                style={{
+                    height:'100%',
+                    border:'1px solid black'                    
+                }}>
+                <MyListBox
+                    title='Choose Med Problem'
+                    clickedFunction={clickedFunction}
+                    doubleclickedFunction={null}
+                    listArray={medproblems}
+                    whichValue = {'name'}     
+                />
+            </div>
         </div>
     )
 }

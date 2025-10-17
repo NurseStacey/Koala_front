@@ -11,30 +11,34 @@ import Patient_Charts_Histories from './Patient-Chart-Pieces/Histories'
 
 import {ALL_FIELDS} from './form-fields/combined-form-fields'
 
-import MedProblemEditBox from './Components/modal-files/dx-problem-files/problem-edit-box'
+
 import Modal_Form from '../../Components/modal-form'
-import ModalDiagnosis from './Components/modal-files/dx-problem-files/modal-diagnosis'
-import MedicalProblemModel from './Components//modal-files/dx-problem-files/med-prob-modal'
+
 import AllListBoxes from './Patient-Chart-Pieces/all-list-boxes'
-import DiagnosisProblems from './Patient-Chart-Pieces/diagnosis-problems'
 import loadPatient from './Components/import-patient'
+
+import CategDxRxListBoxes from './Patient-Chart-Pieces/categ-dx-rx-listboxes'
+import CategDxRxModals from './Patient-Chart-Pieces/categ-dx-rx-modals'
+import '../../../src/CSS/general.css'
 
 export default function Patient_Chart() {
 
-    const [ProblemToEdit, setProblemToEdit] = useState(null)
+    const [NewModelCategOpenSwitch,setNewModelCategOpenSwitch]=useState(false)
+    const [NewModelCategEditOpenSwitch,setNewModelCategEditOpenSwitch]=useState(false)
+    const [NewModelDxOpenSwitch,setNewModelDxOpenSwitch]=useState('')
+    const [NewModelRxOpenSwitch,setNewModelRxOpenSwitch]=useState(false)
+
+    const [DrugNames, setDrugNames]=useState([])
+    const [CategToEdit, setCategToEdit] = useState(null)
     const [ModalFormPriorValues,setModalFormPriorValues] = useState({})
-    const [DiagnosisMod, setDiagnosisMod] = useState(false)
-    const [MedProbMod, setMedProbMod] = useState(false)
-    const [CodeToEdit, setCodeToEdit] = useState(0)
+
+    const [CodeToEdit, setCodeToEdit] = useState(null)
     const [Patient_Location_Mod, setPatient_Location_Mod] = useState('None')
     const [Single_Text_Mod,setSingle_Text_Mod]=useState(false)
 
     const [Form_Mod,setForm_Mod]=useState(false)
     const [WhichForm, setWhichForm] = useState('none')
     const [FormTitle,setFormTitle]=useState('')
-
-    const [whichMedProb, setwhichMedProb]=useState('')
-   // const [oneDxCode,setoneDxCode] = useState({id:0})
 
     const [single_modal_title,setsingle_modal_title ]=useState('')
     const [single_text_field_name,setsingle_text_field_name]=useState('first_name')
@@ -44,12 +48,6 @@ export default function Patient_Chart() {
 
     const EditDxCode = (code) => {
         console.log('here')
-    }
-
-    const openDx = (medProblem)=>{
-        setDiagnosisMod(true)
-        setwhichMedProb(medProblem)
-        //console.log(medProblem)
     }
 
     const setPatient_Location_Modtest=(value) =>{
@@ -89,24 +87,25 @@ export default function Patient_Chart() {
     }
 
     useEffect(() => {
-        
+        setDrugNames(location.state?.drug_names)
         loadPatient(setThisPatient,location.state?.patient_id)
             
         },[])
 
     const Test_This = ()=>{
-        let data_to_send ={
-            patient:ThisPatient['basic_data'].id,
-            facility:ThisPatient['patient_location'].facilityID,
-            facilityID:'123'
-        }
+        console.log(DrugNames)
+        // let data_to_send ={
+        //     patient:ThisPatient['basic_data'].id,
+        //     facility:ThisPatient['patient_location'].facilityID,
+        //     facilityID:'123'
+        // }
 
-        try{
-            AxiosInstance.post(`patients/temp/`, data_to_send).then((res) =>{
-                console.log(res)
+        // try{
+        //     AxiosInstance.post(`patients/temp/`, data_to_send).then((res) =>{
+        //         console.log(res)
 
-            })
-        } catch(error){console.log(error)}     
+        //     })
+        // } catch(error){console.log(error)}     
     }
 
     return (
@@ -116,11 +115,7 @@ export default function Patient_Chart() {
              ) :  (
             <div>
                 <PatientNavigationHeader/>
-                {/* <Page_Header
-                    The_Header={ThisPatient['basic_data'].last_name + ', ' + ThisPatient['basic_data'].first_name}
-                    
-                /> */}
-                {/* <button onClick={Test_This}>test</button> */}
+
                 <PatientHeader
                     setIsOpen = {setPatient_Location_Mod}
                     ThisPatient = {ThisPatient}
@@ -132,7 +127,7 @@ export default function Patient_Chart() {
                 
                 <PatientOperations
                 />
-
+                <button onClick={Test_This}>test</button>
                 <Patient_Location_Modals
                         Open={Patient_Location_Mod}
                         setPatient_Location_Mod={setPatient_Location_Modtest}
@@ -140,29 +135,22 @@ export default function Patient_Chart() {
                         this_patient={ThisPatient}
                 />
 
-                <ModalDiagnosis
-                    open={DiagnosisMod}
-                    onClose={()=>setDiagnosisMod(false)}
-                    patientID={ThisPatient['basic_data']['id']}
-                    currentCodes={ThisPatient['dx_codes']}
-                    CodeToEdit = {CodeToEdit}
-                    setCodeToEdit ={setCodeToEdit}
-                    ReloadPatient = {()=>loadPatient(setThisPatient,ThisPatient['basic_data'].id)}
-                    medproblems = {ThisPatient.medical_problems}     
-                    selected_problem = {whichMedProb}               
-                />
-
-                <MedicalProblemModel
-                    open={MedProbMod}
-                    onClose={()=>setMedProbMod(false)}
-                    patientID={ThisPatient['basic_data']['id']}
-                    ReloadPatient = {()=>loadPatient(setThisPatient,ThisPatient['basic_data'].id)}                    
-                />
-
-                <MedProblemEditBox
-                    ProblemToEdit={ProblemToEdit}
-                    Close = {()=>setProblemToEdit(null)}
-                    openDx={openDx}
+                <CategDxRxModals
+                    ModelCategOpenSwitch={NewModelCategOpenSwitch}
+                    ModelCategCloseFx={()=>setNewModelCategOpenSwitch(false)}
+                    ModelCategEditOpenSwitch={NewModelCategEditOpenSwitch}
+                    ModelCategEditCloseFx={()=>setNewModelCategEditOpenSwitch(false)} 
+                    ModelDxOpenSwitch={NewModelDxOpenSwitch}
+                    ModelDxCloseFx={()=>setNewModelDxOpenSwitch('')}
+                    ModelRxOpenSwitch={NewModelRxOpenSwitch}
+                    ModelRxCloseFx={()=>setNewModelRxOpenSwitch(false)}      
+                    ThisPatient={ThisPatient}
+                    ReloadPatient={()=>loadPatient(setThisPatient,ThisPatient['basic_data'].id)}
+                    CodeToEdit={CodeToEdit}      
+                    CategToEdit={CategToEdit}
+                    setCodeToEdit={setCodeToEdit}
+                    ModelDxNewOpenFx={()=>setNewModelDxOpenSwitch('new')}
+                    allMedications={DrugNames}
                 />
 
                 <Modal_Single_Text_Box
@@ -194,10 +182,8 @@ export default function Patient_Chart() {
                     }}
                 >
                     <div
-                        style={{
-                            width:'30%',
-                            border:'1px solid black'
-                        }}>
+                        className='ONE_COLUMN_PATIENT_CHART_STYLE'
+                        >
                         <Patient_Charts_Histories
                             Open={Update_Single_Text_Mod}
                             ThisPatient={ThisPatient}
@@ -205,14 +191,7 @@ export default function Patient_Chart() {
                     </div> 
 
                     <div
-                        style={{
-                            width:'50%',
-                            border:'1px solid red',
-                            display:'block',
-                            marginLeft:'20px',
-                            display:'flex',
-                            flexDirection:'column',
-                        }}
+                        className='ONE_COLUMN_PATIENT_CHART_STYLE'
                         >
 
                         <AllListBoxes                        
@@ -226,23 +205,19 @@ export default function Patient_Chart() {
                     </div>
 
                     <div
-                        style={{
-                            width:'30%',
-                            border:'1px solid black',
-                            display:'block',
-                            marginLeft:'20px',
-                            display:'flex',
-                            flexDirection:'column',
-                            justifContent:'top'
-                        }}
+                        className='ONE_COLUMN_PATIENT_CHART_STYLE'
                         >
-                            <DiagnosisProblems
-                                openDx={openDx}
-                                openMedProb={setMedProbMod}
-                                ThisPatient={ThisPatient}
-                                setCodeToEdit = {setCodeToEdit}
-                                setProblemToEdit = {setProblemToEdit}
-                                />
+                <CategDxRxListBoxes
+                    ModelCategOpenFx={()=>setNewModelCategOpenSwitch(true)}
+                    ModelCategEditOpenFx={()=>setNewModelCategEditOpenSwitch(true)}
+                    ModelDxNewOpenFx={()=>setNewModelDxOpenSwitch('new')}
+                    ModelDxEditOpenFx={()=>setNewModelDxOpenSwitch('edit')}
+                    ModelRxOpenFx={()=>setNewModelRxOpenSwitch(true)}
+                    ThisPatient={ThisPatient}
+                    setCodeToEdit={setCodeToEdit}
+                    setCategToEdit={setCategToEdit}
+                />                            
+
                     </div>                    
                 </div>
             </div>

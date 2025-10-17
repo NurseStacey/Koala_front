@@ -1,14 +1,15 @@
-import My_Button from '../../../../../Components/My-Button'
-import {useEffect, useState} from 'react'
-import AxiosInstance from '../../../../../utils/Axios'
-import SelectedCodeBox from '../dx-modal-pieces/dx-selected'
-import DxBox from '../dx-modal-pieces/dx-box'
-import DxDetails from '../dx-modal-pieces/dx-details'
-import MedProbSelect from '../dx-modal-pieces/med-prob-select'
-import PrescriptionsBox from '../dx-modal-pieces/dx-prescriptions'
 
-export default function ModalDiagnosis({
-    open, 
+import {useEffect, useState} from 'react'
+import AxiosInstance from '../../../utils/Axios'
+import SelectedCodeBox from '../Components/modal-files/dx-modal-pieces/dx-selected'
+import DxBox from '../Components/modal-files/dx-modal-pieces/dx-box'
+import DxDetails from '../Components/modal-files/dx-modal-pieces/dx-details'
+import MedProbSelect from '../Components/modal-files/dx-modal-pieces/med-prob-select'
+import PrescriptionsBox from '../Components/modal-files/dx-modal-pieces/dx-prescriptions'
+import DxModalButtons from '../Components/modal-files/dx-modal-pieces/dx-buttons'
+
+export default function ModalDiagnosisOLD({
+    openSwitch, 
     onClose, 
     patientID,
     currentCodes,
@@ -32,27 +33,6 @@ export default function ModalDiagnosis({
     const [SelectedCode, setSelectedCode]=useState(0)
     const [SelectedCodeText, setSelectedCodeText] = useState('')
     const [CodeToEditId, setCodeToEditId] = useState(0)
-
-    const MODAL_STYLE  ={
-        position: 'fixed',
-        top:'10%',
-        left: '10%',
-        width:'90%',
-        height:'90%',
-        transform: 'translate(-5%,-5%)',
-        backgroundColor:'#FFF',
-        zIndex:1000,
-    }
-
-    const OVERLAY_STYLES = {
-        position:'fixed',
-        top:0,
-        left:0,
-        right:0,
-        bottom:0,
-        backgroundColor:'rgba(0,0,0,.7)',
-        zIndex:1000
-    }
 
     const handleChange_searchableCode=(event)=>{
         setsearchableCode(event.target.value)
@@ -81,11 +61,10 @@ export default function ModalDiagnosis({
                 medProb:selected_problem
             }
             
-            if (CodeToEdit == 0) {
+            if (CodeToEdit < 1) {
                 try{
                     AxiosInstance.post(`patients/diagnosis_code/`, dataToSend).then((res) =>{
-                        //console.log(res)
-                        // navigate('/One_Facility_Maintanance', {state:{nursing_home_name:Name}})
+
                     })
                 } catch(error){console.log(error)}
             } else {
@@ -93,7 +72,7 @@ export default function ModalDiagnosis({
                     
                     AxiosInstance.patch(`patients/one_patient/diagnosis_code/${CodeToEdit}`, dataToSend).then((res) =>{
                         console.log(res)
-                        // navigate('/One_Facility_Maintanance', {state:{nursing_home_name:Name}})
+
                     })
                 } catch(error){console.log(error)}                
             }
@@ -121,19 +100,15 @@ export default function ModalDiagnosis({
                 setCodeHistory(CodeHistory.filter(oneCode =>(oneCode.id<=newRecord.id)))
             } else {
                 setSelectedCode(newRecord.id)
-                
                 setCodeHistory([...CodeHistory, newRecord])
             }
             GetTheseCodes(thisCode)
-            
-            
         } else {
             setSelectedCode(newRecord.id)
             setSelectedCodeText(newRecord.description)
         }
     }
-
-    
+   
     const test = () =>{
         console.log(disable_medProbList)
     }
@@ -151,8 +126,6 @@ export default function ModalDiagnosis({
         }       
 
     const GetTheseCodes = (thisCode)=>{
-        //console.log(thisCode)
-
         
         AxiosInstance.get(`medical/get_diagnosis_codes/${thisCode}`).then((res) =>{
             //console.log(res.data)
@@ -176,7 +149,7 @@ export default function ModalDiagnosis({
 
     const ChangeBackgroundColor = (this_problem, which, setWhich) =>{
         let new_prob_list = []
-        console.log(this_problem)
+
         which.map((one_problem)=>{
             if (one_problem.problem_name == this_problem) {
                 let new_color='white'
@@ -197,12 +170,6 @@ export default function ModalDiagnosis({
         })
         setWhich(new_prob_list)        
     }    
-
-    const medProblemClicked = (this_problem) => {
-        
-        ChangeBackgroundColor(this_problem, local_medProblems, setlocal_medProblems)
-    }
-
  
     useEffect(() =>{
         let tempArray = []
@@ -227,6 +194,7 @@ export default function ModalDiagnosis({
             
         },[whichCode])
 
+
     useEffect(() =>{
         if (CodeToEdit>0) {
             
@@ -250,13 +218,13 @@ export default function ModalDiagnosis({
         textAlign:'center'
     }
 
-    if  (!open) return null
+    if  (!openSwitch['DxOpen']) return null
 
     return (
         <div
-            style={OVERLAY_STYLES}>
+            className='OVERLAY_STYLES'>
             <div
-                style={MODAL_STYLE}
+                className='MODAL_STYLE_BIG'
             >
                 <div
                     style={{
@@ -265,7 +233,7 @@ export default function ModalDiagnosis({
                         height:'100%'                        
                     }}
                     >
-                        <div style={TITLE_STYLE}>Diagnosis Code List</div> 
+                    <div style={TITLE_STYLE}>Diagnosis Code List</div> 
                     <div
                         style={{
                             display:'flex',
@@ -273,27 +241,17 @@ export default function ModalDiagnosis({
                             height:'85%',                            
                         }}
                     >
-                        <div
-                            style={{
-                                marginTop:'3%',
-                                marginLeft:'3%',
-                                width:'40%',
-                                height:'90%',
-                                border:'1px solid black',
-                                display:'block',
-                                padding:'3px',
-                            }}        
-                            >                
-                                <DxBox
-                                    CodeHistory={CodeHistory}
-                                    TheseCodes={TheseCodes}
-                                    RangeOrCodeSelected={RangeOrCodeSelected}
-                                    Reset={Reset}
-                                    handleChange_searchableCode={handleChange_searchableCode}
-                                    searchableCode={searchableCode}
-                                    CodeSearch={CodeSearch}
-                                />
-                            </div>
+
+                        <DxBox
+                            CodeHistory={CodeHistory}
+                            TheseCodes={TheseCodes}
+                            RangeOrCodeSelected={RangeOrCodeSelected}
+                            Reset={Reset}
+                            handleChange_searchableCode={handleChange_searchableCode}
+                            searchableCode={searchableCode}
+                            CodeSearch={CodeSearch}
+                        />
+
                             <div
                                 style={{
                                     display:'block',
@@ -302,81 +260,36 @@ export default function ModalDiagnosis({
                                     marginTop:'3%',
                                 }}
                             >
-                                <div
-                                    style={{
-                                        border:'1px solid black',
-                                        marginBottom:'5%',
-                                        height:'20%',
 
-                                    }}>                       
                                     <SelectedCodeBox
                                         SelectedCodeText={SelectedCodeText}
                                     />
-                                </div>
-                                <div
-                                    style={{                          
-                                                                        
-                                        height:'30%',
-                                    }}>
+
+
                                     <DxDetails
                                         set_field_text={set_field_text}
                                         field_text={field_text}
                                     />
-                                </div>
-                                <div
-                                    style={{                          
-                                                                      
-                                        height:'30%',
-                                    }}>
+
                                     <PrescriptionsBox
                                         PrescriptionsArray={[]}
                                     />
-                                </div>
-                                
                             </div>
-                            <div
-                                style={{
-                                    width:'15%',
-                                    height:'50%',
-                                    marginLeft:'3%',    
-                                    marginTop:'3%',                                    
-                                    border:'1px solid black'
-                                }}
-                            >
-                                <MedProbSelect
-                                    medproblems={local_medProblems}
-                                    disable_medProbList={disable_medProbList}
-                                    clickedFunction={medProblemClicked}
-                                    doubleclickedFunction={null}
-                                />
-                            </div>                            
+
+                            <MedProbSelect
+                                medproblems={local_medProblems}
+                                clickedFunction={local_medProblems}
+                            />
+                    
                         </div>
 
-                    <div
-                        style={{
-                            height:'10%',
-                            width:'100%',
-                            display:'flex',
-                            
-                            justifyContent:'space-around'
-                        }}
-                        >
-                         <My_Button
-                            The_Text={SubmitButtonText}
-                            Width='90px'
-                            Height='45px'
-                            On_Click={AddCode}
-                            FontSize='18px'
-                        />           
-                        <button onClick={test}>test</button>                 
-                         <My_Button
-                            The_Text={'Cancel'}
-                            Width='90px'
-                            Height='45px'
-                            On_Click={CloseBox}
-                            FontSize='18px'
-                        />   
-                    </div>
+                        <DxModalButtons
+                            test={test}
+                            AddCode={AddCode}
+                            SubmitButtonText={SubmitButtonText}
+                            CloseBox={CloseBox}
+                        />
+
                 </div>             
             </div>
         </div>

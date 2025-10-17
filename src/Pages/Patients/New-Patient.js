@@ -5,7 +5,7 @@ import Page_Header from '../../Components/page-header'
 import {PATIENT_FIELDS} from './Patient-Form-Fields'
 import One_Form from '../../Components/One-Form'
 import AxiosInstance from '../../utils/Axios'
-import '../../App.css'
+import '../../CSS/modal.css'
 
 export default function New_Patient() {
 
@@ -59,7 +59,7 @@ export default function New_Patient() {
 
     return(
         <div>
-            <div className='Title_Style'>test</div>
+            <div className='TitleStyleTwo'>test</div>
             <Page_Header
                 The_Header='New Patient'
             />

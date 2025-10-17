@@ -23,33 +23,34 @@ export default function Patient_Location_Modal_Two({open, onClose,setUnit,unitPi
         unitPicked()
     }
 
-    const MODAL_STYLE ={
-        position: 'fixed',
-        top:'25%',
-        left: '25%',
-        width:'50%',
-        height:'50%',
-        trnasform: 'translate(-50%,-50%)',
-        backgroundColor:'#FFF',
-        zIndex:1000,
-    }
+    // const MODAL_STYLE ={
+    //     position: 'fixed',
+    //     top:'25%',
+    //     left: '25%',
+    //     width:'50%',
+    //     height:'50%',
+    //     trnasform: 'translate(-50%,-50%)',
+    //     backgroundColor:'#FFF',
+    //     zIndex:1000,
+    // }
 
-    const OVERLAY_STYLES = {
-        position:'fixed',
-        top:0,
-        left:0,
-        right:0,
-        bottom:0,
-        backgroundColor:'rgba(0,0,0,.7)',
-        zIndex:1000
-    }
+    // const OVERLAY_STYLES = {
+    //     position:'fixed',
+    //     top:0,
+    //     left:0,
+    //     right:0,
+    //     bottom:0,
+    //     backgroundColor:'rgba(0,0,0,.7)',
+    //     zIndex:1000
+    // }
 
     if  (open!=='unit') return null
     return (
         <div
-            style={OVERLAY_STYLES}>
+            className='OVERLAY_STYLES'
+            >
             <div
-                style={MODAL_STYLE}
+                className='MODAL_STYLE'
             >
             <div
                 style={{

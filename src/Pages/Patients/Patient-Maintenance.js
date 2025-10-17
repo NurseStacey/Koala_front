@@ -8,6 +8,7 @@ import AxiosInstance from '../../utils/Axios'
 export default function Patient_Maintanance() {
     const navigate = useNavigate()
 
+   
     const [all_patients, set_all_patients]=useState([])
 
     const New_Patient =()=>{
@@ -15,8 +16,16 @@ export default function Patient_Maintanance() {
     }
 
     const Patient_Selected=(patient_id)=>{
-        //console.log(patient_id)
-        navigate('/patient_chart', {state:{patient_id:patient_id}})
+        //AxiosInstance.get(`drug_management/get_drug_names/`).then((res)=>{
+        AxiosInstance.get(`drug_management/get_all_drugs/`).then((res)=>{            
+            console.log(res.data)
+            navigate('/patient_chart', {state:{
+                patient_id:patient_id,
+                drug_names:res.data}})            
+        })
+        // navigate('/patient_chart', {state:{
+        //     patient_id:patient_id,
+        //     drug_names:res.data['all_drugs']}})
     }
 
     useEffect(() => {

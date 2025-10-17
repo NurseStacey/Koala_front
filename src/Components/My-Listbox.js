@@ -20,6 +20,7 @@ export default function MyListBox({
     return (
         <div
               style={{
+
                     display:'block',
                     width:'100%',
                     height:'100%',

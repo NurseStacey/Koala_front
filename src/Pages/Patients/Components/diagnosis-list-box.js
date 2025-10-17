@@ -1,38 +1,36 @@
 import My_Button from '../../../Components/My-Button'
+import '../../../../src/CSS/general.css'
 
 export default function DiagnosisListBox({
     open,
+    opennew,
     TheList,
     setCodeToEdit})
 {
 
     const LocalEditItem = (thisCode)=>{
         setCodeToEdit(thisCode)
-        open(true)
+        open()
     }
 
+    const LocalOpen = () => {
+        setCodeToEdit(-1)
+        open()
+
+    }
     const test_this =()=>{
         console.log(TheList)
 
     }
 
-    const TITLE_STYLE = {
-        fontSize:'20px',
-        font:'arial',
-        backgroundColor:'pink',
-        textAlign:'center'
-    }
+
 return (
-    <div>
+
         
         <div
-            style={{
-                border:'1px solid black',
-                height:'300px',
-                fontSize:'18px',
-                marbLeft:'20px',
-            }}>
-            <div style={TITLE_STYLE}>Diagnosis Codes</div> 
+            className='DIAG_PRES_MED_BLOCK_STYLE'
+            >
+            <div className='TITLE_STYLE'>Diagnosis Codes</div> 
                 <div
                     style={{
                         display:'block',
@@ -49,7 +47,7 @@ return (
                                 The_Text='New Diagnosis Code'
                                 Width='150px'
                                 Height='45px'
-                                On_Click={()=>open(true)}
+                                On_Click={LocalOpen}
                                 FontSize='18px'
                             />
                     </div>
@@ -80,5 +78,5 @@ return (
 
             </div>            
         </div>
-    </div>
+
 )}

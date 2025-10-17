@@ -1,0 +1,39 @@
+.TITLE_STYLE {
+    font-size:20px;
+    font:arial;
+    background-color:#f88fa9;
+    text-align:center;
+}
+
+.TITLE_STYLE_30 {
+    font-size:30px;
+    font:arial;
+    background-color:#f88fa9;
+    text-align:center;
+    height:8%
+}
+
+.DIAG_PRES_MED_BLOCK_STYLE {
+    border:1px solid black;
+    height:30%;
+    font-size:18px;
+    margin-bottom:3%;
+}
+
+.ONE_BOX_STYLE {
+    border:1px solid black;
+    height: 35%;
+    width:42%;
+    font-size:  18px;
+    margin:3%;
+}
+
+.ONE_COLUMN_PATIENT_CHART_STYLE {
+    border:'1px solid black';
+    height: 750px;
+    display:flex;
+    flex-direction:column;
+    justify-content:start;
+    margin-left:20px;
+    width:30%;
+}

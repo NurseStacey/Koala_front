@@ -5,7 +5,12 @@ export default function SelectedCodeBox({
 })
 {
     return (
-        <div>
+        <div
+            style={{
+                border:'1px solid black',
+                marginBottom:'5%',
+                height:'20%',
+            }}>
             <div
                 style={{
                     textAlign:'center',

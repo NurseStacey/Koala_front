@@ -24,8 +24,7 @@ export default function My_TextField(props) {
                 style={{
                     flex:1,
                     width:'40%'
-                    // marginRight:'50px',
-                    // marginLeft:'50px',
+
                 }}>{The_Label}</label>
 
             <input
@@ -39,7 +38,7 @@ export default function My_TextField(props) {
                 }}
 
                 value={value}
-                onChange={(e)=>internalSetValue(value)}
+                onChange={(e)=>internalSetValue(e.target.value)}
             />
             
         </div>

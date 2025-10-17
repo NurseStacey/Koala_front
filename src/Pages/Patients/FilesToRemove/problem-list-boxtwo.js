@@ -1,7 +1,8 @@
 import My_Button from '../../../Components/My-Button'
 
-export default function ProblemListBox({
-    open,
+export default function CategListBox({
+    openEdit,
+    openNew,
     medproblems,
     setProblemToEdit
 })
@@ -14,11 +15,16 @@ export default function ProblemListBox({
         textAlign:'center'
     }
 
-    const medprobClicked = (which) =>{
+    const CategClicked = (which) =>{
         console.log(which)
         setProblemToEdit(which)
+        openEdit()
     }
 
+    const LocalNew = () =>{
+        setProblemToEdit(-1)
+        openNew()
+    }
     return(
         <div>
             <div
@@ -45,11 +51,22 @@ export default function ProblemListBox({
                                 The_Text='New Problem'
                                 Width='150px'
                                 Height='45px'
-                                On_Click={()=>open(true)}
+                                On_Click={LocalNew}
                                 FontSize='18px'
                             />
                     
                     </div> 
+                    <div
+                        style={{
+                            display:'flex',
+                            justifyContent:'center'
+                        }}
+                        onClick={openNew}
+                        >
+                            test
+                            
+                    
+                    </div>                     
                     <div
                     style={{
                         overflowY:'scroll',
@@ -61,7 +78,7 @@ export default function ProblemListBox({
                     >
                         {medproblems.map((one_problem) =>
                         <div
-                            onClick={()=>medprobClicked(one_problem)}
+                            onClick={()=>CategClicked(one_problem)}
                             key={one_problem.problem_id}>
                             {one_problem.problem_name}
                         </div>)}  
