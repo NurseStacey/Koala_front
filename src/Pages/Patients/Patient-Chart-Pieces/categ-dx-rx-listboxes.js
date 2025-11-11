@@ -3,14 +3,15 @@ import BoxOfList from '../../../Components/box-of-list'
 import {useState, useEffect} from 'react'
 
 export default function CategDxRxListBoxes({
-    ModelCategOpenFx,
-    ModelCategEditOpenFx,
-    ModelDxNewOpenFx,
-    ModelDxEditOpenFx,
-    ModelRxOpenFx,
+    ModelCategOpen,
+    ModelCategEditOpen,
+    ModelDxNewOpen,
+    ModelDxEditOpen,
+    ModelRxOpen,
     ThisPatient,
     setCodeToEdit,
     setCategToEdit,
+    setRxToEdit
 })
 {
 
@@ -36,25 +37,32 @@ export default function CategDxRxListBoxes({
 
         setDxList(these_dx.sort((a,b)=>a.name.toLowerCase().localeCompare(b.name.toLowerCase())))        
 
+        let these_rx = []
+        ThisPatient['prescriptions'].map((one_rx)=>{
+            //console.log(one_rx)
+            these_rx.push({
+            name:one_rx.selectedMedName,
+            id:one_rx.id
+        })})
+        
+        setRxList(these_rx.sort((a,b)=>a.name.toLowerCase().localeCompare(b.name.toLowerCase())))     
 
     },[ThisPatient])
     
     const EditCateg = (CategID) =>{
-        ModelCategEditOpenFx(true)
-        let thisCateg = ThisPatient['medical_problems'].find((one_categ)=>(one_categ.problem_id==CategID))
-
-        setCategToEdit(thisCateg)
-
+        ModelCategEditOpen(true)
+        setCategToEdit(ThisPatient['medical_problems'].find((one_categ)=>(one_categ.problem_id==CategID)))
     }
 
-    const EditDx = (CategID) =>{
+    const EditDx = (DxID) =>{
 
-        setCodeToEdit(ThisPatient['dx_codes'].find((oneDx)=>oneDx.id==CategID))
-        ModelDxEditOpenFx()
+        setCodeToEdit(ThisPatient['dx_codes'].find((oneDx)=>oneDx.id==DxID))
+        ModelDxEditOpen()
     }
 
-    const EditRx = (CategID) =>{
-        console.log(CategID)
+    const EditRx = (RxID) =>{
+        setRxToEdit(ThisPatient['prescriptions'].find((oneRx)=>oneRx.id==RxID))
+        ModelRxOpen()
     }    
 
     return(
@@ -66,7 +74,7 @@ export default function CategDxRxListBoxes({
             >
         <BoxOfList
             title='Medical Category'
-            openNew={ModelCategOpenFx}
+            openNew={ModelCategOpen}
             TheList = {MedCategsList}
             EditFunc={EditCateg}
             whichValue={'name'}
@@ -76,7 +84,7 @@ export default function CategDxRxListBoxes({
 
         <BoxOfList
             title='Diagnosis'
-            openNew={ModelDxNewOpenFx}
+            openNew={ModelDxNewOpen}
             TheList = {DxList}
             EditFunc={EditDx}             
             whichValue={'name'}
@@ -85,7 +93,7 @@ export default function CategDxRxListBoxes({
 
         <BoxOfList
             title='Prescription'
-            openNew={ModelRxOpenFx}
+            openNew={ModelRxOpen}
             TheList = {RxList}
             EditFunc={EditRx}        
             whichValue={'name'}         

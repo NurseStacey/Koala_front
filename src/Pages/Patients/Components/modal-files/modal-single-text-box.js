@@ -2,11 +2,19 @@ import {useState} from 'react'
 import My_Button from '../../../../Components/My-Button'
 import AxiosInstance from '../../../../utils/Axios'
 
-export default function Modal_Single_Text_Box({open, onClose,field_name, title,this_patient, onUpdate}){
+export default function Modal_Single_Text_Box({
+    open, 
+    onClose,
+    field_name, 
+    title,
+    this_patient, 
+    onUpdate,
+    ReloadPatient
+}){
 
     const [field_text, set_field_text]=useState('')
 
-    const test=()=>{}
+    const test=()=>{console.log(this_patient['basic_data'][field_name])}
 
     const Save = ()=>{
         
@@ -16,10 +24,12 @@ export default function Modal_Single_Text_Box({open, onClose,field_name, title,t
         try{
             //console.log(this_patient)
             AxiosInstance.patch(`patients/one_patient/${this_patient.basic_data.id}`, data_to_send).then((res) =>{
+                ReloadPatient() 
             }
 
        )}catch(error){alert(error)}   
-        onUpdate(field_name,field_text)   
+        onUpdate(field_name,field_text)  
+        
         onClose()
     }
 
@@ -63,7 +73,7 @@ export default function Modal_Single_Text_Box({open, onClose,field_name, title,t
                         onChange={(e)=>set_field_text(e.target.value)}
                         rows='11'
                         cols='60'
-                        defaultValue={this_patient[field_name]}
+                        defaultValue={this_patient['basic_data'][field_name]}
                         style = {{
                             font:'arial',
                             fontSize:'20px',
@@ -97,13 +107,13 @@ export default function Modal_Single_Text_Box({open, onClose,field_name, title,t
                                 On_Click={Save}
                                 FontSize='18px'
                             />    
-{/*                            <My_Button
+                            {/* <My_Button
                                 The_Text={'Test'}
                                 Width='90px'
                                 Height='45px'
                                 On_Click={test}
                                 FontSize='18px'
-                            />               */}                               
+                            />                                 */}
                                                          
                     </div> 
                 </div> 

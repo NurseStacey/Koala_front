@@ -1,59 +1,71 @@
-import CategNewModel from '../Components/modal-files/new-modals/new-categ-modal'
-import CategEditModal from '../Components/modal-files/new-modals/new-categ-edit-modal'
-import DxNewModel from '../Components/modal-files/new-modals/new-Dx-modal'
-import RxNewModel from '../Components/modal-files/new-modals/new-Rx-modal'
+import CategNewModel from '../Components/modal-files/categ-pieces/categ-modal'
+import CategEditModal from '../Components/modal-files/categ-pieces/categ-edit-modal'
+import DxModel from '../Components/modal-files/dx-modal-pieces/Dx-modal'
+import RxModel from '../Components/modal-files/rx-modal-pieces/Rx-modal'
 
 export default function CategDxRxModals({
     ModelCategOpenSwitch,
-    ModelCategCloseFx,
+    ModelCategClose,
     ModelCategEditOpenSwitch,
-    ModelCategEditCloseFx,    
+    ModelCategEditClose,    
     ModelRxOpenSwitch,
-    ModelRxCloseFx,    
+    ModelRxOpen,
+    ModelRxClose,    
     ModelDxOpenSwitch,
-    ModelDxCloseFx,
+    ModelDxClose,
     ThisPatient, 
     ReloadPatient,
     CodeToEdit,
+    RxToEdit,
     setCodeToEdit,
     CategToEdit,
-    ModelDxNewOpenFx,
-    allMedications
+    setDxToEdit,
+    ModelDxOpen,
+    allMedications,
+    setRxToEdit
 })
 {
     return(
         <>
             <CategNewModel
                     openSwitch={ModelCategOpenSwitch}
-                    onClose={ModelCategCloseFx}
+                    onClose={ModelCategClose}
                     ReloadPatient={ReloadPatient}
                     ThisPatient={ThisPatient}
             />
 
             <CategEditModal
                     openSwitch={ModelCategEditOpenSwitch}
-                    onClose={ModelCategEditCloseFx}
+                    RxOpen={ModelRxOpen}
+                    onClose={ModelCategEditClose}
                     ReloadPatient={ReloadPatient}
                     ThisPatient={ThisPatient}
                     CategToEdit={CategToEdit}
-                    setOpenDx={ModelDxNewOpenFx}
+                    setOpenDx={ModelDxOpen}
             />
 
-            <DxNewModel
+            <DxModel
                     openSwitch={ModelDxOpenSwitch}
-                    onClose={ModelDxCloseFx}
+                    RxOpen={ModelRxOpen}
+                    onClose={ModelDxClose}
                     ReloadPatient={ReloadPatient}
                     ThisPatient={ThisPatient}
                     CodeToEdit={CodeToEdit}
                     setCodeToEdit={setCodeToEdit}
                     CategToEdit={CategToEdit}
+                    setDxToEdit={setDxToEdit}
             />
 
-            <RxNewModel
+            <RxModel
                     openSwitch={ModelRxOpenSwitch}
-                    onClose={ModelRxCloseFx}
+                    onClose={ModelRxClose}
                     ReloadPatient={ReloadPatient}
-                    allMedications={allMedications}
+                    ThisPatient={ThisPatient}
+                    fullMedicationList={allMedications}
+                    DxToEdit={CodeToEdit}
+                    CategToEdit={CategToEdit}
+                    RxToEdit={RxToEdit}
+                    setRxToEdit={setRxToEdit}
             />
         </>            
 

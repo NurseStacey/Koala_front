@@ -24,8 +24,21 @@ export const SURGICAL_HISTORY_FIELDS = [
         'order':3,
         'name':'month',
         'label':'Month of Surgery',
-        'type':'number', 
-        'options':[]        
+        'type':'dropdown', 
+        'options':[
+            'January', 
+            'February', 
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        ] 
     },
     {
         'order':4,

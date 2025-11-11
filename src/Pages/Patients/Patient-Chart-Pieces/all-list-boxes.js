@@ -67,16 +67,7 @@ export default function AllListBoxes({
                 paddingTop:'3%',
                 
             }}>
-{/* 
-            <BoxOfList
-                FormOpen = {()=>UpdateMod('surgical_history', 'Add a Surgical')}
-                NewButtonText='New Surgery'
-                Title='Surgical History'
-                TheList={ThisPatient['surgical_history']}
-                TheLabel={AllFields['surgical_history'].label}
-                EditModal={LocalEditModal}
-                form='surgical_history'
-            /> */}
+
             <BoxOfList
                 openNew = {()=>UpdateMod('surgical_history', 'Add a Surgical')}
                 title='Surgical History'
@@ -105,7 +96,7 @@ export default function AllListBoxes({
 
             <BoxOfList
                 openNew = {()=>UpdateMod('vaccine_history', 'Add a Vaccine')}
-                title='Vacciner'
+                title='Vaccines'
                 TheList={ThisPatient['vaccine_history']}
                 EditFunc={VaccineEdit}
                 whichValue={'vaccine'}
@@ -114,72 +105,22 @@ export default function AllListBoxes({
 
             <BoxOfList
                 openNew = {()=>UpdateMod('drug_intollerances', 'Add a Drug Intollerance')}
-                title='Vacciner'
+                title='Drug Intollerances'
                 TheList={ThisPatient['drug_intollerances']}
                 EditFunc={DrugIntolleranceEdit}
-                whichValue={'drug_intollerances'}
+                whichValue={'drug'}
                 width={'46%'}
             />     
 
 
             <BoxOfList
-                openNew = {()=>UpdateMod('drug_intollerances', 'Add a Drug Intollerance')}
-                title='Vacciner'
+                openNew = {()=>UpdateMod('allergies', 'Add an Allergy')}
+                title='Allergies'
                 TheList={ThisPatient['allergies']}
                 EditFunc={AllergyEdit}
                 whichValue={'allergen'}
                 width={'46%'}
             />                                            
-{/*         
-            <BoxOfListsOld
-                FormOpen = {()=>UpdateMod('major_event', 'Add a Major Event')}
-                NewButtonText='New Major Event'
-                Title='Major Event'
-                TheList={ThisPatient['major_event']}
-                TheLabel={AllFields['major_event'].label}
-                EditModal={LocalEditModal}
-                form='major_event'
-            />        
-
-            <BoxOfListsOld
-                FormOpen = {()=>UpdateMod('outside_providers', 'Add an Outside Provider')}
-                NewButtonText='New Outside Provider'
-                Title='Outside Provider'
-                TheList={ThisPatient['outside_providers']}
-                TheLabel={AllFields['outside_providers'].label}
-                EditModal={LocalEditModal}
-                form='outside_providers'
-            />                 
-
-            <BoxOfListsOld
-                FormOpen = {()=>UpdateMod('vaccine_history', 'Add a Vaccine')}
-                NewButtonText='New Vaccine'
-                Title='Vaccine History'
-                TheList={ThisPatient['vaccine_history']}
-                TheLabel={AllFields['vaccine_history'].label}
-                EditModal={LocalEditModal}
-                form='vaccine_history'
-            /> 
-
-            <BoxOfListsOld
-                FormOpen = {()=>UpdateMod('drug_intollerances', 'Add a Drug Intollerance')}
-                NewButtonText='New Drug Intollerance'
-                Title='Drug Intollerances'
-                TheList={ThisPatient['drug_intollerances']}
-                TheLabel={AllFields['drug_intollerances'].label}
-                EditModal={LocalEditModal}
-                form='drug_intollerances'
-            />         
-
-            <BoxOfListsOld
-                FormOpen = {()=>UpdateMod('allergies', 'Add a Allergy')}
-                NewButtonText='New Allergy'
-                Title='Allergies'
-                TheList={ThisPatient['allergies']}
-                TheLabel={AllFields['allergies'].label}
-                EditModal={LocalEditModal}
-                form='allergies'
-            />                                  */}
 
         </div>
     )

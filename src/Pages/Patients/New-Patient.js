@@ -5,10 +5,11 @@ import Page_Header from '../../Components/page-header'
 import {PATIENT_FIELDS} from './Patient-Form-Fields'
 import One_Form from '../../Components/One-Form'
 import AxiosInstance from '../../utils/Axios'
+
 import '../../CSS/modal.css'
 
 export default function New_Patient() {
-
+    const navigate = useNavigate();
     const [The_Data, set_The_Data]=useState([])
     
     useEffect(() => {
@@ -52,7 +53,7 @@ export default function New_Patient() {
             
             AxiosInstance.post(`patients/patients/`, data_to_send).then((res) =>{
                 console.log(res)
-                // navigate('/One_Facility_Maintanance', {state:{nursing_home_name:Name}})
+                navigate('/patient_maintanance', )
             })
         } catch(error){console.log(error)}
     }

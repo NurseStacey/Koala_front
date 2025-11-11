@@ -1,9 +1,10 @@
-import My_Button from '../../../../../../Components/My-Button'
+import My_Button from '../../../../../Components/My-Button'
 
 export default function ButtonsRow({
     AddDxToPatient,
     CloseBox,
-    SubmitButtonText
+    SubmitButtonText,
+    test
 })
 {
     return (
@@ -23,7 +24,15 @@ export default function ButtonsRow({
                 On_Click={AddDxToPatient}
                 FontSize='18px'
             />           
-            
+
+            <My_Button
+                The_Text={'test'}
+                Width='90px'
+                Height='45px'
+                On_Click={test}
+                FontSize='18px'
+            />    
+
             <My_Button
                 The_Text={'Cancel'}
                 Width='90px'

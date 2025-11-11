@@ -1,7 +1,7 @@
 
 function ChangeBackgroundColor(this_Item, which, setWhich)
 {
-    console.log(this_Item)
+
     let new_list = []
     //console.log(this_problem)
     which.map((one_item)=>{

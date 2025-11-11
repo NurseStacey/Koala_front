@@ -18,10 +18,10 @@ export default function Patient_Maintanance() {
     const Patient_Selected=(patient_id)=>{
         //AxiosInstance.get(`drug_management/get_drug_names/`).then((res)=>{
         AxiosInstance.get(`drug_management/get_all_drugs/`).then((res)=>{            
-            console.log(res.data)
+            //console.log(res.data)
             navigate('/patient_chart', {state:{
                 patient_id:patient_id,
-                drug_names:res.data}})            
+                drug_names:res.data['all_drugs']}})            
         })
         // navigate('/patient_chart', {state:{
         //     patient_id:patient_id,

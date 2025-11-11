@@ -2,7 +2,8 @@ import My_Button from '../../../../../../Components/My-Button'
 
 export default function ButtonsRow({
     UpdateCateg,
-    CloseBox
+    CloseBox,
+    test
 })
 {
     return (
@@ -22,6 +23,7 @@ export default function ButtonsRow({
                 On_Click={ButtonsRow}
                 FontSize='18px'
             />           
+           
             
             <My_Button
                 The_Text={'Cancel'}

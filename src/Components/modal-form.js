@@ -44,7 +44,7 @@ export default function Modal_Form({
 
     const deleteRecord = ()=>{
         try{
-
+            
             AxiosInstance.delete(`${AllFields[localForm].edit_url}${TheData[0]['id']}`).then((res) =>{
 
                 ReloadPatient()
@@ -120,7 +120,10 @@ export default function Modal_Form({
         }
 
         let data = TheData.filter(one_element=>(name !== one_element.name))
-
+        let newArray = [...data,elementsToUpdate]
+        
+        newArray=newArray.sort((a,b)=>a.order-b.order)
+        
         setTheData([...data,elementsToUpdate].sort((a,b)=>a.order-b.order))
     }
 

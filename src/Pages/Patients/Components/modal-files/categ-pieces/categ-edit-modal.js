@@ -1,11 +1,11 @@
-import ButtonsRow from './new-categ-edit-pieces/buttons'
+import ButtonsRow from './categ-edit-pieces/buttons'
 import '../../../../../../src/CSS/general.css'
-import './new-categ-edit-pieces/new-categ-edit.css'
-import DetailBox from '../dx-problem-files/problem-edit-pieces/details'
-import TimeBetween from '../dx-problem-files/problem-edit-pieces/time-between'
-import MedProbPrescriptions from '../dx-problem-files/problem-edit-pieces/prescriptions'
-import MedProbDxCodes from '../dx-problem-files/problem-edit-pieces/diagnosiscodes'
-
+import './categ-edit-pieces/categ-edit.css'
+import DetailBox from './categ-edit-pieces/details'
+import TimeBetween from './categ-edit-pieces/time-between'
+import MedProbPrescriptions from './categ-edit-pieces/prescriptions'
+import MedProbDxCodes from './categ-edit-pieces/diagnosiscodes'
+import  PrescriptionBox from '../prescriptions-box'
 import {useState, useEffect} from 'react'
 
 export default function CategEditModal({
@@ -14,15 +14,32 @@ export default function CategEditModal({
     ReloadPatient,
     ThisPatient,
     CategToEdit,
-    setOpenDx
+    setOpenDx,
+    RxOpen
 })
 {
     const [TheDetails, setTheDetails]=useState('')
     const [FrequencyNumber, setFrequencyNumber]=useState('1')
     const [FrequencyOptions, setFrequencyOptions]=useState('Months')
     const [DxCodes, setDxCodes]=useState([])
+    const [AllPrescriptions, setAllPrescriptions] = useState([])
 
-    useEffect(()=>{
+    const updateRxLabels = () =>{
+        let RxArray=[]
+        if (CategToEdit !== null){
+            CategToEdit.prescriptions.map((oneRx)=>{
+                let newRx = {
+                    id:oneRx.id,
+                    name:oneRx['prescription'],
+                    backgroundColor:'white',
+                }                
+                RxArray.push(newRx)
+            })
+        }
+        setAllPrescriptions(RxArray)
+    }
+    const updateDxCodes = () =>{
+
         let DxArray = []
         if (CategToEdit !== null){
 
@@ -37,6 +54,16 @@ export default function CategEditModal({
 
             setDxCodes(DxArray)
         }
+    }
+
+    useEffect(()=>{
+        updateDxCodes()
+        updateRxLabels()
+    },[ThisPatient])
+
+    useEffect(()=>{
+        updateDxCodes()
+        updateRxLabels()
     },[CategToEdit])
 
     const test = () =>{
@@ -75,10 +102,17 @@ export default function CategEditModal({
                     <div
                         className='ONE_SIDE_STYLE'
                     >
-                        <DetailBox
-                            setTheDetails={setTheDetails}
-                            TheDetails={TheDetails}
-                        />
+                        <div
+                            style={{
+                                width:'100%',
+                                height:'50%',
+                                
+                            }}>
+                            <DetailBox
+                                setTheDetails={setTheDetails}
+                                TheDetails={TheDetails}
+                            />
+                        </div>
                         <TimeBetween
                             FrequencyNumber={FrequencyNumber}
                             setFrequencyNumber={setFrequencyNumber}
@@ -91,13 +125,19 @@ export default function CategEditModal({
                     <div
                         className='ONE_SIDE_STYLE'
                     >
-                        <MedProbPrescriptions
+                        <PrescriptionBox
+                            openRx={RxOpen}
+                            Prescriptions={AllPrescriptions}
+                            ReloadPatient={ReloadPatient}         
+                            setPrescriptions={setAllPrescriptions}                                
                         />
+
                         <MedProbDxCodes
                             openDx={setOpenDx}
-                            ProblemToEdit={CategToEdit}
+                            CategToEdit={CategToEdit}
                             DxCodes={DxCodes}
                             setDxCodes={setDxCodes}
+                            ReloadPatient={ReloadPatient}
                         />                 
                     </div>
                 </div>

@@ -1,17 +1,15 @@
 import '../../../../../../src/CSS/modal.css'
 import '../../../../../../src/CSS/general.css'
-import DxBox from '../dx-modal-pieces/dx-box'
-import DxDetails from '../dx-modal-pieces/dx-details'
-import MedProbSelect from '../dx-modal-pieces/med-prob-select'
-import PrescriptionsBox from '../dx-modal-pieces/dx-prescriptions'
-import SelectedCodeBox from '../dx-modal-pieces/dx-selected'
-
+import DxBox from './dx-box'
+import My_MultiOptionListBox from '../../../../../../src/Components/My-MultiOptionListBox'
 import AxiosInstance from '../../../../../utils/Axios'
 import {useState, useEffect} from 'react'
+import MiddleColumn from './middle-column'
 
-import ButtonsRow from './new-Dx-modal/button'
 
-export default function DxNewModel({
+import ButtonsRow from './button'
+
+export default function DxModel({
     openSwitch, 
     onClose, 
     ThisPatient,
@@ -19,11 +17,15 @@ export default function DxNewModel({
     CodeToEdit,
     setCodeToEdit,
     CategToEdit,     
+    RxOpen,
   }){
 
+    const [selectedCateg, setselectedCateg]=useState([])
+    const [allCateg, setallCateg] = useState([])
+    const [selectedDx, setselectedDx]=useState([])
 
     const [local_medCategs, setlocal_medCategs]=useState([])
-    const [medCategsAddTo, setmedCategsAddTo]= useState([])    
+    //const [medCategsAddTo, setmedCategsAddTo]= useState([])    
     const [currentDxCodes, setcurrentDxCodes]=useState([])
     const [SelectedCode, setSelectedCode]=useState(0)
     const [SelectedCodeText, setSelectedCodeText] = useState('')    
@@ -33,6 +35,30 @@ export default function DxNewModel({
     const [whichCode, setWhichCode]=useState({id:0})
     const [detail_text, set_detail_text]=useState('')    
     const [currentCodes, setcurrentCodes]=useState([])
+
+    const CategClicked = (Categ, which) =>{
+
+        if (which=='all') {
+            if (selectedCateg.find((oneCateg)=>oneCateg.problem_id==Categ.problem_id)===undefined)
+                setselectedCateg([...selectedCateg, Categ])
+        } else 
+                setselectedCateg(selectedCateg.filter((oneCateg)=>oneCateg.problem_id!==Categ.problem_id))
+
+    }
+
+    const DxClicked = (DxCode, which) =>{
+
+        if (which=='all') {
+            if (selectedDx.find((oneDx)=>oneDx.dx_code_id==DxCode.dx_code_id)===undefined)
+                setselectedDx([...selectedDx, DxCode])
+        } else 
+                setselectedDx(selectedDx.filter((oneDx)=>oneDx.dx_code_id!==DxCode.dx_code_id))  
+ 
+    }    
+
+    const test=()=>{
+        console.log(selectedCateg)
+    }
 
     const Reset =() =>{
         setWhichCode({id:0})
@@ -51,28 +77,6 @@ export default function DxNewModel({
             })        
     }
 
-    const local_medCategsClicked = (medCateg) => {
-
-        if (CategToEdit==null) {
-            //console.log(CategToEdit)
-            let tempArray=[]
-            local_medCategs.map((one_categ)=>{
-                if (one_categ.name==medCateg)
-                {
-                    if (one_categ.backgroundColor=='pink') {
-                        one_categ.backgroundColor ='white'
-                        
-                        setmedCategsAddTo(medCategsAddTo.filter((one_categID=>one_categID !== one_categ.id)))
-                    } else {
-                        one_categ.backgroundColor='pink'
-                        setmedCategsAddTo([...medCategsAddTo, one_categ.id])
-                    }
-                }
-                tempArray.push(one_categ)
-            })
-            setlocal_medCategs(tempArray)
-        }
-    }
 
     const handleChange_searchableCode=(event)=>{
         setsearchableCode(event.target.value)
@@ -96,6 +100,7 @@ export default function DxNewModel({
 
                 setSelectedCode(newRecord.id)
                 setSelectedCodeText(newRecord.description)
+                setCodeToEdit(newRecord)
                 }
         }        
     }
@@ -108,27 +113,14 @@ export default function DxNewModel({
     }
 
     const Test = ()=>{
-        console.log(medCategsAddTo)
+       // console.log(medCategsAddTo)
     }
 
-    const Createlocal_medCategs=()=>{
-        let tempArray = []
-        ThisPatient['medical_problems'].map((one_category)=>{
-            let backgroundColor = 'white'
-
-            if (one_category.name == CategToEdit) backgroundColor='pink'
-
-            tempArray.push({
-                backgroundColor:'white',
-                name:one_category.problem_name,
-                id:one_category.problem_id       
-            })
-        })
-        setlocal_medCategs(tempArray)
-    }
     useEffect(()=>{
-        //for the list box - local_medCategs
-        Createlocal_medCategs()
+ 
+        let newCategArray=[]
+        ThisPatient['medical_problems'].map((oneCateg)=>newCategArray.push(oneCateg))
+        setallCateg(newCategArray)
 
         let tempArray=[]
         ThisPatient['dx_codes'].map((one_code)=>tempArray.push(one_code.dx_code_id))
@@ -143,8 +135,13 @@ export default function DxNewModel({
         },[whichCode])
 
     useEffect(()=>{
-        //console.log(CodeToEdit)
-        //console.log(ThisPatient)
+        //alert('here')
+        if (CategToEdit!==null)
+            setselectedCateg([CategToEdit])
+
+    },[CategToEdit])
+
+    useEffect(()=>{
         if (CodeToEdit !== null){
             set_detail_text(CodeToEdit.details)
         }
@@ -154,48 +151,49 @@ export default function DxNewModel({
         
         let continueThis=true
 
-        if (CodeToEdit.id !== SelectedCode) {
-            currentCodes.map((oneCode)=>{
-                if (oneCode.dx_code_id == SelectedCode) {
-                    alert('Code already in chart')
-                    continueThis=false
-                }
-            })
-        }
+        if (CodeToEdit!==null)
+            if (CodeToEdit.id !== SelectedCode) {
+                currentCodes.map((oneCode)=>{
+                    if (oneCode.dx_code_id == SelectedCode) {
+                        alert('Code already in chart')
+                        continueThis=false
+                    }
+                })
+            }
 
         if (!continueThis) return
 
         let dataToSend = {
-            patient:ThisPatient['basic_data'].id,
-            id:CodeToEdit.id,
+            patient:ThisPatient['basic_data'].id,            
             dx_code:SelectedCode,
             details:detail_text,
-            medProb:medCategsAddTo
+            medProb:selectedCateg
         }        
         if (CodeToEdit == null) 
             try{
                 AxiosInstance.post(`patients/diagnosis_code/`, dataToSend).then((res) =>{
-
+                    ReloadPatient()
                 })
             } catch(error){console.log(error)} 
             else                 
                 try{
-                    
+                    dataToSend['id']=CodeToEdit.id
                     AxiosInstance.patch(`patients/diagnosis_code/`, dataToSend).then((res) =>{
                         console.log(res)
-
+                        ReloadPatient()
                     })
-                } catch(error){console.log(error)}                
+                } catch(error){console.log(error)}
 
         ReloadPatient()
         CloseBox()
     }
 
     const CloseBox = () =>{
-        setmedCategsAddTo([])
+        //setmedCategsAddTo([])
         set_detail_text('')
         setCodeToEdit(null)
-        Createlocal_medCategs()
+        //Createlocal_medCategs()
+        setselectedCateg([])
         Reset()
         onClose()
     }
@@ -221,7 +219,8 @@ export default function DxNewModel({
                         style={{
                             display:'flex',
                             width:'100%',
-                            height:'80%',                            
+                            height:'80%',  
+                            border:'1px solid black',                          
                         }}
                     >
                         <DxBox
@@ -236,36 +235,50 @@ export default function DxNewModel({
                         <div
                             style={{
                                 display:'block',
-                                width:'30%',
-                                marginLeft:'3%',    
+                                width:'25%',
+                                height:'97%',
+                                marginLeft:'3%',   
+                                marginRight:'3%',    
                                 marginTop:'3%',
+                                // border:'1px solid black',
                             }}
                         >
-
-                            <SelectedCodeBox
+                            <MiddleColumn
                                 SelectedCodeText={SelectedCodeText}
-                            />
-
-                            <DxDetails
-                                set_detail_text={set_detail_text}
-                                detail_text={detail_text}
-                            />
-
-                            <PrescriptionsBox
-                                PrescriptionsArray={[]}
-                            />                                    
+                                field_text={detail_text}
+                                set_field_text={set_detail_text}
+                                ReloadPatient={ReloadPatient}
+                                RxOpen={RxOpen}
+                            /> 
+                    
+                        </div>
+                        <div
+                            style={{
+                                display:'block',
+                                width:'20%',
+                                height:'100%',
+                                marginLeft:'3%',                                    
+                                marginTop:'3%',
+                                // border:'1px solid black',
+                            }}
+                        >
+                            <My_MultiOptionListBox
+                                The_Label='Medical Categories'
+                                FontSize='18px'
+                                all_options={allCateg}
+                                selected_options={selectedCateg}
+                                option_clicked={CategClicked}
+                                which='problem_name'
+                            />   
                         </div>
 
-                        <MedProbSelect
-                            medproblems={local_medCategs}
-                            clickedFunction={local_medCategsClicked}
-                        />                        
                     </div>
 
                 <ButtonsRow
                     AddDxToPatient={AddDxToPatient}
                     CloseBox={CloseBox}
                     SubmitButtonText={submitButtonText}
+                    test={test}
                 />
             </div>
         </div>

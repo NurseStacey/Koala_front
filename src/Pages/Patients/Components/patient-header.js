@@ -1,10 +1,28 @@
+import {useEffect, useState} from 'react'
 
+export default function PatientHeader({
+    setIsOpen,
+    ThisPatient
+}) {
 
-export default function PatientHeader(props) {
-    const{setIsOpen,ThisPatient,Patient_Location,Patient_Age,Date_Of_Birth,Facility_ID}=props
+    const [PatientLocation, setPatientLocation]=useState({
+        'facility':'',
+        'bed':'',
+        'unity':''})
+    const [PatientAge,setPatientAge]=useState(0)
+    const [DateOfBirth,setDateOfBirth]=useState('')
+    const [FacilityID, setFacilityID]=useState('')
+
+    useEffect(()=>{
+        setPatientAge(ThisPatient['basic_data']['age'])
+        setPatientLocation(ThisPatient['patient_location'])
+        let dateValues = ThisPatient['basic_data']['Date_Of_Birth'].slice(0,10).split('-')
+        setDateOfBirth(dateValues[1] + '-' + dateValues[2] +'-' + dateValues[0])
+        setFacilityID(ThisPatient['facility_id'])
+    },[ThisPatient])
 
     const clicked = (which) =>{
-        console.log(which)
+        //console.log(which)
         setIsOpen(which)
     }
 
@@ -34,11 +52,18 @@ export default function PatientHeader(props) {
                 }}
                 >
                 <div>
-                    Date of Birth: {Date_Of_Birth}
+                    Date of Birth: {DateOfBirth}
                 </div>        
                        
-                <div>
-                     Age:{Patient_Age}
+                <div
+                    style={{
+                        display:'flex',
+                        flexDirection:'row',
+                        justifyContent:'space-between'
+                    }}>
+                        <div>Age:{PatientAge}</div>
+                        <div>{ThisPatient['basic_data']['gender']}</div>
+                    
                 </div>              
             </div>
         </div>
@@ -66,13 +91,13 @@ export default function PatientHeader(props) {
                 style={{
                     cursor:'pointer',                         
                 }}>
-                {(Facility_ID=='') ?
+                {(FacilityID=='') ?
                     <div >
                         Facility ID :
                     </div>
                 :
                     <div>
-                        Facility ID : {Facility_ID}
+                        Facility ID : {FacilityID}
                     </div>
                 }
             </div>
@@ -110,11 +135,11 @@ export default function PatientHeader(props) {
                 <div
                     
                 >
-                    {Patient_Location['facility']}
+                    {PatientLocation['facility']}
                 </div>
-                {(Patient_Location['bed'] !== '') ?
+                {(PatientLocation['bed'] !== '') ?
                 <div>
-                    {Patient_Location['bed']}/{Patient_Location['unit']}
+                    {PatientLocation['bed']}/{PatientLocation['unit']}
                 </div>
                 :
                 <div></div>}

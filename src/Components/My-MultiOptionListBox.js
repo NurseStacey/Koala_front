@@ -5,24 +5,24 @@ export default function My_MultiOptionListBox({
     FontSize, 
     all_options,
     selected_options,
-    option_selected,
-    totalHeight}) {
-//    const{The_Label,value,name,set_value,FontSize, all_options,selected_options,option_selected}=props
-    // console.log(all_options)
-    // consol.log(value)
+    option_clicked,
+    which
+    }) {
+
     return(
         <div
-            style={{
+             style={{
                 display:'block',
                 fontSize:FontSize,
                 font:'arial',
-                border:'1px solid black',
-                height:totalHeight
+                // border:'1px solid black',
+                height:'100%'
             }}>
             <div
                 style={{
                     display:'flex',
-                    justifyContent:'center'
+                    justifyContent:'center',
+                    height:'10%'
                 }}>
                 <label>
                         {The_Label}
@@ -33,65 +33,76 @@ export default function My_MultiOptionListBox({
                     display:'flex',
                     flexDirection:'row',
                     justifyContent:'space-around',
-                    marginTop:'10px'
+                    marginTop:'2%',
+                    height:'85%'
                 }}>
                     <div
                         style={{
                             display:'block',
-                            width:'100px',
+                            width:'45%',
+                            height:'100%'
                         }}>
+
                             <div
                                 style={{
-                                    height:'55px'
+                                    textAlign:'center',
+                                    marginBottom:'2%'
                                 }}>
-                                    All Options
-                                </div>
+                                All Options
+                            </div>
                             
                             <div
                                 style={{
-                                    display:'block',
                                     border:'1px solid black',
-                                    height:'150px',
-                                    overflowY: 'scroll'                                    
+                                    height:'70%',
+                                    overflowY: 'scroll'    
                                 }}>
                             {all_options.map((one_option)=>
                                 <div
-                                    onClick={()=>option_selected(one_option,'All')}
-                                    key={one_option}>
-                                    {one_option}
+                                    onClick={()=>option_clicked(one_option,'all')}
+                                    key={(which=='') ?one_option :one_option[which]}
+                                    
+                                    >
+                                    {(which=='') ? <>{one_option}</> : <>{one_option[which]}</>}
                                 </div>
-                                )}
+                                )} 
                                 </div>
+                            
                     </div>
 
                     <div
                         style={{
                             display:'block',
-                            width:'100px',
+                            width:'45%',
+                            height:'100%'
                         }}>
-                            <div
-                                style={{
-                                    height:'55px'
-                                }}>
-                                    Selected Options
-                                </div>                            
-                            
-                            <div
-                                style={{
-                                    display:'block',
-                                    border:'1px solid black',
-                                    height:'150px',
-                                    
-                                    overflowY: 'scroll'                                    
-                                }}>
+
+                        <div
+                            style={{
+                                textAlign:'center',
+                                marginBottom:'2%'
+                            }}>
+                            Selected Options
+                        </div>                            
+                        
+                        <div
+                            style={{
+                                display:'block',
+                                border:'1px solid black',
+                                height:'70%',
+                                overflowY: 'scroll'                                    
+                            }}>
                             {selected_options.map((one_option)=>
                                 <div
-                                    onClick={()=>option_selected(one_option,'NotAll')}
-                                    key={one_option}>
-                                    {one_option}
+                                    onClick={()=>option_clicked(one_option, 'selected')}
+                                    key={(which=='') ?one_option :one_option[which]}
+                                    
+                                    >
+                                    {(which=='') ? <>{one_option}</> : <>{one_option[which]}</>}
                                 </div>
                                 )}
-                                </div>
+                            </div>
+
                     </div>                    
 
 

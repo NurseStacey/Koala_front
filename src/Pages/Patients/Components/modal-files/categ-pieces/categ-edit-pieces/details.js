@@ -9,14 +9,19 @@ export default function DetailBox({
     return (
           <div
             style={{
-                display:'flex',
+                display:'block',
                 justifyContent:'space-around',       
-                marginBottom:'15px'                 
+                marginBottom:'15px',
+                width:'100%',
+
             }}>
             <div
                 style={{
                     marginTop:'auto',
-                    marginBottom:'auto'
+                    marginBottom:'auto',
+                    textAlign:'center',
+                    width:'100%',
+                    fontSize:'18px'
                 }}>
                 Details
             </div>
@@ -25,8 +30,13 @@ export default function DetailBox({
                 <textarea
                     onChange={(e)=>setTheDetails(e.target.value)}
                     value={TheDetails}
-                    cols='30'
-                    rows='5'>
+                    style={{
+                        width:'95%',
+                        margin:'2%',
+                        fontSize:'18px'
+                    }}
+                    rows='8'
+                    >
                 </textarea> 
             </div>
         </div>

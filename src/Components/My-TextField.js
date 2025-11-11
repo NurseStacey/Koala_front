@@ -1,7 +1,15 @@
 
 
-export default function My_TextField(props) {
-    const{The_Label,value,set_value,FontSize,Type,name}=props
+export default function My_TextField({
+    The_Label,
+    value,
+    set_value,
+    FontSize,
+    Type,
+    name
+}) 
+{
+
     
     if (Type == "") {
         Type="text"

@@ -1,20 +1,49 @@
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
+import {APPLICATION_COLORS} from './applicationColors'
 
 export default function Predictive_ListBox({
-    theList
+    theList,
+    setSelection,
+    title,
+    reset,
+    thisSelection,
 })
 {
     const [textValue,settextValue]=useState('')
     const [predictiveOptions, setpredictiveOptions]=useState([])
+    const [localSelection,setlocalSelection] = useState('')
+    
+    const optionChosen = (selection)=>{
+        
+        setSelection(selection)
+        setlocalSelection(selection)
+    }
+
+    useEffect(()=>{
+        settextValue('')
+        setlocalSelection('')
+    }, [reset])
+
+    useEffect(()=>{
+        //console.log(thisSelection)
+        SetValue(thisSelection)
+        setlocalSelection(thisSelection)
+    },[thisSelection])
+
+    const TabOut = (event) => {
+        if (event.target.value!=='') 
+            setSelection(predictiveOptions[0])
+    }
 
     const SetValue = (text) =>{
-       
+
         if (text=='') {
             setpredictiveOptions([])
         } else  {
-            setpredictiveOptions(theList['all_drugs'].filter(oneItem=>oneItem.drugName.includes(text)))
+            let tempArray = theList.filter(oneItem=>oneItem.includes(text.toLowerCase()))
+            tempArray.sort((a,b)=>a.length-b.length)
+            setpredictiveOptions(tempArray)
         }
-        
         settextValue(text)
     }
 
@@ -24,35 +53,56 @@ export default function Predictive_ListBox({
                 border:'1px solid black',
                 height:'100%'          
             }}>
-                <input 
-                    type='text'
-                    value={textValue}
-                    onChange={(e)=>SetValue(e.target.value)}
-                    >
-                </input>
+                <div
+                    style={{
+                        textAlign:'center'
+                    }}
+                >
+                    {title}
+                </div>
+                <div
+                    style={{
+                        display:'flex',
+                        justifyContent:'center'
+                    }}
+                >
+                    <input 
+                        type='text'
+                        value={textValue}
+                        onBlur={TabOut}
+                        onChange={(e)=>SetValue(e.target.value)}
+                        >
+                    </input>
+                </div>
 
-                {(predictiveOptions==[]) ?
+                {(predictiveOptions.length == 0) ?
                     <>
                     </> :
                     <>
                         <div
                             style={{
-                                height:'80%',
-                                overflowY:'scroll'
+                                height:'70%',
+                                marginTop:'2%',
+                                overflowY:'scroll',
+                                border:'1px solid black',
                             }}
                         >
                         {predictiveOptions.map(one_item=>
                         <div 
-                            key={one_item.drugName}>
-                                {one_item.drugName}
+                            style={{
+                                backgroundColor: (one_item==localSelection) ? 
+                                APPLICATION_COLORS.listboxColors.backgroundColorSelected :
+                                APPLICATION_COLORS.listboxColors.backgroundColor
+                            }}
+                            onClick={()=>optionChosen(one_item)}
+                            key={one_item}>
+                                {one_item}
                             </div>
                         )}
                         </div>
                     </>
                 }
-                <div>
 
-                </div>
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import My_Button from '../../../../../Components/My-Button'
+import My_Button from '../../../Components/My-Button'
 
 export default function DxModalButtons({
     test,

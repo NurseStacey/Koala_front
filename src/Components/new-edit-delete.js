@@ -1,9 +1,9 @@
 import My_Button from './My-Button'
 
-export default function NewEditDelete({
+export default function NewEditRemove({
     NewFunction,
     EditFunction,
-    DeleteFunction
+    RemoveFunction
 })
 {
     return(
@@ -32,10 +32,10 @@ export default function NewEditDelete({
                         FontSize='15px'
                     />                
                     <My_Button
-                        The_Text={'Delete'}
+                        The_Text={'Remove'}
                         Width='90px'
                         Height='30px'
-                        On_Click={DeleteFunction}
+                        On_Click={RemoveFunction}
                         FontSize='15px'
                     />                                                    
                 </div>        

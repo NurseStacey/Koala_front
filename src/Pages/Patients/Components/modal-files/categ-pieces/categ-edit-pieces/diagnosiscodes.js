@@ -1,31 +1,53 @@
-import My_Button from '../../../../../../Components/My-Button'
 import ChangeBackgroundColor from '../../../../../../Components/Change-Background-Color-for-List'
 import MyListBox from '../../../../../../Components/My-Listbox'
-import NewEditDelete from '../../../../../../Components/new-edit-delete'
+import NewEditRemove from '../../../../../../Components/new-edit-delete'
+import AxiosInstance from '../../../../../../utils/Axios'
+
+
+import {useState} from 'react'
 
 export default function MedProbDxCodes({
     openDx,
-    ProblemToEdit,
+    CategToEdit,
     DxCodes,
-    setDxCodes
+    setDxCodes,
+    ReloadPatient
 })
 {
+    const [selectedDx, setselectedDx]=useState(null)
+
     const GetNewDx = () => {
         //console.log('here')
-        openDx(ProblemToEdit)
+        openDx(CategToEdit)
     }
 
     const EditDx = () => {
 
     }
 
-    const DeleteDx = () =>{
+    const RemoveDx = () =>{
+        if (selectedDx==null) return
 
+        let Dx_id = DxCodes.find((oneDx)=>oneDx['name']==selectedDx)['id']
+        
+        let dataToSend = {
+            categ_id:CategToEdit['problem_id'],
+            dx_id:Dx_id,
+
+        }   
+        try{
+            AxiosInstance.post(`patients/remove_dx_code/`, dataToSend).then((res) =>{
+                ReloadPatient()
+            })
+        } catch(error){console.log(error)}   
     }
 
     const DxClicked = (thisDxCode) =>{
         ChangeBackgroundColor(thisDxCode,DxCodes,setDxCodes)
+        setselectedDx(thisDxCode)
     }
+
+
     return (
 
             <div
@@ -36,10 +58,10 @@ export default function MedProbDxCodes({
                     width:'100%',
                 }}
             >
-                <NewEditDelete
+                <NewEditRemove
                     NewFunction={GetNewDx}
                     EditFunction ={EditDx}
-                    DeleteFunction={DeleteDx}
+                    RemoveFunction={RemoveDx}
                 />
 
                 <MyListBox
@@ -50,9 +72,7 @@ export default function MedProbDxCodes({
                     whichValue = {'name'}     
                 />                    
 
-
             </div>       
-
 
     )
 }

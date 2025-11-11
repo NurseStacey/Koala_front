@@ -2,9 +2,13 @@ import My_TextField from './My-TextField'
 import My_Button from './My-Button'
 import My_DropDownField from './My-DropDownField'
 
-export default function One_Form(props){
-    const {The_Fields, set_value,Button_Text,Submit_Button,showButton}=props
-    //console.log(The_Fields)
+export default function One_Form({
+    The_Fields, 
+    set_value,
+    Button_Text,
+    Submit_Button,
+    showButton
+}){
 
     return(
         <div

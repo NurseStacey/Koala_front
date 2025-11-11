@@ -29,11 +29,12 @@ export default function  DxDetails({
                     defaultValue={field_text}
                     onChange={(e)=>set_field_text(e.target.value)}
                     rows='7'
-                    cols='50'
+                    // cols='50'
                     style = {{
                         font:'arial',
                         fontSize:'14px',
-                        marginTop:'2%'
+                        marginTop:'2%',
+                        width:'85%'
                     }}></textarea>
             </div>            
         </div>

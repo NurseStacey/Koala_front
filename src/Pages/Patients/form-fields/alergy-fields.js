@@ -7,7 +7,7 @@ export const   ALLERGY_FIELDS = [
         'options':[]        
     },
     {
-        'order':0,
+        'order':1,
         'name':'reaction',
         'label':'Reaction',
         'type':'text', 

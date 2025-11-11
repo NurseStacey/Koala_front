@@ -93,13 +93,13 @@ export default function PatientFacilityID({open, onClose,patient}){
                             On_Click={onClose}
                             FontSize='18px'
                         />                       
-                        <My_Button
+                        {/* <My_Button
                             The_Text={'test'}
                             Width='90px'
                             Height='45px'
                             On_Click={test}
                             FontSize='18px'
-                        />                                                      
+                        />                                                       */}
                         <My_Button
                             The_Text={'Set ID'}
                             Width='90px'

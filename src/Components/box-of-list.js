@@ -9,6 +9,10 @@ export default function BoxOfList({
     width
 })
 {
+    const test=()=>{
+        TheList.map((one_item) =>console.log(one_item[whichValue]))
+        //console.log(TheList)
+    }
 
     return(
 
@@ -27,7 +31,7 @@ export default function BoxOfList({
                     height:'15%'
                 }}
                 onClick={openNew}>{title}</div> 
-      
+            {/* <button onClick={test}>test</button> */}
                     
                 <div
                 style={{
@@ -36,11 +40,14 @@ export default function BoxOfList({
                     height:'79%',
                     marginTop:'2%',
                     border:'2px solid black',
-                    cursor:'pointer',
+                    
                 }}
                 >
                     {TheList.map((one_item) =>
                     <div
+                        style={{
+                            cursor:'pointer',
+                        }}
                         onClick={()=>EditFunc(one_item.id)}
                         key={one_item.id}>
                         {one_item[whichValue]}

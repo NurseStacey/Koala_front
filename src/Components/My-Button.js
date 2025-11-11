@@ -1,4 +1,4 @@
-
+import {APPLICATION_COLORS} from './applicationColors'
 
 export default function My_Button(props) {
     const{The_Text, On_Click, Width,Height, FontSize,backgroundColor}=props
@@ -6,8 +6,7 @@ export default function My_Button(props) {
     let bkColor=''
     if (backgroundColor == undefined) 
         {
-            
-            bkColor='darksalmon'
+            bkColor=APPLICATION_COLORS.buttonColors.backgroundColor
         } else bkColor=backgroundColor
 
     return(
