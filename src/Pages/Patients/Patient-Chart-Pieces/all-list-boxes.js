@@ -1,59 +1,16 @@
-
 import BoxOfList from '../../../Components/box-of-list'
+import {ALL_FIELDS} from '../form-fields/combined-form-fields'
 
 export default function AllListBoxes({
     UpdateMod,
     ThisPatient,
-    AllFields,
-    EditModal})
+    EditModal
+})
 {
 
-    if (ThisPatient == 0)
+    if (ThisPatient==undefined)
         return null
 
-    const LocalEditModal = (form, recordID) => {
-        
-        let thisRecord = ThisPatient[form].find(oneRecord =>oneRecord.id==recordID)
-
-        EditModal(form, thisRecord)
-    }
-
-    const SurgicalHxEdit = (recordID)=>{
-        let thisRecord = ThisPatient['surgical_history'].find(oneRecord =>oneRecord.id==recordID)
-
-        EditModal('surgical_history', thisRecord)        
-    }
-
-
-    const MajorEventHxEdit = (recordID)=>{
-        let thisRecord = ThisPatient['major_event'].find(oneRecord =>oneRecord.id==recordID)
-
-        EditModal('major_event', thisRecord)        
-    }    
-
-    const OutsideProviderEdit = (recordID)=>{
-        let thisRecord = ThisPatient['outside_providers'].find(oneRecord =>oneRecord.id==recordID)
-
-        EditModal('outside_providers', thisRecord)        
-    }    
-
-    const VaccineEdit = (recordID)=>{
-        let thisRecord = ThisPatient['vaccine_history'].find(oneRecord =>oneRecord.id==recordID)
-
-        EditModal('vaccine_history', thisRecord)        
-    }        
-
-    const DrugIntolleranceEdit = (recordID)=>{
-        let thisRecord = ThisPatient['drug_intollerances'].find(oneRecord =>oneRecord.id==recordID)
-
-        EditModal('drug_intollerances', thisRecord)        
-    }            
-
-    const AllergyEdit = (recordID)=>{
-        let thisRecord = ThisPatient['allergies'].find(oneRecord =>oneRecord.id==recordID)
-
-        EditModal('allergies', thisRecord)        
-    }                
     return (
    
         <div
@@ -71,58 +28,74 @@ export default function AllListBoxes({
             <BoxOfList
                 openNew = {()=>UpdateMod('surgical_history', 'Add a Surgical')}
                 title='Surgical History'
+                which='surgical_history'
                 TheList={ThisPatient['surgical_history']}
-                EditFunc={SurgicalHxEdit}
+                ThisPatient={ThisPatient}
+                EditFunc={EditModal}
                 whichValue={'surgery'}
                 width={'46%'}
+                list_div = {ALL_FIELDS['surgical_history'].list_div}
             />
             <BoxOfList
                 openNew = {()=>UpdateMod('major_event', 'Add a Major Event')}
-                title='Major History'
+                title='Major Event History'
+                EditFunc={EditModal}
+                ThisPatient={ThisPatient}
                 TheList={ThisPatient['major_event']}
-                EditFunc={MajorEventHxEdit}
+                which={'major_event'}
                 whichValue={'event'}
                 width={'46%'}
+                list_div = {ALL_FIELDS['major_event'].list_div}                
             />           
-
+ 
             <BoxOfList
                 openNew = {()=>UpdateMod('outside_providers', 'Add an Outside Provider')}
-                title='Outside Provider'
+                title='Outside Providers'
+                EditFunc={EditModal}
+                ThisPatient={ThisPatient}
                 TheList={ThisPatient['outside_providers']}
-                EditFunc={OutsideProviderEdit}
+                which={'outside_providers'}
                 whichValue={'provider'}
                 width={'46%'}
+                list_div = {ALL_FIELDS['outside_providers'].list_div}                
             />         
 
             <BoxOfList
                 openNew = {()=>UpdateMod('vaccine_history', 'Add a Vaccine')}
                 title='Vaccines'
+                EditFunc={EditModal}
+                ThisPatient={ThisPatient}
                 TheList={ThisPatient['vaccine_history']}
-                EditFunc={VaccineEdit}
+                which={'vaccine_history'}
                 whichValue={'vaccine'}
                 width={'46%'}
+                list_div = {ALL_FIELDS['vaccine_history'].list_div}                
             />                      
 
             <BoxOfList
                 openNew = {()=>UpdateMod('drug_intollerances', 'Add a Drug Intollerance')}
                 title='Drug Intollerances'
+                EditFunc={EditModal}
+                ThisPatient={ThisPatient}
                 TheList={ThisPatient['drug_intollerances']}
-                EditFunc={DrugIntolleranceEdit}
+                which={'drug_intollerances'}
                 whichValue={'drug'}
                 width={'46%'}
+                list_div = {ALL_FIELDS['drug_intollerances'].list_div}                
             />     
-
 
             <BoxOfList
                 openNew = {()=>UpdateMod('allergies', 'Add an Allergy')}
                 title='Allergies'
+                EditFunc={EditModal}
+                ThisPatient={ThisPatient}
                 TheList={ThisPatient['allergies']}
-                EditFunc={AllergyEdit}
+                which={'allergies'}
                 whichValue={'allergen'}
                 width={'46%'}
-            />                                            
+                list_div = {ALL_FIELDS['allergies'].list_div}                
+            />  
 
         </div>
     )
-
 }

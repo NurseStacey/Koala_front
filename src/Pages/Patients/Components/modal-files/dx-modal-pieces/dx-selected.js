@@ -7,9 +7,10 @@ export default function SelectedCodeBox({
     return (
         <div
             style={{
-                border:'1px solid black',
+                // border:'1px solid black',
                 marginBottom:'5%',
                 height:'20%',
+                fontSize:'14px'
             }}>
             <div
                 style={{

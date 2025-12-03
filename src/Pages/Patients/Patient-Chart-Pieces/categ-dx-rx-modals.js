@@ -4,23 +4,15 @@ import DxModel from '../Components/modal-files/dx-modal-pieces/Dx-modal'
 import RxModel from '../Components/modal-files/rx-modal-pieces/Rx-modal'
 
 export default function CategDxRxModals({
-    ModelCategOpenSwitch,
-    ModelCategClose,
-    ModelCategEditOpenSwitch,
-    ModelCategEditClose,    
-    ModelRxOpenSwitch,
-    ModelRxOpen,
-    ModelRxClose,    
-    ModelDxOpenSwitch,
-    ModelDxClose,
+    ModelSwitches,
+    UpdateModelSwitches,
     ThisPatient, 
     ReloadPatient,
     CodeToEdit,
     RxToEdit,
     setCodeToEdit,
+    setCategToEdit,
     CategToEdit,
-    setDxToEdit,
-    ModelDxOpen,
     allMedications,
     setRxToEdit
 })
@@ -28,37 +20,40 @@ export default function CategDxRxModals({
     return(
         <>
             <CategNewModel
-                    openSwitch={ModelCategOpenSwitch}
-                    onClose={ModelCategClose}
+                    openSwitch={ModelSwitches['Categ']}
+                    onClose={()=>UpdateModelSwitches(false,'Categ')}
                     ReloadPatient={ReloadPatient}
                     ThisPatient={ThisPatient}
             />
 
             <CategEditModal
-                    openSwitch={ModelCategEditOpenSwitch}
-                    RxOpen={ModelRxOpen}
-                    onClose={ModelCategEditClose}
+                    openSwitch={ModelSwitches['CategEdit']}
+                    RxOpen={()=>UpdateModelSwitches(true,'Rx')}
+                    onClose={()=>UpdateModelSwitches(false,'CategEdit')}
                     ReloadPatient={ReloadPatient}
                     ThisPatient={ThisPatient}
                     CategToEdit={CategToEdit}
-                    setOpenDx={ModelDxOpen}
+                    setOpenDx={()=>UpdateModelSwitches(true,'Dx')}
+                    setRxToEdit={setRxToEdit}
+                    setCodeToEdit={setCodeToEdit}
+                    setCategToEdit={setCategToEdit}
             />
 
             <DxModel
-                    openSwitch={ModelDxOpenSwitch}
-                    RxOpen={ModelRxOpen}
-                    onClose={ModelDxClose}
+                    openSwitch={ModelSwitches['Dx']}
+                    RxOpen={()=>UpdateModelSwitches(true,'Rx')}
+                    onClose={()=>UpdateModelSwitches(false,'Dx')}
                     ReloadPatient={ReloadPatient}
                     ThisPatient={ThisPatient}
                     CodeToEdit={CodeToEdit}
                     setCodeToEdit={setCodeToEdit}
                     CategToEdit={CategToEdit}
-                    setDxToEdit={setDxToEdit}
+                    setRxToEdit={setRxToEdit}
             />
 
             <RxModel
-                    openSwitch={ModelRxOpenSwitch}
-                    onClose={ModelRxClose}
+                    openSwitch={ModelSwitches['Rx']}
+                    onClose={()=>UpdateModelSwitches(false,'Rx')}
                     ReloadPatient={ReloadPatient}
                     ThisPatient={ThisPatient}
                     fullMedicationList={allMedications}
@@ -68,7 +63,5 @@ export default function CategDxRxModals({
                     setRxToEdit={setRxToEdit}
             />
         </>            
-
-        
     )
 }

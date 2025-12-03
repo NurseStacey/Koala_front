@@ -79,8 +79,8 @@ export default function CategListBox({
                         {medproblems.map((one_problem) =>
                         <div
                             onClick={()=>CategClicked(one_problem)}
-                            key={one_problem.problem_id}>
-                            {one_problem.problem_name}
+                            key={one_problem.categ_id}>
+                            {one_problem.categ_name}
                         </div>)}  
                     </div>
                 </div>                 

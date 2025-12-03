@@ -1,9 +1,9 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import My_Button from '../../../../Components/My-Button'
 import AxiosInstance from '../../../../utils/Axios'
 
 export default function Modal_Single_Text_Box({
-    open, 
+    ModelSwitches, 
     onClose,
     field_name, 
     title,
@@ -33,7 +33,8 @@ export default function Modal_Single_Text_Box({
         onClose()
     }
 
-    if  (!open) return null
+    if  (!ModelSwitches['SingleModal']) return null
+    
     return (
         <div
             className='OVERLAY_STYLES'>

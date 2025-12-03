@@ -29,7 +29,7 @@ export default function CategNewModelOld({
 
     const getCurrentProblems = () =>{
         try{
-            AxiosInstance.get(`patients/one_patient/medical_problems/${patientID}`).then((res) =>{
+            AxiosInstance.get(`patients/one_patient/medical_categories/${patientID}`).then((res) =>{
                 
                 let these_problems = []
                 res.data['all_probs'].map((one_problem)=>these_problems.push({name:one_problem}))
@@ -43,7 +43,7 @@ export default function CategNewModelOld({
         
         try{
 
-            AxiosInstance.get(`medical/medical_problems/`).then((res) =>{
+            AxiosInstance.get(`medical/medical_categories/`).then((res) =>{
                 CreateAllPossibleProbs(res.data)
                 
             })
@@ -58,7 +58,7 @@ export default function CategNewModelOld({
 
                 let all_problems = []
                 data.map((one_problem)=>all_problems.push({
-                    name:one_problem['problem_name'],
+                    name:one_problem['categ_name'],
                     id:one_problem['id'],
                     backgroundColor:'white'}
                 ))
@@ -77,7 +77,7 @@ export default function CategNewModelOld({
     })
         
         try{
-            AxiosInstance.post(`patients/add_medical_problems/`, data_to_send).then((res) =>{
+            AxiosInstance.post(`patients/add_medical_categories/`, data_to_send).then((res) =>{
                 getCurrentProblems() 
             })
         } catch(error){console.log(error)}   
@@ -95,9 +95,9 @@ export default function CategNewModelOld({
         } else {
             try{
                 
-                AxiosInstance.post(`medical/medical_problems/`, {problem_name:ProblemText}).then((res) =>{
+                AxiosInstance.post(`medical/medical_categories/`, {categ_name:ProblemText}).then((res) =>{
                     
-                    AxiosInstance.get(`medical/medical_problems/`).then((res) =>{
+                    AxiosInstance.get(`medical/medical_categories/`).then((res) =>{
                     CreateAllPossibleProbs(res.data)
                 })
                 })
@@ -125,15 +125,15 @@ export default function CategNewModelOld({
         onClose()
     }
 
-    const AddMedProb = (problem_name) =>
+    const AddMedProb = (categ_name) =>
     {
-        let this_problem = AllPossibleProbs.find((one_element)=>one_element.name==problem_name)
+        let this_problem = AllPossibleProbs.find((one_element)=>one_element.name==categ_name)
         setProblemsToAdd([...ProblemsToAdd, {name:this_problem.name, id:this_problem.id,backgroundColor:'white' }])     
     }
 
-    const RemoveMedProb = (problem_name) =>
+    const RemoveMedProb = (categ_name) =>
     {
-        setProblemsToAdd(ProblemsToAdd.filter((one_problem)=>one_problem.name!==problem_name))
+        setProblemsToAdd(ProblemsToAdd.filter((one_problem)=>one_problem.name!==categ_name))
     }    
 
     const test = () =>{
@@ -258,7 +258,7 @@ export default function CategNewModelOld({
                                     >                                                                   
                                     <MyListBox
                                         listArray={PatientsCurrentProbs}
-                                        whichValue='problem_name'
+                                        whichValue='categ_name'
                                         clickedFunction={null}
                                         doubleclickedFunction={null}
                                         title='Current Problems for this Patient'

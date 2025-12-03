@@ -16,11 +16,11 @@ export default function ButtonsRow({
             }}
             >
             <My_Button
-                The_Text='Add Medical Categories'
+                The_Text='Add Categories'
                 Width='90px'
                 Height='45px'
                 On_Click={AddCategToPatient}
-                FontSize='18px'
+                FontSize='15px'
             />           
             
             <My_Button

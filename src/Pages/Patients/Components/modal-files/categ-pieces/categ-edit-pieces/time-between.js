@@ -4,8 +4,8 @@ import My_DropDownField from '../../../../../../Components/My-DropDownField'
 export default function TimeBetween({
     FrequencyNumber,
     setFrequencyNumber,
-    FrequencyOptions,
-    setFrequencyOptions
+    FrequencyOption,
+    setFrequencyOption
 })
 {
 
@@ -51,9 +51,9 @@ export default function TimeBetween({
             </div>        
             <div>
                 <My_DropDownField
-                    value={FrequencyOptions}
+                    value={FrequencyOption}
                     name=''
-                    set_value={setFrequencyOptions}
+                    set_value={setFrequencyOption}
                     The_Label=''
                     FontSize='20px'
                     all_options={FREQUENCYOPTONS}

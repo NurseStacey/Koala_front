@@ -12,6 +12,10 @@ export default function AssignPrescription({
     const [allCateg, setallCateg] = useState([])
     const [allDx, setallDx] = useState([])
 
+    const test=()=>{
+        //console.log(selectedDx)
+        console.log(selectedCateg)
+    }
     const DxClicked = (DxCode, which) =>{
 
         if (which=='all') {
@@ -24,18 +28,18 @@ export default function AssignPrescription({
     const CategClicked = (Categ, which) =>{
 
         if (which=='all') {
-            if (selectedCateg.find((oneCateg)=>oneCateg.problem_id==Categ.problem_id)===undefined)
+            if (selectedCateg.find((oneCateg)=>oneCateg.categ_id==Categ.categ_id)===undefined)
                 setselectedCateg([...selectedCateg, Categ])
         } else 
-                setselectedCateg(selectedCateg.filter((oneCateg)=>oneCateg.problem_id!==Categ.problem_id))
+                setselectedCateg(selectedCateg.filter((oneCateg)=>oneCateg.categ_id!==Categ.categ_id))
 
     }
     useEffect(() => {
 
         let newCategArray=[]
-        ThisPatient['medical_problems'].map((oneCateg)=>newCategArray.push(oneCateg))
+        ThisPatient['medical_categories'].map((oneCateg)=>newCategArray.push(oneCateg))
         setallCateg(newCategArray)
-
+        //console.log(newCategArray)
         let newDxArray=[]
         ThisPatient['dx_codes'].map((oneDx)=>newDxArray.push(oneDx))
         setallDx(newDxArray)
@@ -54,14 +58,15 @@ export default function AssignPrescription({
                     height:'45%'
                 }}
                 >
+                    <button onClick={test}>test</button> 
                 <My_MultiOptionListBox
                     The_Label='Medical Categories'
                     FontSize='18px'
                     all_options={allCateg}
                     selected_options={selectedCateg}
                     option_clicked={CategClicked}
-                    which='problem_name'
-                />
+                    which='categ_name'
+                />    
             </div>
             <div
                 style={{
@@ -76,7 +81,7 @@ export default function AssignPrescription({
                     selected_options={selectedDx}
                     option_clicked={DxClicked}
                     which='description'
-                />
+                />  
             </div>
         </div>
     )

@@ -142,8 +142,8 @@ export default function ModalDiagnosisOLD({
     useEffect(()=>{
         
         setdisable_medProbList(selected_problem!=='') 
-        setlocal_selected_problem(selected_problem.problem_name)
-        ChangeBackgroundColor(selected_problem.problem_name,local_medProblems, setlocal_medProblems)
+        setlocal_selected_problem(selected_problem.categ_name)
+        ChangeBackgroundColor(selected_problem.categ_name,local_medProblems, setlocal_medProblems)
     },[selected_problem])
 
 
@@ -151,18 +151,18 @@ export default function ModalDiagnosisOLD({
         let new_prob_list = []
 
         which.map((one_problem)=>{
-            if (one_problem.problem_name == this_problem) {
+            if (one_problem.categ_name == this_problem) {
                 let new_color='white'
                 if (one_problem.backgroundColor=='white') new_color='pink'
                 new_prob_list.push(                        
                     {
-                        problem_name:one_problem.problem_name,
+                        categ_name:one_problem.categ_name,
                         id:one_problem.id,
                         backgroundColor:new_color
                     })
             } else {
                    new_prob_list.push(                        {
-                        problem_name:one_problem.problem_name,
+                        categ_name:one_problem.categ_name,
                         id:one_problem.id,
                         backgroundColor:'white'
                     })             
@@ -176,11 +176,11 @@ export default function ModalDiagnosisOLD({
         medproblems.map((one_prob)=>{
             let backgroundColor = 'white'
 
-            if (one_prob.problem_name == local_selected_problem) backgroundColor='pink'
+            if (one_prob.categ_name == local_selected_problem) backgroundColor='pink'
 
             tempArray.push({
                 backgroundColor:'white',
-                problem_name:one_prob.problem_name,
+                categ_name:one_prob.categ_name,
                 id:one_prob.id       
             })
         })

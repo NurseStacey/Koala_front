@@ -4,7 +4,12 @@ import AxiosInstance from '../../../utils/Axios'
 import My_Button from '../../../Components/My-Button'
 import My_TextField from '../../../Components/My-TextField'
 
-export default function PatientFacilityID({open, onClose,patient}){
+export default function PatientFacilityID({
+    open, 
+    onClose,
+    patient,
+    ReloadPatient
+}){
 
     const [TheID, set_TheID] = useState([])
 
@@ -26,13 +31,14 @@ export default function PatientFacilityID({open, onClose,patient}){
         try{
             AxiosInstance.post(`patients/set_facility_patient_id/`, data_to_send).then((res) =>{
                 console.log(res)
+                ReloadPatient()
                 onClose()
             })
         } catch(error){console.log(error)}        
     }
 
 
-    if  (open!=='facilityID') return null
+    if  (open['location']!=='facilityID') return null
 
 
     return (

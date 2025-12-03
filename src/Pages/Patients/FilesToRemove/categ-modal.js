@@ -22,7 +22,7 @@ export default function CategNewModel({
     useEffect(()=>{
             
             let these_categories = []
-            ThisPatient['medical_problems'].map((one_problem)=>these_categories.push({name:one_problem.problem_name}))
+            ThisPatient['medical_categories'].map((one_problem)=>these_categories.push({name:one_problem.categ_name}))
 
             setPatientsCurrentCategs(these_categories.sort((a,b)=>a.name.toLowerCase().localeCompare(b.name.toLowerCase())))
     },[ThisPatient])
@@ -61,14 +61,14 @@ export default function CategNewModel({
             
             })
         try{
-            AxiosInstance.post(`patients/add_medical_problems/`, data_to_send).then((res) =>{                
+            AxiosInstance.post(`patients/add_medical_categories/`, data_to_send).then((res) =>{                
                 CloseBox()            
             })
         } catch(error){console.log(error)}   
     }
 
     const test = () => {
-        console.log(ThisPatient['medical_problems'])
+        console.log(ThisPatient['medical_categories'])
     }
 
     if (!openSwitch) return null

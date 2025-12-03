@@ -44,9 +44,10 @@ export default function RxModel({
         if (RxToEdit!==null){
             LoadSavedDrug(setALLData,RxToEdit,fullMedicationList)
             setselectedDx(RxToEdit['DxCodes'])
+            //console.log(RxToEdit['Categories'])
             setselectedCateg(RxToEdit['Categories'])
             setEditing(true)
-    
+            setdisableScript(false)
         }
     },[RxToEdit])
 
@@ -66,7 +67,7 @@ export default function RxModel({
             selectedDx.map((oneDx)=>ALLData['DxCodes'].push(oneDx))
             ALLData['patientID']=ThisPatient['basic_data']['id']
             ALLData['prescriptionDB'] = ALLData['selectedMedForm']['strengths'].find((oneStrength)=>oneStrength['strengthName']==ALLData['selectedMedStrength'])['drugID']
-
+//            console.log(ALLData)
             AxiosInstance.post(`patients/prescription/`, ALLData).then((res) =>{
                 ReloadPatient()
                 CloseBox()
@@ -74,8 +75,18 @@ export default function RxModel({
         } catch(error){console.log(error)}         
     }
 
-    const testALLData = () =>{
-        console.log(ALLData)
+    const test = () =>{
+        let todayDate = new Date()
+        let month=todayDate.getMonth()+1
+        let monthStr=month.toString()
+        if (month<10) monthStr='0' + month.toString()
+
+        let day=todayDate.getDay()
+        let dayStr=day.toString()
+        if (day<10) dayStr = '0'+ day.toString()
+
+        console.log(dayStr)
+        console.log(todayDate.toISOString().split('T')[0])
     }    
     const testRxtoEdit = () =>{
         console.log(RxToEdit)
@@ -98,11 +109,12 @@ export default function RxModel({
     }
 
     useEffect(()=>{
-        if(DxToEdit!==null) setselectedDx([DxToEdit])
+        if(DxToEdit!==null && DxToEdit!==undefined) setselectedDx([DxToEdit])
     },[DxToEdit])
 
     useEffect(()=>{
         if(CategToEdit!==null) {
+            //console.log(CategToEdit)
             setselectedCateg([CategToEdit])
         }
     },[CategToEdit])
@@ -124,8 +136,8 @@ export default function RxModel({
                         width:'100%',
                     }}
                 >
-                    <button onClick={testALLData}>testALLData</button>
-                    <button onClick={testRxtoEdit}>testRxtoEdit</button>
+                    <button onClick={test}>test</button>
+                    
                     <SelectMed
                         RxToEdit={RxToEdit}
                         ThisPatient={ThisPatient}
@@ -136,7 +148,7 @@ export default function RxModel({
                         selectedMedStrength={ALLData['selectedMedStrength']}
                         reset={reset}
                         ALLData={ALLData}
-                    />
+                    /> 
 
                     <WriteScript
                         ALLData={ALLData}
@@ -151,8 +163,8 @@ export default function RxModel({
                         selectedDx = {selectedDx}
                         setselectedDx={setselectedDx}
                         ThisPatient={ThisPatient}
-                    />
-                </div>
+                    /> 
+                </div> 
                 <div
                     style={{
                         height:'30%',

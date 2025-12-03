@@ -89,7 +89,7 @@ openSwitch
                         marginTop:'10px'
                     }}
                     >
-                        Edit {ProblemToEdit.problem_name}
+                        Edit {ProblemToEdit.categ_name}
                 </div> 
                  
                 <div 

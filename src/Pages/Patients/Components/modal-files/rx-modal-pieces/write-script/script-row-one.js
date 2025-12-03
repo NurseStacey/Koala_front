@@ -55,8 +55,9 @@ export default function ScriptRowOne({
                 onClick={prnClicked}
                 
                 style={{
-                    backgroundColor:PRN ? APPLICATION_COLORS.radioColors.backgroundColorSelected : 
-                    APPLICATION_COLORS.radioColors.backgroundColor,
+                    backgroundColor:PRN ? 
+                        APPLICATION_COLORS.radioColors.backgroundColorSelected : 
+                        APPLICATION_COLORS.radioColors.backgroundColor,
                     margin:'2px',
                 }}
                 >

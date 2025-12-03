@@ -18,7 +18,7 @@ export default function MedProbDxCodes({
 
     const GetNewDx = () => {
         //console.log('here')
-        openDx(CategToEdit)
+        openDx()
     }
 
     const EditDx = () => {
@@ -31,7 +31,7 @@ export default function MedProbDxCodes({
         let Dx_id = DxCodes.find((oneDx)=>oneDx['name']==selectedDx)['id']
         
         let dataToSend = {
-            categ_id:CategToEdit['problem_id'],
+            categ_id:CategToEdit['categ_id'],
             dx_id:Dx_id,
 
         }   
@@ -62,6 +62,7 @@ export default function MedProbDxCodes({
                     NewFunction={GetNewDx}
                     EditFunction ={EditDx}
                     RemoveFunction={RemoveDx}
+                    DeleteFunction={null}
                 />
 
                 <MyListBox

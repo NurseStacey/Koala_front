@@ -12,6 +12,20 @@ export const   ALL_FIELDS = {
         url:''
     },    
     outside_providers:{
+        list_div: function(thisRecord){
+            return(<div
+                key={thisRecord.id}
+                style={{
+                    fontSize:'13px',
+                    display:'flex',
+                    flexDirection:'row',
+                    justifyContent:'space-between'
+                }}>
+                    <div
+                        style={{}}>{thisRecord['provider']}</div>
+                    <div style={{}}>{thisRecord['specialty']}</div>
+                </div>)
+        },        
         form_title:'New Outside Provider',
         all_fields:OUTSIDE_PROVIDER_FIELDS,
         post_url:'patients/outside_provider/',
@@ -38,6 +52,19 @@ export const   ALL_FIELDS = {
         ]
     },
     surgical_history:{
+        list_div: function(thisRecord){
+            return(<div
+                key={thisRecord.id}
+                style={{
+                    fontSize:'13px',
+                    display:'flex',
+                    flexDirection:'row',
+                    justifyContent:'space-between'                   
+                }}>
+                    <div>{thisRecord['surgery']}</div>
+                    <div>{thisRecord['year']}</div>
+                </div>)
+        },              
         form_title:'New Surgery',
         all_fields:SURGICAL_HISTORY_FIELDS,
         post_url:'patients/surgical_history/',
@@ -64,6 +91,19 @@ export const   ALL_FIELDS = {
         ]
     },
     major_event:{
+        list_div: function(thisRecord){
+            return(<div
+                key={thisRecord.id}
+                style={{
+                    fontSize:'13px',
+                    display:'flex',
+                    flexDirection:'row',
+                    justifyContent:'space-between'                   
+                }}>
+                    <div>{thisRecord['event']}</div>
+                    <div>{thisRecord['year']}</div>
+                </div>)
+        },           
         form_title:'New Major Event',
         all_fields:MAJOR_EVENTS_FIELDS,
         post_url:'patients/major_event/',
@@ -90,6 +130,19 @@ export const   ALL_FIELDS = {
         ]
     },
     vaccine_history:{
+        list_div: function(thisRecord){
+            return(<div
+                key={thisRecord.id}
+                style={{
+                    fontSize:'13px',
+                    display:'flex',
+                    flexDirection:'row',
+                    justifyContent:'space-between'                   
+                }}>
+                    <div>{thisRecord['vaccine']}</div>
+                    <div>{thisRecord['year']}</div>
+                </div>)
+        },           
         form_title:'New Vaccine',
         all_fields:VACCINE_HISTORY_FIELDS,
         post_url:'patients/vaccine_history/',
@@ -116,6 +169,19 @@ export const   ALL_FIELDS = {
         ]
     },
     drug_intollerances:{
+        list_div: function(thisRecord){
+            return(<div
+                key={thisRecord.id}
+                 style={{
+                    fontSize:'13px',
+                    display:'flex',
+                    flexDirection:'row',
+                    justifyContent:'space-between'                   
+                }}>
+                    <div>{thisRecord['drug']}</div>
+                    <div>{thisRecord['reaction']}</div>
+                </div>)
+        },           
         form_title:'New Drug Intollerance',
         all_fields:DRUG_INTOLLERANCE_FIELDS,
         post_url:'patients/drug_intollerances/',
@@ -142,6 +208,19 @@ export const   ALL_FIELDS = {
         ]
     },
     allergies:{
+        list_div: function(thisRecord){
+            return(<div
+                key={thisRecord.id}
+                 style={{
+                    fontSize:'13px',
+                    display:'flex',
+                    flexDirection:'row',
+                    justifyContent:'space-between'                   
+                }}>
+                    <div>{thisRecord['allergen']}</div>
+                    <div>{thisRecord['reaction']}</div>
+                </div>)
+        },           
         form_title:'New Allergy',
         all_fields:ALLERGY_FIELDS,
         post_url:'patients/alergies/',

@@ -6,10 +6,13 @@ import PatientFacilityID from '../Components/patient-facility-id'
 import {useState} from 'react'
 import AxiosInstance from '../../../utils/Axios'
 
-export default function Patient_Location_Modals({Open,
-    setPatient_Location_Mod,
+export default function Patient_Location_Modals({
+    Open,
+    UpdateModelSwitches,
     Update_Location,
-    this_patient})
+    ThisPatient,
+    ReloadPatient
+})
 
 {
 
@@ -45,7 +48,8 @@ export default function Patient_Location_Modals({Open,
             unit:Temp_Patient_Location.unit,
             facility:Temp_Patient_Location.facility                    
         })
-        AxiosInstance.patch(`patients/one_patient/${this_patient['basic_data'].id}`, {bed:new_bed.id}).then((res) =>{
+        AxiosInstance.patch(`patients/one_patient/${ThisPatient['basic_data'].id}`, {bed:new_bed.id}).then((res) =>{
+            ReloadPatient()
             })
     }
 
@@ -54,24 +58,25 @@ export default function Patient_Location_Modals({Open,
         <div>
             <PatientFacilityID
                 open={Open}
-                onClose={() => setPatient_Location_Mod('None')}
-                patient = {this_patient}
+                onClose={() => UpdateModelSwitches('None','location')}
+                patient = {ThisPatient}
+                ReloadPatient={ReloadPatient}
             />
 
 
             <Patient_Location_Modal_One
                 open={Open}
-                onClose={() => setPatient_Location_Mod('None')}
+                onClose={() => UpdateModelSwitches('None','location')}
                 setFacility = {setFacility}
-                facilityPicked={()=>setPatient_Location_Mod('unit')}
+                facilityPicked={()=>UpdateModelSwitches('unit','location')}
                 setAll_Units={setAll_Units}
             />
 
             <Patient_Location_Modal_Two
                 open={Open}
-                onClose={() => setPatient_Location_Mod('None')}
+                onClose={() => UpdateModelSwitches('None','location')}
                 setUnit={setUnit}
-                unitPicked={()=>setPatient_Location_Mod('bed')}
+                unitPicked={()=>UpdateModelSwitches('bed','location')}
                 All_Units={All_Units}
                 setAll_Beds={setAll_Beds}
                 Facility={Temp_Patient_Location.facility}
@@ -79,10 +84,10 @@ export default function Patient_Location_Modals({Open,
 
              <Patient_Location_Modal_Three
                 open={Open}
-                onClose={() => setPatient_Location_Mod('None')}
+                onClose={() => UpdateModelSwitches('None','location')}
                 setBed={setBed}
                 All_Beds = {All_Beds}
-                patient_id = {this_patient['basic_data'].id}
+                patient_id = {ThisPatient['basic_data'].id}
                 />
         </div>
     )

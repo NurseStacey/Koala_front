@@ -20,11 +20,7 @@ export default function CategNewModel({
     const [PatientsCurrentCategs,setPatientsCurrentCategs] = useState([])
 
     useEffect(()=>{
-            
-            let these_categories = []
-            ThisPatient['medical_problems'].map((one_problem)=>these_categories.push({name:one_problem.problem_name}))
-
-            setPatientsCurrentCategs(these_categories.sort((a,b)=>a.name.toLowerCase().localeCompare(b.name.toLowerCase())))
+            setPatientsCurrentCategs(ThisPatient.getCategNames())
     },[ThisPatient])
 
     const categAddedSelected = (this_categ) => {        
@@ -36,39 +32,41 @@ export default function CategNewModel({
         setCategToAdd(CategToAdd.filter((one_categ)=>one_categ.name!==this_categ))
     }        
     const AddMedCategToPatient = (this_categ)=>{
-        setCategToAdd([...CategToAdd,{
-            name:this_categ.name,
-            id:this_categ.id,
-            backgroundColor:'white'
-        }])
-        
+
+        if (CategToAdd.find((dummyCateg)=>dummyCateg.id==this_categ.id)==undefined)
+            if (PatientsCurrentCategs.find((dummyCateg)=>dummyCateg['name']==this_categ['name'])==undefined)
+            {
+            setCategToAdd([...CategToAdd,{
+                name:this_categ.name,
+                id:this_categ.id,
+                backgroundColor:'white'
+                }])
+            }
     }
 
     const CloseBox = () =>{
+        setCategToAdd([])
         ReloadPatient()
         onClose()
     }
 
-
-    const AddCategToPatient = ()=>{
-        let data_to_send=[]
-        CategToAdd.map((one_problem)=>{
-            let one_record = {
-                patient:ThisPatient['basic_data'].id,
-                problem:one_problem.id
-            }
-            data_to_send.push(one_record)
-            
-            })
+    const AddCategToPatientDB = ()=>{
+        let data_to_send={
+            'patient_id':ThisPatient['basic_data'].id,
+            'categories':[]
+        }
+        CategToAdd.map((one_categ)=>{
+            data_to_send['categories'].push(one_categ.id)
+        })
         try{
-            AxiosInstance.post(`patients/add_medical_problems/`, data_to_send).then((res) =>{                
+            AxiosInstance.post(`patients/add_medical_categories/`, data_to_send).then((res) =>{                
                 CloseBox()            
             })
         } catch(error){console.log(error)}   
     }
 
     const test = () => {
-        console.log(ThisPatient['medical_problems'])
+        console.log(ThisPatient['medical_categories'])
     }
 
     if (!openSwitch) return null
@@ -111,7 +109,7 @@ export default function CategNewModel({
                     </div> 
                
                     <ButtonsRow
-                        AddCategToPatient={AddCategToPatient}
+                        AddCategToPatient={AddCategToPatientDB}
                         CloseBox={CloseBox}
                     />
                  </div>

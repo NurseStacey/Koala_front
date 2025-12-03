@@ -26,6 +26,7 @@ export const SURGICAL_HISTORY_FIELDS = [
         'label':'Month of Surgery',
         'type':'dropdown', 
         'options':[
+            '',
             'January', 
             'February', 
             'March',

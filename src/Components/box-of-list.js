@@ -1,4 +1,5 @@
 import '../CSS/general.css'
+import {ALL_FIELDS} from '../Pages/Patients/form-fields/combined-form-fields'
 
 export default function BoxOfList({
     title,
@@ -6,19 +7,22 @@ export default function BoxOfList({
     TheList,
     EditFunc,
     whichValue,
-    width
+    ThisPatient,
+    which,
+    width,
+    list_div
 })
 {
+
     const test=()=>{
-        TheList.map((one_item) =>console.log(one_item[whichValue]))
-        //console.log(TheList)
+        console.log(TheList)
     }
 
     return(
 
         <div
             style={{
-                border:'1px solid black',
+
                 height:'30%',
                 fontSize:'18px',
                 marginBottom:'3%',
@@ -40,7 +44,6 @@ export default function BoxOfList({
                     height:'79%',
                     marginTop:'2%',
                     border:'2px solid black',
-                    
                 }}
                 >
                     {TheList.map((one_item) =>
@@ -48,11 +51,11 @@ export default function BoxOfList({
                         style={{
                             cursor:'pointer',
                         }}
-                        onClick={()=>EditFunc(one_item.id)}
+                        onClick={()=>EditFunc(which, ThisPatient.get_this_record(one_item.id, which))}
                         key={one_item.id}>
-                        {one_item[whichValue]}
-                    </div>
-                )}  
+                        {list_div(one_item)}
+                    </div> 
+                )} 
                 </div> 
           
 

@@ -1,11 +1,20 @@
+import AxiosInstance from '../../../utils/Axios'
+import {useState} from 'react'
 
+export default function PatientOperations({
+    ThisPatient
+}) 
+{
 
-export default function PatientOperations() {
-    const LINKSTYLE={
-        padding:'5px',
-        width:'25%',
-        border:'1px solid black'
+    const [TestingDate, setTestingDate]=useState('')
+    const test = () =>{
+        console.log(ThisPatient)
     }
+    const setDate = () =>{
+        AxiosInstance.post(`patients/set_date/`, {'date':TestingDate}).then((res) =>{
+                    
+                })
+            }
 
     return (
     
@@ -15,9 +24,19 @@ export default function PatientOperations() {
             height:'35px',
             width:'100%',
             backgroundColor:'#C0B466',
+            display:'flex',
+            flexDirection:'row'
         }}
     >
+        <button onClick={setDate}>Set Date</button>
+        <input 
+            type='text'
+            onChange={(e)=>setTestingDate(e.target.value)}
+            >
         
+        </input>
+        <div>Current Date: {ThisPatient['testing_date']}</div>     
+        <button onClick={test}>test</button>    
     </div>
     )
 }

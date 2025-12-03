@@ -47,6 +47,7 @@ export default function WriteScript({
                 rate={ALLData['rate']}                
                 perDaySelected  ={ALLData['perDaySelected']}                
             />
+            
              <ScriptDetails
                 setDataValue={setDataValue}
                 disabled={disabled}

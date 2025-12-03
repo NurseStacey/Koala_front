@@ -3,7 +3,8 @@ import My_Button from './My-Button'
 export default function NewEditRemove({
     NewFunction,
     EditFunction,
-    RemoveFunction
+    RemoveFunction,
+    DeleteFunction
 })
 {
     return(
@@ -15,7 +16,6 @@ export default function NewEditRemove({
                         marginLeft:'20px',
                     }}
                     >
-
                     <My_Button
                         The_Text={'New'}
                         Width='90px'
@@ -23,7 +23,6 @@ export default function NewEditRemove({
                         On_Click={NewFunction}
                         FontSize='15px'
                     />
-
                     <My_Button
                         The_Text={'Edit'}
                         Width='90px'
@@ -37,7 +36,18 @@ export default function NewEditRemove({
                         Height='30px'
                         On_Click={RemoveFunction}
                         FontSize='15px'
-                    />                                                    
+                    />
+                    {(DeleteFunction!==null) ?
+                        <>
+                            <My_Button
+                                The_Text={'Delete'}
+                                Width='90px'
+                                Height='30px'
+                                On_Click={DeleteFunction}
+                                FontSize='15px'
+                            />
+                        </> :<></>
+                    }                                        
                 </div>        
     )
 }

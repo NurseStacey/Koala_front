@@ -8,7 +8,10 @@ export default function My_MultiOptionListBox({
     option_clicked,
     which
     }) {
-
+    
+    const Test = ()=>{
+        console.log(selected_options)
+    }
     return(
         <div
              style={{
@@ -58,12 +61,12 @@ export default function My_MultiOptionListBox({
                                     overflowY: 'scroll'    
                                 }}>
                             {all_options.map((one_option)=>
+                                
                                 <div
                                     onClick={()=>option_clicked(one_option,'all')}
-                                    key={(which=='') ?one_option :one_option[which]}
-                                    
+                                    key={(which=='') ? one_option : one_option[which]}                                    
                                     >
-                                    {(which=='') ? <>{one_option}</> : <>{one_option[which]}</>}
+                                    {(which=='') ? <>{one_option}</> : <>{one_option[which]}</>} 
                                 </div>
                                 )} 
                                 </div>
@@ -96,11 +99,10 @@ export default function My_MultiOptionListBox({
                                 <div
                                     onClick={()=>option_clicked(one_option, 'selected')}
                                     key={(which=='') ?one_option :one_option[which]}
-                                    
                                     >
                                     {(which=='') ? <>{one_option}</> : <>{one_option[which]}</>}
                                 </div>
-                                )}
+                                )}  
                             </div>
 
                     </div>                    

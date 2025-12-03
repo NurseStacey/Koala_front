@@ -16,6 +16,7 @@ let yearStr=todayDate.getFullYear().toString()
 //     }
 
 export const ALLDataDefault={
+        'id':-1,
         'selectedMed':{
             'drugName':'',
             'drugForm':[]},
@@ -43,14 +44,15 @@ export const ALLDataDefault={
         'rate':'',
         'rateOrPeriod':'rate',
         'perDaySelected':'',
-        'Startdate':yearStr + '-' +monthStr + '-' + dayStr,
-        'Enddate':yearStr + '-' +monthStr + '-' + dayStr,
+        'Startdate':todayDate.toISOString().split('T')[0],
+        'Enddate':todayDate.toISOString().split('T')[0],
         'Starttime':800,
         'Endtime':800,
         'Indefinite':true,
         'SpecialInstructions':'',
         'Categories':[],
         'DxCodes':[],
+        'UpdateMed':false,
         'patientID':-1
     }
 
@@ -71,10 +73,15 @@ export const ALLDataDefault={
 
         let newALLData = ALLDataDefault
             //MedNameClicked
-        let thisMed = fullMedicationList.find((oneMed)=>oneMed['drugName']==RxToEdit['selectedMedName'])
-        newALLData['selectedMed']=thisMed
-        let thisMedForm=thisMed['drugForm'].find((oneMedForm)=>oneMedForm['formName']==RxToEdit['selectedMedFormName'])
-        newALLData['selectedMedForm']=thisMedForm
+        let thisMed=null
+        try{
+             thisMed= fullMedicationList.find((oneMed)=>oneMed['drugName']==RxToEdit['selectedMedName'])
+            newALLData['selectedMed']=thisMed
+        }catch{newALLData['selectedMed']=null}
+        try{
+            let thisMedForm=thisMed['drugForm'].find((oneMedForm)=>oneMedForm['formName']==RxToEdit['selectedMedFormName'])
+            newALLData['selectedMedForm']=thisMedForm
+        }catch{newALLData['selectedMedForm']=null}
         newALLData['selectedMedStrength']=RxToEdit['selectedMedStrength']
         newALLData['prescriptionDB']=RxToEdit['id']
         newALLData['scheduleChoice']=RxToEdit['scheduleChoice']
@@ -88,7 +95,7 @@ export const ALLDataDefault={
         newALLData['perDaySelected']=RxToEdit['perDaySelected']
         newALLData['period']=RxToEdit['period']
         newALLData['periodValue']=RxToEdit['periodValue']
-        newALLData['prescriptionDB']=RxToEdit['id']
+        newALLData['id']=RxToEdit['id']
         newALLData['quantity']=RxToEdit['quantity']
         newALLData['rate']=RxToEdit['rate']
         newALLData['rateOrPeriod']=RxToEdit['rateOrPeriod']
@@ -96,6 +103,8 @@ export const ALLDataDefault={
         newALLData['WeekDays']=RxToEdit['WeekDays']
         newALLData['Categories']=RxToEdit['Categories']
         newALLData['DxCodes']=RxToEdit['DxCodes']
+
+        newALLData['UpdateMed']=true
 
         setALLData(newALLData)
 

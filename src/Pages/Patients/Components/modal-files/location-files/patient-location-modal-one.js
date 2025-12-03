@@ -45,8 +45,7 @@ export default function Patient_Location_Modal_One({open, onClose,setFacility,fa
         } catch(error){console.log(error)}        
         facilityPicked()
     }
-
-    if  (open!=='facility') return null
+    if  (open['location']!=='facility') return null
 
     return (
         <div

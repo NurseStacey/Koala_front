@@ -27,7 +27,7 @@ export default function DxSelectionBox({
                     all_options={allCateg}
                     selected_options={selectedCateg}
                     option_clicked={CategClicked}
-                    which='problem_name'
+                    which='categ_name'
                 />
             </div>
             <div

@@ -27,7 +27,7 @@ export default function AllCategories({
 
                 let all_categ = []
                 data.map((one_categ)=>all_categ.push({
-                    name:one_categ['problem_name'],
+                    name:one_categ['categ_name'],
                     id:one_categ['id'],
                     backgroundColor:'white'}
                 ))
@@ -40,7 +40,7 @@ export default function AllCategories({
         
         try{
 
-            AxiosInstance.get(`medical/medical_problems/`).then((res) =>{
+            AxiosInstance.get(`medical/medical_categories/`).then((res) =>{
                 CreateAllPossibleCategs(res.data)
                 
             })
@@ -60,9 +60,9 @@ export default function AllCategories({
         } else {
             try{
                 
-                AxiosInstance.post(`medical/medical_problems/`, {problem_name:CategText}).then((res) =>{
+                AxiosInstance.post(`medical/medical_categories/`, {categ_name:CategText}).then((res) =>{
                     
-                    AxiosInstance.get(`medical/medical_problems/`).then((res) =>{
+                    AxiosInstance.get(`medical/medical_categories/`).then((res) =>{
                     CreateAllPossibleCategs(res.data)
                 })
                 })

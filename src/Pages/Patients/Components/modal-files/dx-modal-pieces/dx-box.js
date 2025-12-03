@@ -1,20 +1,87 @@
 import My_Button from '../../../../../Components/My-Button'
-
+import {useState,useEffect} from 'react'
+import AxiosInstance from '../../../../../utils/Axios'
 
 export default function DxBox ({
-    CodeHistory,
-    TheseCodes,
-    RangeOrCodeSelected,
-    Reset,
-    searchableCode,
-    handleChange_searchableCode,
-    CodeSearch
+    setSelectedCode,
+    setSelectedCodeText,
+    Closing,
+    setClosing,
+    ThisPatient,
 })
 {
+    const [CodeHistory, setCodeHistory]=useState([])
+    const [TheseCodes, setTheseCodes]=useState([])    
+    const [searchableCode,setsearchableCode]=useState('')
+    const [whichCode, setWhichCode]=useState({id:0})
 
     const test = () =>{
         console.log(CodeHistory)
     }    
+
+    useEffect(()=>{
+        if (Closing) {
+            Reset()
+            setClosing(false)
+        }
+
+    }, [Closing])
+    useEffect(() => {
+        GetTheseCodes(whichCode.id)
+        },[whichCode])
+
+    const handleChange_searchableCode=(event)=>{
+        setsearchableCode(event.target.value)
+    }
+
+    const Reset =() =>{
+        setWhichCode({id:0})
+        setCodeHistory([])
+    }
+
+    const CodeSearch = () => {
+        AxiosInstance.get(`medical/code_search/${searchableCode}`).then((res) =>{
+            //console.log(res.data['code_history'])
+            if (res.data['Error']=='Code Not Found') {
+                alert('Code entered not valied')
+            } else {
+                    setCodeHistory([res.data['code_history']])
+                    setTheseCodes(res.data['these_codes'])
+                }
+            })        
+    }
+
+    const RangeOrCodeSelected = (thisCode) =>{
+        //console.log(ThisPatient['dx_codes'])
+       // console.log(ThisPatient)
+
+        let newRecord = [...TheseCodes,...CodeHistory].find(oneCode => oneCode.id==thisCode)
+        //console.log(newRecord)
+        if (!newRecord.is_billable) {
+            if (CodeHistory.includes(newRecord)) {
+                setCodeHistory(CodeHistory.filter(oneCode =>(oneCode.id<=newRecord.id)))
+            } else {
+                setSelectedCode(newRecord.id)
+                setCodeHistory([...CodeHistory, newRecord])
+            }
+            GetTheseCodes(thisCode)
+        } else {
+            if (ThisPatient['dx_codes'].find((oneCode)=>oneCode['dx_code_id']==newRecord['id'])!==undefined) alert('Code already in chart')
+                else{
+
+                setSelectedCode(newRecord.id)
+                setSelectedCodeText(newRecord.description)
+                //setCodeToEdit(newRecord)
+                }
+        }
+    }
+    const GetTheseCodes = (thisCode)=>{
+
+        AxiosInstance.get(`medical/get_diagnosis_codes/${thisCode}`).then((res) =>{
+            setTheseCodes(res.data['these_codes'])
+            })
+    }
+
     return (
         <div
             style={{
@@ -34,7 +101,6 @@ export default function DxBox ({
                     marginBottom:'20px'
                 }}
                 >
-
                     <My_Button
                         The_Text='Search For Code'
                         Width='150px'
@@ -55,7 +121,6 @@ export default function DxBox ({
                         On_Click={Reset}
                         FontSize='14px'
                     />
-
                 </div>
                 <div
                     style={{

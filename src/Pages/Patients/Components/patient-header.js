@@ -9,21 +9,20 @@ export default function PatientHeader({
         'facility':'',
         'bed':'',
         'unity':''})
-    const [PatientAge,setPatientAge]=useState(0)
+    
     const [DateOfBirth,setDateOfBirth]=useState('')
     const [FacilityID, setFacilityID]=useState('')
 
     useEffect(()=>{
-        setPatientAge(ThisPatient['basic_data']['age'])
+        //setPatientAge(ThisPatient['basic_data']['age'])
         setPatientLocation(ThisPatient['patient_location'])
-        let dateValues = ThisPatient['basic_data']['Date_Of_Birth'].slice(0,10).split('-')
-        setDateOfBirth(dateValues[1] + '-' + dateValues[2] +'-' + dateValues[0])
+        setDateOfBirth(ThisPatient.getDOB())
         setFacilityID(ThisPatient['facility_id'])
     },[ThisPatient])
 
     const clicked = (which) =>{
-        //console.log(which)
-        setIsOpen(which)
+        console.log(which)
+        setIsOpen(which,'location')
     }
 
     const test =(value)=>{
@@ -61,7 +60,15 @@ export default function PatientHeader({
                         flexDirection:'row',
                         justifyContent:'space-between'
                     }}>
-                        <div>Age:{PatientAge}</div>
+                        <div
+                            style={{
+                                width:'30%',
+                                display:'flex',
+                                flexDirection:'row',
+                                justifyContent:'space-between'
+                            }}>
+                                <div>Age:</div><div>{ThisPatient['age']}</div>
+                        </div>
                         <div>{ThisPatient['basic_data']['gender']}</div>
                     
                 </div>              

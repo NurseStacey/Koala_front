@@ -25,7 +25,7 @@ return (
         <CategListBox
             openEdit={() => openDxCategRx('CategEditOpen')}  
             openNew={() => openDxCategRx('CategNewOpen')}          
-            medproblems = {ThisPatient.medical_problems}
+            medproblems = {ThisPatient.medical_categories}
             setProblemToEdit={setProblemToEdit}
         />        
     </div>

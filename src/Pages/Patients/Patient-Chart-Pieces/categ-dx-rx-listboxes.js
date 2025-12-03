@@ -1,13 +1,10 @@
 import BoxOfList from '../../../Components/box-of-list'
+import {categListDiv,DxListDiv,RxListDiv} from '../Components/listbox-div-funcs'
 
 import {useState, useEffect} from 'react'
 
 export default function CategDxRxListBoxes({
-    ModelCategOpen,
-    ModelCategEditOpen,
-    ModelDxNewOpen,
-    ModelDxEditOpen,
-    ModelRxOpen,
+    UpdateModelSwitches,
     ThisPatient,
     setCodeToEdit,
     setCategToEdit,
@@ -20,49 +17,27 @@ export default function CategDxRxListBoxes({
     const [DxList,setDxList]=useState([])        
 
     useEffect(()=>{
-        let these_categories = []
-        ThisPatient['medical_problems'].map((one_problem)=>these_categories.push({
-            name:one_problem.problem_name,
-            id:one_problem.problem_id
-        }))
-
-        //console.log(these_categories)
-        setMedCategsList(these_categories.sort((a,b)=>a.name.toLowerCase().localeCompare(b.name.toLowerCase())))        
-
-        let these_dx = []
-        ThisPatient['dx_codes'].map((one_dx)=>these_dx.push({
-            name:one_dx.description,
-            id:one_dx.id
-        }))
-
-        setDxList(these_dx.sort((a,b)=>a.name.toLowerCase().localeCompare(b.name.toLowerCase())))        
-
-        let these_rx = []
-        ThisPatient['prescriptions'].map((one_rx)=>{
-            //console.log(one_rx)
-            these_rx.push({
-            name:one_rx.selectedMedName,
-            id:one_rx.id
-        })})
-        
-        setRxList(these_rx.sort((a,b)=>a.name.toLowerCase().localeCompare(b.name.toLowerCase())))     
-
+        setMedCategsList(ThisPatient.getMedCategsList())
+        setDxList(ThisPatient.getDxList())
+        setRxList(ThisPatient['prescriptions'])
     },[ThisPatient])
     
-    const EditCateg = (CategID) =>{
-        ModelCategEditOpen(true)
-        setCategToEdit(ThisPatient['medical_problems'].find((one_categ)=>(one_categ.problem_id==CategID)))
+    const test=()=>{console.log(DxList)}
+    const EditCateg = (which,Categ) =>{
+        UpdateModelSwitches(true,'CategEdit')
+        setCategToEdit(Categ)
     }
 
-    const EditDx = (DxID) =>{
-
-        setCodeToEdit(ThisPatient['dx_codes'].find((oneDx)=>oneDx.id==DxID))
-        ModelDxEditOpen()
+    const EditDx = (which,DxCode) =>{
+        setCodeToEdit(DxCode)
+        //console.log(DxCode)
+        UpdateModelSwitches('edit','Dx')
     }
 
-    const EditRx = (RxID) =>{
-        setRxToEdit(ThisPatient['prescriptions'].find((oneRx)=>oneRx.id==RxID))
-        ModelRxOpen()
+    const EditRx = (which,RxCode) =>{
+        setRxToEdit(RxCode)
+        //console.log(RxCode)
+        UpdateModelSwitches(true,'Rx')
     }    
 
     return(
@@ -72,32 +47,41 @@ export default function CategDxRxListBoxes({
                 marginTop:'3%'
             }}
             >
+        {/* <button onClick={test}>test</button> */}
         <BoxOfList
             title='Medical Category'
-            openNew={ModelCategOpen}
+            openNew={()=>UpdateModelSwitches(true,'Categ')}
             TheList = {MedCategsList}
             EditFunc={EditCateg}
+            ThisPatient={ThisPatient}
             whichValue={'name'}
-            width={'100%'}            
+            which={'medical_categories'}
+            width={'100%'}
+            list_div={categListDiv}
             />
         
-
         <BoxOfList
             title='Diagnosis'
-            openNew={ModelDxNewOpen}
+            openNew={()=>UpdateModelSwitches('new','Dx')}
             TheList = {DxList}
             EditFunc={EditDx}             
+            ThisPatient={ThisPatient}
             whichValue={'name'}
-            width={'100%'}            
+            which={'dx_codes'}
+            width={'100%'}   
+            list_div={DxListDiv}         
              />
 
         <BoxOfList
             title='Prescription'
-            openNew={ModelRxOpen}
+            openNew={()=>UpdateModelSwitches(true,'Rx')}
             TheList = {RxList}
             EditFunc={EditRx}        
-            whichValue={'name'}         
-            width={'100%'}                   
+            ThisPatient={ThisPatient}
+            whichValue={'name'}    
+            which={'prescriptions'}     
+            width={'100%'}              
+            list_div={RxListDiv}              
              />    
         </div>                
     )

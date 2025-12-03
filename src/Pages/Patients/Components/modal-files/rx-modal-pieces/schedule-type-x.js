@@ -24,16 +24,13 @@ export default function ScheduleTypeX({
     const setWeekDays = (value)=>{
         if (disabled) return
         setDataValue(value, 'WeekDays')
-    }    
-
-        
+    }            
 
     const schedule_type=[
         'Every day',
         'Every x days',
         'Specific days of the week',
     ]
-    
     
     return(
         <div

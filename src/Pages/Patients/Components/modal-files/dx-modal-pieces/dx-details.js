@@ -6,37 +6,38 @@ export default function  DxDetails({
 {
 
     return(
+
         <div
             style={{                          
-                height:'30%',
+                height:'100%',
+                
                 }}
-            >
+            > 
             <div
                 style={{
                     textAlign:'center',
-                    marginBottom:'10px'
+                    //marginBottom:'10px'
                 }}>
                     Details
             </div> 
             <div
                 style={{
                     textAlign:'center',
-                    marginRight:'20px',
-                    marginLeft:'20px'
                 }}
                 >
                 <textarea 
                     defaultValue={field_text}
                     onChange={(e)=>set_field_text(e.target.value)}
-                    rows='7'
-                    // cols='50'
+                    rows='4'
+                    //cols='30'
                     style = {{
                         font:'arial',
-                        fontSize:'14px',
+                        fontSize:'13px',
                         marginTop:'2%',
-                        width:'85%'
+                        width:'100%'
                     }}></textarea>
             </div>            
         </div>
+        
     )
 }
